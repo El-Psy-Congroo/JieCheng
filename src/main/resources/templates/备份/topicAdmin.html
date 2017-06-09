@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>题库管理</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="css/colorpicker.css" />
+<link rel="stylesheet" href="css/datepicker.css" />
+<link rel="stylesheet" href="css/uniform.css" />
+<link rel="stylesheet" href="css/select2.css" />
+<link rel="stylesheet" href="css/matrix-style.css" />
+<link rel="stylesheet" href="css/matrix-media.css" />
+<link rel="stylesheet" href="css/bootstrap-wysihtml5.css" />
+<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'/>
+<style>
+#content-in{background: none repeat scroll 0 0 #eeeeee;
+  margin-left: 0px;
+  margin-right: 0;
+  padding-bottom: 25px;
+  position: relative;
+  min-height:100%;
+  width: auto;
+  overflow-y:hidden;
+}
+.btn-label{
+	padding:3px 5px 2px;
+	float:right;
+	margin:9px 11px 0 0;
+	box-shadow:0 1px 2px rgba(0,0,0,0.3) inset,0 1px 0 #ffffff;
+	text-align: center;
+}
+#lean_overlay {
+	position: fixed;
+	z-index:100;
+	top: 0px;
+	left: 0px;
+	height:100%;
+	width:100%;
+	background: #000;
+	display: none;
+}
+</style>
+</head>
+<body  style="overflow:scroll;overflow-y:hidden">
+<div id="content-in">
+	<div class="widget-box">
+	  <div class="widget-title">
+		<span class="icon">
+	    	<input type="checkbox" id="title-checkbox" name="title-checkbox" />
+	    </span>
+		<form action="/exporttemplet?type=subject" method="post">
+			<input type="submit" name="fileMode" class="btn btn-success btn-label" value="模板下载"/>
+		</form>
+		<form enctype="multipart/form-data" action="/importtemplet?type=subject" method="post">
+			<input type="submit" value="新增题目" name="importtemplet" class="btn btn-success btn-label"/>
+			<input type="file" value="新增题目" name="file" accept=".xlsx,.xls" class="btn btn-success btn-label"/>
+		</form>
+		<form action="/exporttemplet?type=subject" method="post">
+			<input type="topicDelete" name="submit" class="btn btn-success btn-label" value="题目删除"/>
+		</form>
+	  </div>
+	  <div class="widget-content nopadding">
+	    <table class="table table-bordered table-striped with-check">
+	      <thead>
+	        <tr>
+	          <th><i class="icon-resize-vertical"></i></th>
+	          <th>序号</th>
+	          <th>题目</th>
+	          <th>图片</th>
+	          <th>类型</th>
+	          <th>选项A</th>
+	          <th>选项B</th>
+	          <th>选项C</th>
+	          <th>选项D</th>
+	          <th>正确答案</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	        <tr>
+	          <td><input type="checkbox" /></td>
+	          <td>1</td>
+	          <td>题目名称的题目内容</td>
+	          <td></td>
+	          <td>单选</td>
+	          <td>选项内容</td>
+	          <td>选项内容</td>
+	          <td>选项内容</td>
+	          <td>选项内容</td>
+	          <td class="center"> A</td>
+	        </tr>
+
+	      </tbody>
+	    </table>
+	  </div>
+	</div>
+</div>
+<div id="fileModal" style="display:none;">
+	<h1>User Login</h1>
+	<form id="fileSubmit" name="fileSubmit" method="post" action="index.html">
+		<label >请上传文件:</label>
+		<input type="" name="fileName" id="filename" class="txtfield" tabindex="1"/>
+
+		<div class="center">
+			<input type="submit" name="submitbtn" id="submitbtn" class="flatbtn-blu hidemodal" value="上传" tabindex="3"/></div>
+	</form>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.ui.custom.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-colorpicker.js"></script>
+<script src="js/bootstrap-datepicker.js"></script>
+<script src="js/jquery.toggle.buttons.html"></script>
+<script src="js/masked.js"></script>
+<script src="js/jquery.uniform.js"></script>
+<script src="js/select2.min.js"></script>
+<script src="js/matrix.js"></script>
+<script src="js/matrix.form_common.js"></script>
+<script src="js/wysihtml5-0.3.0.js"></script>
+<script src="js/jquery.peity.min.js"></script>
+<script src="js/bootstrap-wysihtml5.js"></script>
+<script>
+	$("#newTopicBtn").click(function(){
+		$("#fileModal").style.display="block";
+	});
+	$('#submitbtn').submit(function(e){
+		return false;
+	});
+</script>
+</body>
+</html>

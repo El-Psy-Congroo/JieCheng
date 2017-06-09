@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>用户管理界面</title>
+    <META http-equiv=Content-Type content="text/html; charset=utf-8"/>
+    <meta http-equiv="expires" content="0"/>
+    <link rel="stylesheet" type="text/css" href="css/ext-theme-crisp-all.css"/>
+    <script type="text/javascript" src="js/ext-all.js"></script>
+    <script type="text/javascript" src="js/ext-theme-crisp.js"></script>
+    <script type="text/javascript" src="js/ext-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="js/jq.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            var vs = Ext.getBody().getViewSize();
+            var gridStore=Ext.create('Ext.data.Store', {
+                storeId:'gridStore',
+                fields:['userid'],
+                proxy: {
+                    type: 'ajax',
+                    url:'/getAllUserInfo',
+                    reader: {
+                        // 設置 json樣式
+                        type: 'json',
+                        rootProperty:"infos", //json 数据根节点
+                        totalProperty:"total"//总数
+                    }
+                },
+                autoLoad: true,
+            });
+            gridStore.load({
+                params: {
+                    page: 1,
+                    limit: 10
+                }
+            });
+
+            var grid=new Ext.grid.Panel({
+                title:'当前用户',
+                width:vs.width,
+                height:vs.height,
+                loadMask:true,//数据加载中，显示等待信息
+                forceFit:true,//列自动填充grid
+                columns:[//表格中的列
+                    {text:'姓名',dataIndex:'name'},
+                    {text:'年龄',width : '5%',dataIndex:'age'},
+                    {text:'性别',width : '5%',dataIndex:'sex'},
+                    {text:'联系电话',dataIndex:'phone'},
+                    {text:'身份证号码',dataIndex:'idcard'},
+                    {text:'邮箱',dataIndex:'mail'},
+                    {text:'驾考类型',dataIndex:'carType'},
+                    {text:'驾考科目',dataIndex:'carExam'},
+                    {text:'当前完成题目',dataIndex:'subjectNum'},
+                    {text:'有效开始日期',dataIndex:'beginTime'},
+                    {text:'有效结束日期',dataIndex:'endTime'}
+                ],
+                store: gridStore
+            });
+
+            var fm = new Ext.FormPanel(
+                    {
+                        frame: true,
+                        autoWidth:true,
+                        autoHeight: true,
+                        labelWidth: 70,
+                        layout: 'column',
+                        items: [{
+                            layout: 'form',
+                            items: [{
+                                layout: 'form',
+                                items: [{
+                                    xtype: 'textfield',
+                                    fieldLabel: '用户姓名',
+                                    width: 500,
+                                    id: 'user_name',
+                                    name: 'user_name',
+                                    emptyText: '用户姓名'
+                                }]
+                            }]
+                        }, {
+                            layout: 'form',
+                            items: [{
+                                text: '查询  ',
+                                name: 'select',
+                                id: 'select',
+                                xtype: 'button',
+                                handler: function () {
+                                }
+                            }]
+                        }, {
+                            layout: 'form',
+                            items: [{
+                                text: '模板导出',
+                                name: 'export',
+                                id: 'export',
+                                xtype: 'button',
+                                handler: function () {
+                                    document.getElementById("form1").submit();
+                                }
+                            }]
+                        }, {
+                            layout: 'form',
+                            items: [{
+                                text: '数据导入',
+                                name: 'setdata',
+                                id: 'setdata',
+                                xtype: 'button',
+                                handler: function () {
+                                    var form = new Ext.form.FormPanel({
+                                        baseCls: 'x-plain',
+                                        frame: true,
+                                        fileUpload: true,
+                                        defaultType: 'textfield',
+                                        layout: 'form',
+                                        items: [{
+                                            xtype: 'fileuploadfield',
+                                            id: 'file',
+                                            width: 210,
+                                            allowBlank: false,
+                                            emptyText: '请选择一个excel文件',
+                                            fieldLabel: '用户数据导入',
+                                            name: 'file',
+                                            blankText: '请选择一个文件',
+                                            buttonCfg: {text: '浏览'}
+                                        }]
+                                    });
+
+                                    var win1 = new Ext.Window({
+                                        title: "用户数据导入",
+                                        border: false,
+                                        width: 400,
+                                        height: 100,
+                                        minWidth: 400,
+                                        minHeight: 100,
+                                        layout: 'fit',
+                                        plain: true,
+                                        iconCls: 'option',
+                                        buttonAlign: 'center',
+                                        modal: true,
+                                        items: form,
+                                        buttons: [{
+                                            text: '确定',
+                                            id: 'bt_update',
+                                            handler: (function () {
+                                                if (form.getForm().isValid()) {
+                                                    form.getForm().submit({
+                                                        url: '/importtemplet',
+                                                        params: {
+                                                            type: 'user'
+                                                        },
+                                                        waitMsg: '保存数据...',
+                                                        success: function (form, action) {
+                                                            /*grid.getStore().reload();*/
+                                                            win1.close();
+                                                        },
+                                                        failure: function (form, action) {
+                                                            win1.close();
+                                                        }
+                                                    });
+                                                } else {
+                                                    Ext.MessageBox.alert('错误：', '表单填写有错误！');
+                                                }
+                                            })
+                                        }]
+                                    });
+                                    win1.show();
+                                }
+                            }]
+                        },{
+                            items : [ grid ]
+                        }]
+                    });
+            var win = new Ext.Window({
+                closable: false,
+                closeAction: 'hide',
+                modal: true,
+                title: "用户管理",
+                items: fm
+            });
+            win.setSize(vs.width, vs.height);
+            win.show();
+        });
+
+    </script>
+</head>
+<body>
+<form action="/exporttemplet" method="get" id="form1" namespace="/exporttemplet" style='display: none'>
+    <input type=hidden name='type' id='type' value='user'>
+</form>
+</body>
+</html>

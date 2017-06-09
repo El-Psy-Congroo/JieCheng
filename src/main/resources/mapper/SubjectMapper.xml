@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.JieCheng.dao.mapping.SubjectMapper">
+  <!--根据id查询用户详情-->
+  <insert id="addSubject" parameterType="com.JieCheng.dao.model.Subject">
+    insert into subject set content=#{content},info=#{info},subjecttype=#{type},
+    subjectselect=#{select},answer=#{answer},grade=#{grade},carexam=#{carexam},cartype=#{cartype},
+    url=#{url},createtime=str_to_date(#{time}, '%Y-%m-%d %H'),createuserid=#{userId}
+  </insert>
+
+  <insert id="addCollectSubject" parameterType="int">
+    insert into user_collect values(#{userId},#{subjectId})
+  </insert>
+
+  <delete id="deleteCollectSubject" parameterType="int">
+    delete from user_collect where userid=#{userId} and subjectid=#{subjectId}
+  </delete>
+
+  <delete id="deleteErrorSubject" parameterType="int">
+    delete from user_error where userid=#{userId} and subjectid=#{subjectId}
+  </delete>
+
+  <insert id="addErrorSubject" parameterType="int">
+    insert into user_error values(#{userId},#{subjectId})
+  </insert>
+
+  <select id="selectRandomSubject" parameterType="string" resultType="com.JieCheng.dao.model.Subject">
+    SELECT *
+    FROM subject AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(subjectid) FROM subject)) AS id) AS t2
+    WHERE t1.subjectid >= t2.id AND carexam=#{carexam} AND cartype=#{cartype} LIMIT 1
+  </select>
+</mapper>

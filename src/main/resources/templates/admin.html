@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <title>管理界面</title>
+    <META http-equiv=Content-Type content="text/html; charset=utf-8"/>
+    <meta http-equiv="expires" content="0" />
+    <link rel="stylesheet" type="text/css" href="css/ext-theme-crisp-all.css" />
+    <script type="text/javascript" src="js/ext-all.js"></script>
+    <script type="text/javascript" src="js/ext-theme-crisp.js"></script>
+    <script type="text/javascript" src="js/ext-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="js/jq.js"></script>
+    <script type="text/javascript">
+	   Ext.require([
+    'Ext.tab.*',
+    'Ext.window.*',
+    'Ext.tip.*',
+    'Ext.layout.container.Border'
+	]);
+Ext.onReady(function(){
+		var vs = Ext.getBody().getViewSize();
+		function tree_event(node,event)  
+        {  
+            var e_src=event.data.id;  
+            document.getElementById("frame_main").src='/'+e_src;   
+        }; 
+		var tree = Ext.create("Ext.tree.Panel", {
+	                renderTo: Ext.getBody(),
+	                listeners:{'itemclick':tree_event},
+	                root: {
+	                    text: "系统管理",
+	                    expanded: true,
+	                    children: [{
+	                    	id:'userAdmin',
+	                        text: "人员管理",
+	                        leaf: true,
+
+	                    }, {
+	                    	id:'topicAdmin',
+	                        text: "题库管理",
+	                        leaf: true
+	                    }]
+	                }
+	            });
+    	var win = Ext.create('widget.window', {
+                closable: false,
+                closeAction: 'hide',
+                maximizable: false,
+                resizable:false,
+                constrain:true,
+                tools : [{
+								name : 'chaxun',
+								id : 'chaxun',
+								xtype : 'button',
+								text : '返回',
+								handler : function() {
+                                    javascript:history.go(-1);
+								}
+						    }],
+                layout: {
+                    type: 'border',
+                    padding: 5
+                },
+                items: [{
+                    region: 'west',
+                    title: '导航栏',
+                    width: 200,
+                    split: true,
+                    collapsible: false,
+                    floatable: false,
+                    items: [tree]
+                }, {
+		             xtype:'panel',
+		             width:  vs.width-200,
+		             height :vs.height,
+		             html:'<iframe id="frame_main" src="" width="100%" height="100%" frameborder="0" scrolling="auto" />'
+		             }]
+            });
+		win.setSize(vs.width, vs.height);
+        win.show();
+});
+    </script>
+</head>
+</html>
