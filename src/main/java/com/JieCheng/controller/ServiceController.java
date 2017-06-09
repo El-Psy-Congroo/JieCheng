@@ -54,6 +54,14 @@ public class ServiceController extends BaseController {
     }
 
     /*
+    获取当前题目信息列表
+     */
+    @RequestMapping("/getAllSubjectInfo")
+    public Map<String, Object> getAllSubjectInfo(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) {
+        return subjectService.getAllSubjectInfo(page, limit);
+    }
+
+    /*
     添加收藏
      */
     @RequestMapping("/addcollectsubject")

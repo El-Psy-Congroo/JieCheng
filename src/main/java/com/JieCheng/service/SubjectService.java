@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by Zhang on 2017/5/11.
@@ -25,6 +26,11 @@ public interface SubjectService {
     导入数据
      */
     String importTemplet(MultipartFile file, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, BiffException;
+
+    /*
+    获取当前题目信息列表
+     */
+    Map<String, Object> getAllSubjectInfo(Integer page, Integer limit);
 
     /*
     新增收藏题目

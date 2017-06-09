@@ -4,6 +4,8 @@ import com.JieCheng.dao.model.Subject;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * Created by Zhang on 2017/5/12.
  */
@@ -24,4 +26,6 @@ public interface SubjectMapper {
     boolean addErrorSubject(@Param("userId") int userId, @Param("subjectId") int subjectId);
 
     Subject selectRandomSubject(@Param("carexam") String carexam, @Param("cartype") String cartype);
+
+    List<Subject> getAllSubjectInfo();
 }

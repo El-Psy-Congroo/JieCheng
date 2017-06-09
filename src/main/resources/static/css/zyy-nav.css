@@ -1,150 +1,174 @@
-html,body{
-  width:100%;
-  height:100%;
-  padding:0;
-  margin:0;
-}
-.nav-header{
-	position: fixed;
-	left:0;
-	top:0;
-	width:100%;
-	min-width: 1170px;
-	height:80px;
-	padding:0px;
-	z-index: 999;
-	line-height: 37px;
-	z-index: 2;
-	display: -webkit-flex; /* Safari */
-  	display: flex;
-	background-color: #8DEEEE;
-}
-.nav-logo{
-	float:left;
-	flex-grow: 0;
-	flex-shrink: 1;
-	height:80px;
-	width: 200px;
-}
-.nav-title{
-	float:left;
-	flex-grow: 3;
-	flex-shrink: 1;
-	padding:0px 200px;
-	text-align: justify;
-	font-size:32px;
-	color: #0000EE;
-}
-.nav-title span{  
-	display:inline-block;
-  	width:100%;
-}  
-.nav-box{
-	padding-top: 80px;
-	box-sizing:border-box;
-	display: -webkit-flex; /* Safari */
-  	display: flex;
-	height:100%;
-	width:100%;
-}
-.nav-left{
-	height:100%;
-	width: 200px;
-	flex-grow: 0;
-	flex-shrink: 1;
-	
-}
-.nav-admin,.nav-admin img{
-	padding:10px 20px;
-	height:100px;
-}
-.nav-tag{
-	padding:10px;
-}
-.nav-label{
-	padding:10px 5px;
-	margin:10px 0 0;
-	border:2px dashed black;
-}
-.nav-set{
-	padding: 10px 10px;
+html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
 }
 
-.nav-center{
-	height:100%;
-	flex-grow: 3;
-	flex-shrink: 1;
-	margin: 0 10px;
+.nav-header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-width: 1170px;
+    height: 80px;
+    padding: 0px;
+    z-index: 999;
+    line-height: 37px;
+    z-index: 2;
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    background-color: #8DEEEE;
 }
-.nav-qesttop,.nav-qest,.nav-true,.nav-img span{
-	margin: 10px 20px;
-	line-height: 20px;
+
+.nav-logo {
+    float: left;
+    flex-grow: 0;
+    flex-shrink: 1;
+    height: 80px;
+    width: 200px;
 }
-.nav-qestitem{
-	margin:5px 40px;
-	line-height: 20px;
+
+.nav-title {
+    float: left;
+    flex-grow: 3;
+    flex-shrink: 1;
+    padding: 0px 200px;
+    text-align: justify;
+    font-size: 32px;
+    color: #0000EE;
 }
-.nav-answerbutton{
-	float: right;
-	margin-right:50px;
+
+.nav-title span {
+    display: inline-block;
+    width: 100%;
 }
-.nav-answerbutton p{
-	margin: 5px;
+
+.nav-box {
+    padding-top: 80px;
+    box-sizing: border-box;
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    height: 100%;
+    width: 100%;
 }
-.nav-answerbutton button{
-	margin: 5px;
-}
-.nav-img{
-	width:800px;
-}
-.nav-img img{
-	margin: 20px 80px;
-	text-align:center;
-	height: 200px;
-}
-.nav-right{
-	height:100%;
-	width: 400px;
-	flex-grow: 0;
-	flex-shrink: 1;
+
+.nav-left {
+    height: 100%;
+    width: 200px;
+    flex-grow: 0;
+    flex-shrink: 1;
 
 }
-th{
-	height:30px;
-	width:30px;
-	border: 1px solid black;
+
+.nav-admin, .nav-admin img {
+    padding: 10px 20px;
+    height: 100px;
 }
-.nav-right .morebutton{
-	margin: 10px;
-	width: 250px;
+
+.nav-tag {
+    padding: 10px;
 }
-.nav-right button{
-	margin: 5px 5px;
+
+.nav-label {
+    padding: 10px 5px;
+    margin: 10px 0 0;
+    border: 2px dashed black;
 }
-.nav-results p{
-	margin:0 10px;
+
+.nav-set {
+    padding: 10px 10px;
 }
-.nav-exit{
-	float: right;
-	margin:30px 20px;
+
+.nav-center {
+    height: 100%;
+    flex-grow: 3;
+    flex-shrink: 1;
+    margin: 0 10px;
 }
-.btn{
-	display: inline-block;  
-    zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */  
-    *display: inline;  
-    vertical-align: baseline;  
-    margin: 0 2px;  
-    outline: none;  
-    cursor: pointer;  
-    text-align: center;  
-    text-decoration: none;  
-    font: 14px/100% Arial, Helvetica, sans-serif;  
-    padding: .5em 2em .55em;  
-    text-shadow: 0 1px 1px rgba(0,0,0,.3);  
-    -webkit-border-radius: .5em;   
-    -moz-border-radius: .5em;  
-    border-radius: .5em;  
-    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);  
-    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);  
-    box-shadow: 0 1px 2px rgba(0,0,0,.2);  
+
+.nav-qesttop, .nav-qest, .nav-true, .nav-img span {
+    margin: 10px 20px;
+    line-height: 20px;
+}
+
+.nav-qestitem {
+    margin: 5px 40px;
+    line-height: 20px;
+}
+
+.nav-answerbutton {
+    float: right;
+    margin-right: 50px;
+}
+
+.nav-answerbutton p {
+    margin: 5px;
+}
+
+.nav-answerbutton button {
+    margin: 5px;
+}
+
+.nav-img {
+    width: 800px;
+}
+
+.nav-img img {
+    margin: 20px 80px;
+    text-align: center;
+    height: 200px;
+}
+
+.nav-right {
+    height: 100%;
+    width: 400px;
+    flex-grow: 0;
+    flex-shrink: 1;
+
+}
+
+th {
+    height: 30px;
+    width: 30px;
+    border: 1px solid black;
+}
+
+.nav-right .morebutton {
+    margin: 10px;
+    width: 250px;
+}
+
+.nav-right button {
+    margin: 5px 5px;
+}
+
+.nav-results p {
+    margin: 0 10px;
+}
+
+.nav-exit {
+    float: right;
+    margin: 30px 20px;
+}
+
+.btn {
+    display: inline-block;
+    zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+    *display: inline;
+    vertical-align: baseline;
+    margin: 0 2px;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font: 14px/100% Arial, Helvetica, sans-serif;
+    padding: .5em 2em .55em;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+    -webkit-border-radius: .5em;
+    -moz-border-radius: .5em;
+    border-radius: .5em;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
 }

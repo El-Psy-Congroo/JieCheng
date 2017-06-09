@@ -15,22 +15,22 @@ import javax.sql.DataSource;
 @Configuration
 @MapperScan("com.*.*.mapper")
 public class MyBatisConfig {
-  @Bean
-  public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
+    @Bean
+    public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
 
-    SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-    sqlSessionFactoryBean.setDataSource(dataSource());
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        sqlSessionFactoryBean.setDataSource(dataSource());
 
-    PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
-    sqlSessionFactoryBean.setMapperLocations(resolver
-     .getResources("classpath:/mapper/*.xml"));
-    return sqlSessionFactoryBean.getObject();
-  }
+        sqlSessionFactoryBean.setMapperLocations(resolver
+                .getResources("classpath:/mapper/*.xml"));
+        return sqlSessionFactoryBean.getObject();
+    }
 
-  @Bean
-  @ConfigurationProperties(prefix = "spring.datasource")
-  public DataSource dataSource() {
-    return new DruidDataSource();
-  }
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource")
+    public DataSource dataSource() {
+        return new DruidDataSource();
+    }
 }

@@ -14,7 +14,7 @@
             var vs = Ext.getBody().getViewSize();
             var gridStore = Ext.create('Ext.data.Store', {
                 storeId: 'gridStore',
-                fields: ['userid'],
+                fields: ['name', 'age', 'sex', 'phone', 'idcard', 'mail', 'carType', 'carExam', 'subjectNum', 'beginTime', 'endTime'],
                 proxy: {
                     type: 'ajax',
                     url: '/getAllUserInfo',

@@ -12,6 +12,48 @@
     <script type="text/javascript">
         Ext.onReady(function () {
             var vs = Ext.getBody().getViewSize();
+
+            var gridStore = Ext.create('Ext.data.Store', {
+                storeId: 'gridStore',
+                fields: ['content', 'info', 'subjecttype', 'subjectselect', 'answer', 'grade', 'carexam', 'cartype'],
+                proxy: {
+                    type: 'ajax',
+                    url: '/getAllSubjectInfo',
+                    reader: {
+                        // 設置 json樣式
+                        type: 'json',
+                        rootProperty: "infos", //json 数据根节点
+                        totalProperty: "total"//总数
+                    }
+                },
+                autoLoad: true,
+            });
+            gridStore.load({
+                params: {
+                    page: 1,
+                    limit: 10
+                }
+            });
+
+            var grid = new Ext.grid.Panel({
+                title: '当前用户',
+                width: vs.width,
+                height: vs.height,
+                loadMask: true,//数据加载中，显示等待信息
+                forceFit: true,//列自动填充grid
+                columns: [//表格中的列
+                    {text: '内容', dataIndex: 'content'},
+                    {text: '提示', dataIndex: 'info'},
+                    {text: '类型', width: '5%', dataIndex: 'subjecttype'},
+                    {text: '选项', dataIndex: 'subjectselect'},
+                    {text: '答案', width: '5%', dataIndex: 'answer'},
+                    {text: '分值', width: '5%', dataIndex: 'grade'},
+                    {text: '驾考科目', dataIndex: 'carexam'},
+                    {text: '驾考类型', dataIndex: 'cartype'}
+                ],
+                store: gridStore
+            });
+
             var fm = new Ext.FormPanel(
                     {
                         frame: true,
@@ -20,7 +62,6 @@
                         labelWidth: 70,
                         layout: 'column',
                         items: [{
-                            columnWidth: .55,
                             layout: 'form',
                             items: [{
                                 layout: 'form',
@@ -34,7 +75,6 @@
                                 }]
                             }]
                         }, {
-                            columnWidth: .1,
                             layout: 'form',
                             items: [{
                                 text: '查询  ',
@@ -45,7 +85,6 @@
                                 }
                             }]
                         }, {
-                            columnWidth: .1,
                             layout: 'form',
                             items: [{
                                 text: '模板导出',
@@ -124,6 +163,8 @@
                                     win1.show();
                                 }
                             }]
+                        }, {
+                            items: [grid]
                         }]
                     });
             var win = new Ext.Window({

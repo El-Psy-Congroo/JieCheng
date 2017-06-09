@@ -3,6 +3,8 @@ package com.JieCheng.service.impl;
 import com.JieCheng.dao.model.Subject;
 import com.JieCheng.dao.model.User;
 import com.JieCheng.service.SubjectService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import jxl.read.biff.BiffException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -13,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Zhang on 2017/5/11.
@@ -69,6 +74,22 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public Map<String, Object> getAllSubjectInfo(Integer page, Integer limit) {
+        if (page == null || limit == null) {
+            page = 1;
+            limit = 20;
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        PageHelper.startPage(page, limit);
+        List<Subject> list = subjectMapper.getAllSubjectInfo();
+        Page<Subject> useInfos = (Page<Subject>) list;
+        long total = useInfos.getTotal();
+        map.put("total", total);
+        map.put("infos", useInfos);
+        return map;
     }
 
     @Override
