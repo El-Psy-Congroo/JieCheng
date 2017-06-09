@@ -1,170 +1,172 @@
-<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<html>
 <head>
     <title>登陆</title>
     <META http-equiv=Content-Type content="text/html; charset=utf-8"/>
-    <meta http-equiv="expires" content="0" />
-    <link rel="stylesheet" type="text/css" href="css/ext-theme-crisp-all.css" />
+    <meta http-equiv="expires" content="0"/>
+    <link rel="stylesheet" type="text/css" href="css/ext-theme-crisp-all.css"/>
     <script type="text/javascript" src="js/ext-all.js"></script>
     <script type="text/javascript" src="js/ext-theme-crisp.js"></script>
     <script type="text/javascript" src="js/ext-lang-zh_CN.js"></script>
     <script type="text/javascript" src="js/jq.js"></script>
 </head>
 <body>
- <form action="/index" method="post" id="form2" namespace="/index" style='display: none'>
+<form action="/index" method="post" id="form2" namespace="/index" style='display: none'>
     <input type=hidden name='loginName' id='loginName' value=''>
     <input type=hidden name='passWord' id='passWord' value=''>
 </form>
- <form action="/admin" method="post" id="form3" namespace="/admin" style='display: none'>
-     <input type=hidden name='loginName1' id='loginName1' value=''>
-     <input type=hidden name='passWord1' id='passWord1' value=''>
- </form>
- <script language="JavaScript">
-     function adminSubmit() {
-         var userName = uname.getValue();
-         var userPass = pwd.getValue();
-         $("#loginName1").val(userName);
-         $("#passWord1").val(userPass);
-         document.getElementById("form3").submit();
-     };
-     function userSubmit() {
-         var userName = uname.getValue();
-         var userPass = pwd.getValue();
-         $("#loginName").val(userName);
-         $("#passWord").val(userPass);
-         document.getElementById("form2").submit();
-     };
-     function changeOnline() {
-         Ext.MessageBox.show({
-             title:"解锁",
-             msg:"输入你的身份证号码将重置你的用户状态",
-             buttons:Ext.Msg.OKCANCEL,
-             width:300,
-             prompt : true,
-             icon:Ext.MessageBox.INFO,
-             closable:false,
-             fn: function(btn,text){
-                 if(btn=='ok'){
-                     Ext.Ajax.request({
-                         url: '/changeOnline',
-                         params: { IDCard: text, status: 'N' },
-                         method: 'POST',
-                         success: function (response, options) {
-                             Ext.MessageBox.alert('结果', response.responseText);
-                         },
-                         failure: function (response, options) {
-                             Ext.MessageBox.alert('失败', '请求超时或网络故障,错误编号：' + response.status);
-                         }
-                     });
-                 }
-             }
-         });
-     }
-     function findPassWord() {
-         var newPassWord='123456';
-         Ext.MessageBox.show({
-             title:"找回密码",
-             msg:"输入你的身份证号码将重置密码为"+newPassWord,
-             buttons:Ext.Msg.OKCANCEL,
-             width:300,
-             prompt : true,
-             icon:Ext.MessageBox.INFO,
-             closable:false,
-             fn: function(btn,text){
-                 if(btn=='ok'){
-                     Ext.Ajax.request({
-                         url: '/findPassWord',
-                         params: { IDCard: text,newPassWord:newPassWord },
-                         method: 'POST',
-                         success: function (response) {
-                             Ext.MessageBox.alert('结果', response.responseText);
-                         },
-                         failure: function (response, options) {
-                             Ext.MessageBox.alert('失败', '请求超时或网络故障,错误编号：' + response.status);
-                         }
-                     });
-                 }
-             }
-         });
-     }
- </script>
+<form action="/admin" method="post" id="form3" namespace="/admin" style='display: none'>
+    <input type=hidden name='loginName1' id='loginName1' value=''>
+    <input type=hidden name='passWord1' id='passWord1' value=''>
+</form>
+<script language="JavaScript">
+    function adminSubmit() {
+        var userName = uname.getValue();
+        var userPass = pwd.getValue();
+        $("#loginName1").val(userName);
+        $("#passWord1").val(userPass);
+        document.getElementById("form3").submit();
+    }
+    ;
+    function userSubmit() {
+        var userName = uname.getValue();
+        var userPass = pwd.getValue();
+        $("#loginName").val(userName);
+        $("#passWord").val(userPass);
+        document.getElementById("form2").submit();
+    }
+    ;
+    function changeOnline() {
+        Ext.MessageBox.show({
+            title: "解锁",
+            msg: "输入你的身份证号码将重置你的用户状态",
+            buttons: Ext.Msg.OKCANCEL,
+            width: 300,
+            prompt: true,
+            icon: Ext.MessageBox.INFO,
+            closable: false,
+            fn: function (btn, text) {
+                if (btn == 'ok') {
+                    Ext.Ajax.request({
+                        url: '/changeOnline',
+                        params: {IDCard: text, status: 'N'},
+                        method: 'POST',
+                        success: function (response, options) {
+                            Ext.MessageBox.alert('结果', response.responseText);
+                        },
+                        failure: function (response, options) {
+                            Ext.MessageBox.alert('失败', '请求超时或网络故障,错误编号：' + response.status);
+                        }
+                    });
+                }
+            }
+        });
+    }
+    function findPassWord() {
+        var newPassWord = '123456';
+        Ext.MessageBox.show({
+            title: "找回密码",
+            msg: "输入你的身份证号码将重置密码为" + newPassWord,
+            buttons: Ext.Msg.OKCANCEL,
+            width: 300,
+            prompt: true,
+            icon: Ext.MessageBox.INFO,
+            closable: false,
+            fn: function (btn, text) {
+                if (btn == 'ok') {
+                    Ext.Ajax.request({
+                        url: '/findPassWord',
+                        params: {IDCard: text, newPassWord: newPassWord},
+                        method: 'POST',
+                        success: function (response) {
+                            Ext.MessageBox.alert('结果', response.responseText);
+                        },
+                        failure: function (response, options) {
+                            Ext.MessageBox.alert('失败', '请求超时或网络故障,错误编号：' + response.status);
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>
 <script language="javascript">
-    var uname = new Ext.form.TextField( {
-        id :'uname',
-        fieldLabel : '用户名',
-        wight : 200,
-        name : 'name',//元素名称
-        allowBlank : false,//不允许为空
-        blankText : '用户名不能为空'//错误提示内容
+    var uname = new Ext.form.TextField({
+        id: 'uname',
+        fieldLabel: '用户名',
+        wight: 200,
+        name: 'name',//元素名称
+        allowBlank: false,//不允许为空
+        blankText: '用户名不能为空'//错误提示内容
     });
-    var pwd = new Ext.form.TextField( {
-        id : 'pwd',
-        wight : 200,
-        inputType : 'password',
-        fieldLabel : '密　码',
-        name : 'password',
-        allowBlank : false,
-        blankText : '密码不能为空'
+    var pwd = new Ext.form.TextField({
+        id: 'pwd',
+        wight: 200,
+        inputType: 'password',
+        fieldLabel: '密　码',
+        name: 'password',
+        allowBlank: false,
+        blankText: '密码不能为空'
     });
-    var simple = new Ext.FormPanel( {
-        labelWidth : 75,
-        defaults : {
-            width : 300
+    var simple = new Ext.FormPanel({
+        labelWidth: 75,
+        defaults: {
+            width: 300
         },
-        defaultType : 'textfield',//默认字段类型
-        bodyStyle : 'background: #ffffff;padding:30 0 0 20;',
-        border : false,
-        buttonAlign : 'center',
-        border : false,
-        id : "form",
+        defaultType: 'textfield',//默认字段类型
+        bodyStyle: 'background: #ffffff;padding:30 0 0 20;',
+        border: false,
+        buttonAlign: 'center',
+        border: false,
+        id: "form",
         //定义表单元素
-        items : [ uname, pwd ,{
-            id:'myFieldId',
+        items: [uname, pwd, {
+            id: 'myFieldId',
             xtype: 'label',
             forId: 'myFieldId',
-            html : '<a href=" javascript:void(0)" onclick="changeOnline();return false;">无法登入？</a><br>'
-        },{
-            id:'fpassword',
+            html: '<a href=" javascript:void(0)" onclick="changeOnline();return false;">无法登入？</a><br>'
+        }, {
+            id: 'fpassword',
             xtype: 'label',
             forId: 'fpassword',
-            html : '<a href=" javascript:void(0)" onclick="findPassWord();return false;">忘记密码？</a>'
+            html: '<a href=" javascript:void(0)" onclick="findPassWord();return false;">忘记密码？</a>'
         }],
-        buttons : [{
-            text : '重置',
-            handler : function() {
+        buttons: [{
+            text: '重置',
+            handler: function () {
                 simple.form.reset();
             }
         }, {
-            text : '用户登录',
-            type : 'submit',
-            id : 'sb',
+            text: '用户登录',
+            type: 'submit',
+            id: 'sb',
             //定义表单提交事件
-            handler : userSubmit
-        },{
-            text : '管理登录',
-            type : 'submit',
-            id : 'sb1',
+            handler: userSubmit
+        }, {
+            text: '管理登录',
+            type: 'submit',
+            id: 'sb1',
             //定义表单提交事件
-            handler : adminSubmit
-        } ]
+            handler: adminSubmit
+        }]
     });
     //定义窗体
     var win = new Ext.Window({
-        id : 'win',
-        layout : 'fit', //自适应布局
-        align : 'center',
-        width : 330,
-        height : 182,
-        resizable : false,
-        draggable : false,
-        border : false,
-        bodyStyle : 'padding:5px;background:#fff',
-        maximizable : false,//禁止最大化
-        closeAction : 'close',
-        closable : false,//禁止关闭,
-        items : simple
+        id: 'win',
+        layout: 'fit', //自适应布局
+        align: 'center',
+        width: 330,
+        height: 182,
+        resizable: false,
+        draggable: false,
+        border: false,
+        bodyStyle: 'padding:5px;background:#fff',
+        maximizable: false,//禁止最大化
+        closeAction: 'close',
+        closable: false,//禁止关闭,
+        items: simple
         //将表单作为窗体元素嵌套布局
     });
-    Ext.onReady(function() {
+    Ext.onReady(function () {
         //使用表单提示
         Ext.QuickTips.init();
         Ext.form.Field.prototype.msgTarget = 'side';

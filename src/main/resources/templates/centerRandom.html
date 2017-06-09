@@ -1,177 +1,296 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-	<title>杰程交规考试模拟</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="css/zyy-nav.css">
-	<link rel="stylesheet" type="text/css" href="css/ext-theme-crisp-all.css" />
-	<script type="text/javascript" src="js/ext-all.js"></script>
-	<script type="text/javascript" src="js/ext-theme-crisp.js"></script>
-	<script type="text/javascript" src="js/ext-lang-zh_CN.js"></script>
-	<script type="text/javascript" src="js/jq.js"></script>
+    <title>杰程交规考试模拟</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/zyy-nav.css">
+    <link rel="stylesheet" type="text/css" href="css/ext-theme-crisp-all.css"/>
+    <script type="text/javascript" src="js/ext-all.js"></script>
+    <script type="text/javascript" src="js/ext-theme-crisp.js"></script>
+    <script type="text/javascript" src="js/ext-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="js/jq.js"></script>
 </head>
 <body onload="begin()">
-	<div class="nav-header">
-		<img class="nav-logo" src="img/logoExam.jpg"/>
-		<p class="nav-title">杰程交规考试模拟<span></span></p>
-	</div>
-	<div class="nav-box">
-		<div class="nav-left">
-			<div class="nav-admin"><img src="./admin.jpg"></div>
-			<div class="nav-tag">
-				<p class="nav-label">考生姓名：<span id="name1" th:text="${user.name}"></span></p>
-				<p class="nav-label">考试科目：<span id="carexam1" th:text="${carexam}"></span></p>
-				<p class="nav-label">考试车型：<span id="cartype1" th:text="${cartype}"></span></p>
-				<p class="nav-label">已用时间：</br><span id="_h"></span><span id="_m"></span><span id="_s"></span></p>
-			</div>
-			<div class="nav-set">
-				<div class="nav-tip"><input name="answer-tip" id="answer-tip" type="checkbox" value="" onchange="answerTip();"/>提示答案</div>
-				<div class="nav-tip"><input name="answer-show" id="answer-show" type="checkbox" value="" />显示答案</div>
-				<div class="nav-tip"><input name="way-tip" id="way-tip" type="checkbox" value="" >显示讲解</div>
-			</div>
-		</div>
-		<div class="nav-center">
-			<div class="nav-qesttop">考试-科目</div>
-			<div class="nav-qestitem" id="title"></div>
-			<div class="nav-qestitem" id="optionA"></div>
-			<div class="nav-qestitem" id="optionB"></div>
-			<div class="nav-qestitem" id="optionC"></div>
-			<div class="nav-qestitem" id="optionD"></div>
-			<div>
-			<div class="nav-true" id="correctanswer" >正确答案：<span></span></div>
-			<div class="nav-true" id="myanswer">您的答案：<span ></span></div>
-			<div class="nav-answerbutton">
-			<p>请选择</p>
-				<button id="A" class="btn" onclick="answer(this)">A</button>
-				<button id="B" class="btn" onclick="answer(this)">B</button>
-				<button id="C" class="btn" onclick="answer(this)">C</button>
-				<button id="D" class="btn" onclick="answer(this)">D</button>
-				<div>
-				<button class="btn" onclick="next()">下一题</button>
-				<button class="btn">交&nbsp&nbsp卷</button>
-				</div>
-			</div>
-		</div>
-		</div>
-		<div class="nav-right">
-			<table>
-				<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-				<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-				<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-				<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-				<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-				<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-				<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-				<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-				<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-				<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-				<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-			</table>
-			<div class="morebutton">
-				<button id="error" name="error" onclick="addSubject(this)">添加错题</button>
-				<button id="collect" name="collect" onclick="addSubject(this)">添加收藏</button>
-			</div>
-			<div class="nav-results">
-			<div class="nav-exit"><button class="btn">退出</button></div>
-			<p>答对题量：<p id="rightSubject"></p></p>
-			<p>答错题量：<p id="errorSubject"></p></p>
-			<p>正确率<p id="proportion"></p></p>
-			</div>
-		</div>
-	</div>
-	<script type="text/javascript">
-		var rightSubject=0;
-		var errorSubject=0;
-		var leftTime = 0;
-		var subject;
-		var tipAns = false;
-		function begin() {
-			next();
-			countTime();
-		}
-		function countTime() {
-			var d,h,m,s;
-			leftTime+=1;
-			d = Math.floor(leftTime/60/60/24);
-			h = Math.floor(leftTime/60/60%24);
-			m = Math.floor(leftTime/60%60);
-			s = Math.floor(leftTime%60);
-			//将倒计时赋值到div中
-			document.getElementById("_h").innerHTML = h+"时";
-			document.getElementById("_m").innerHTML = m+"分";
-			document.getElementById("_s").innerHTML = s+"秒";
-			setTimeout(function() {countTime()},1000) ;
-		}
-		function next() {
+<div class="nav-header">
+    <img class="nav-logo" src="img/logoExam.jpg"/>
+    <p class="nav-title">杰程交规考试模拟<span></span></p>
+</div>
+<div class="nav-box">
+    <div class="nav-left">
+        <div class="nav-admin"><img src="./admin.jpg"></div>
+        <div class="nav-tag">
+            <p class="nav-label">考生姓名：<span id="name1" th:text="${user.name}"></span></p>
+            <p class="nav-label">考试科目：<span id="carexam1" th:text="${carexam}"></span></p>
+            <p class="nav-label">考试车型：<span id="cartype1" th:text="${cartype}"></span></p>
+            <p class="nav-label">已用时间：</br><span id="_h"></span><span id="_m"></span><span id="_s"></span></p>
+        </div>
+        <div class="nav-set">
+            <div class="nav-tip"><input name="answer-tip" id="answer-tip" type="checkbox" value=""
+                                        onchange="answerTip();"/>提示答案
+            </div>
+            <div class="nav-tip"><input name="answer-show" id="answer-show" type="checkbox" value=""/>显示答案</div>
+            <div class="nav-tip"><input name="way-tip" id="way-tip" type="checkbox" value="">显示讲解</div>
+        </div>
+    </div>
+    <div class="nav-center">
+        <div class="nav-qesttop">考试-科目</div>
+        <div class="nav-qestitem" id="title"></div>
+        <div class="nav-qestitem" id="optionA"></div>
+        <div class="nav-qestitem" id="optionB"></div>
+        <div class="nav-qestitem" id="optionC"></div>
+        <div class="nav-qestitem" id="optionD"></div>
+        <div>
+            <div class="nav-true" id="correctanswer">正确答案：<span></span></div>
+            <div class="nav-true" id="myanswer">您的答案：<span></span></div>
+            <div class="nav-answerbutton">
+                <p>请选择</p>
+                <button id="A" class="btn" onclick="answer(this)">A</button>
+                <button id="B" class="btn" onclick="answer(this)">B</button>
+                <button id="C" class="btn" onclick="answer(this)">C</button>
+                <button id="D" class="btn" onclick="answer(this)">D</button>
+                <div>
+                    <button class="btn" onclick="next()">下一题</button>
+                    <button class="btn">交&nbsp&nbsp卷</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nav-right">
+        <table>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </table>
+        <div class="morebutton">
+            <button id="error" name="error" onclick="addSubject(this)">添加错题</button>
+            <button id="collect" name="collect" onclick="addSubject(this)">添加收藏</button>
+        </div>
+        <div class="nav-results">
+            <div class="nav-exit">
+                <button class="btn">退出</button>
+            </div>
+            <p>答对题量：
+            <p id="rightSubject"></p></p>
+            <p>答错题量：
+            <p id="errorSubject"></p></p>
+            <p>正确率
+            <p id="proportion"></p></p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var rightSubject = 0;
+    var errorSubject = 0;
+    var leftTime = 0;
+    var subject;
+    var tipAns = false;
+    function begin() {
+        next();
+        countTime();
+    }
+    function countTime() {
+        var d, h, m, s;
+        leftTime += 1;
+        d = Math.floor(leftTime / 60 / 60 / 24);
+        h = Math.floor(leftTime / 60 / 60 % 24);
+        m = Math.floor(leftTime / 60 % 60);
+        s = Math.floor(leftTime % 60);
+        //将倒计时赋值到div中
+        document.getElementById("_h").innerHTML = h + "时";
+        document.getElementById("_m").innerHTML = m + "分";
+        document.getElementById("_s").innerHTML = s + "秒";
+        setTimeout(function () {
+            countTime()
+        }, 1000);
+    }
+    function next() {
 
-			$.ajax({
-				type: "POST",
-				contentType: "application/json",
-				url: "/randomexam?carexam="+document.getElementById("carexam1").innerHTML+"&cartype="+document.getElementById("cartype1").innerHTML,
-				dataType: 'json',
-				cache: false,
-				timeout: 600000,
-				success: function (data) {
-					subject=data;
-					var title = data.content;
-					var i1 = data.subjectselect.split(";")[0];
-					var i2 = data.subjectselect.split(";")[1];
-					var i3 = data.subjectselect.split(";")[2];
-					var i4 = data.subjectselect.split(";")[3];
-					document.getElementById("title").innerHTML=title;
-					if(tipAns == true){
-						//提示答案
-						if( data.answer == 'A'){
-							document.getElementById("optionA").style='background-color=yellow;';
-						}
-					}
-					document.getElementById("optionA").innerHTML=i1;
-					document.getElementById("optionB").innerHTML=i2;
-					document.getElementById("optionC").innerHTML=i3;
-					document.getElementById("optionD").innerHTML=i4;
-					document.getElementById("correctanswer").innerHTML="正确答案：";
-					document.getElementById("myanswer").innerHTML="您的答案："
-				},
-				error: function (e) {
-				}
-			});
-		}
-		function answer(e) {
-			document.getElementById("correctanswer").innerHTML="正确答案："+subject.answer
-			document.getElementById("myanswer").innerHTML="您的答案："+e.id
-			if(subject.answer.equals(e.id)){
-				rightSubject++;
-			}else{
-				errorSubject++;
-			}
-			document.getElementById("proportion").innerHTML=rightSubject/(rightSubject+errorSubject)*100+'%'
-			document.getElementById("rightSubject").innerHTML=rightSubject
-			document.getElementById("errorSubject").innerHTML=errorSubject
-		}
-		function addSubject(e) {
-			var type=e.name;
-			var url;
-			if(type=='collect'){
-				url='addcollectsubject';
-			}else if(type=='error'){
-				url='addErrorSubject';
-			}
-			var subjectId=subject.subjectid;
-			Ext.Ajax.request({
-				url: url,
-				params: { subjectId: subjectId},
-				method: 'POST',
-				success: function (response) {
-					Ext.MessageBox.alert('结果', response.responseText);
-				},
-				failure: function (response) {
-					Ext.MessageBox.alert('失败', '请求超时或网络故障,错误编号：' + response.status);
-				}
-			});
-		}
-		function answerTip(){
-			tipAns = document.getElementById('answer-tip').value;
-		}
-	</script>
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/randomexam?carexam=" + document.getElementById("carexam1").innerHTML + "&cartype=" + document.getElementById("cartype1").innerHTML,
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                subject = data;
+                var title = data.content;
+                var i1 = data.subjectselect.split(";")[0];
+                var i2 = data.subjectselect.split(";")[1];
+                var i3 = data.subjectselect.split(";")[2];
+                var i4 = data.subjectselect.split(";")[3];
+                document.getElementById("title").innerHTML = title;
+                if (tipAns == true) {
+                    //提示答案
+                    if (data.answer == 'A') {
+                        document.getElementById("optionA").style = 'background-color=yellow;';
+                    }
+                }
+                document.getElementById("optionA").innerHTML = i1;
+                document.getElementById("optionB").innerHTML = i2;
+                document.getElementById("optionC").innerHTML = i3;
+                document.getElementById("optionD").innerHTML = i4;
+                document.getElementById("correctanswer").innerHTML = "正确答案：";
+                document.getElementById("myanswer").innerHTML = "您的答案："
+            },
+            error: function (e) {
+            }
+        });
+    }
+    function answer(e) {
+        document.getElementById("correctanswer").innerHTML = "正确答案：" + subject.answer
+        document.getElementById("myanswer").innerHTML = "您的答案：" + e.id
+        if (subject.answer.equals(e.id)) {
+            rightSubject++;
+        } else {
+            errorSubject++;
+        }
+        document.getElementById("proportion").innerHTML = rightSubject / (rightSubject + errorSubject) * 100 + '%'
+        document.getElementById("rightSubject").innerHTML = rightSubject
+        document.getElementById("errorSubject").innerHTML = errorSubject
+    }
+    function addSubject(e) {
+        var type = e.name;
+        var url;
+        if (type == 'collect') {
+            url = 'addcollectsubject';
+        } else if (type == 'error') {
+            url = 'addErrorSubject';
+        }
+        var subjectId = subject.subjectid;
+        Ext.Ajax.request({
+            url: url,
+            params: {subjectId: subjectId},
+            method: 'POST',
+            success: function (response) {
+                Ext.MessageBox.alert('结果', response.responseText);
+            },
+            failure: function (response) {
+                Ext.MessageBox.alert('失败', '请求超时或网络故障,错误编号：' + response.status);
+            }
+        });
+    }
+    function answerTip() {
+        tipAns = document.getElementById('answer-tip').value;
+    }
+</script>
 </body>
 </html>

@@ -4,13 +4,13 @@ package com.JieCheng.dao.model;
  * Created by Zhang on 2017/5/12.
  */
 public class Subject {
-    private int    subjectid;
+    private int subjectid;
     private String content;
     private String info;
     private String subjecttype;
     private String subjectselect;
     private String answer;
-    private int    grade;
+    private int grade;
     private String carexam;
     private String cartype;
     private String url;
@@ -22,6 +22,7 @@ public class Subject {
     public void setSubjectid(int subjectid) {
         this.subjectid = subjectid;
     }
+
     public String getContent() {
         return content;
     }

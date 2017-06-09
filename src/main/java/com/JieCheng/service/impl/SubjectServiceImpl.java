@@ -3,9 +3,6 @@ package com.JieCheng.service.impl;
 import com.JieCheng.dao.model.Subject;
 import com.JieCheng.dao.model.User;
 import com.JieCheng.service.SubjectService;
-import jxl.Cell;
-import jxl.Sheet;
-import jxl.Workbook;
 import jxl.read.biff.BiffException;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -24,53 +21,50 @@ import java.util.Date;
 public class SubjectServiceImpl extends BaseServiceImpl implements SubjectService {
 
     @Override
-    public String exportSubjectTemplet(HttpServletRequest httpServletRequest,HttpServletResponse response) throws Exception {
-        User user=(User)httpServletRequest.getSession().getAttribute("user");
-        if(user.getRoleId()!=4){
+    public String exportSubjectTemplet(HttpServletRequest httpServletRequest, HttpServletResponse response) throws Exception {
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+        if (user.getRoleId() != 4) {
             return "权限不足";
         }
-        String[] label={"题目内容","题目说明","题目类型(单选/多选/判断)","题目选项(以';'分隔)","答案","分值(仅数字)","科目(1/2/3/4)","车型"};
-        excelUtil.excelTempletExport("题目模板",label,response);
+        String[] label = {"题目内容", "题目说明", "题目类型(单选/多选/判断)", "题目选项(以';'分隔)", "答案", "分值(仅数字)", "科目(1/2/3/4)", "车型"};
+        excelUtil.excelTempletExport("题目模板", label, response);
         return "导出成功";
     }
 
     @Override
-    public String importTemplet(MultipartFile file,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) throws IOException, BiffException {
-        StringBuilder result=new StringBuilder("");
-        User user=(User)httpServletRequest.getSession().getAttribute("user");
-        if(user.getRoleId()!=4){
+    public String importTemplet(MultipartFile file, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, BiffException {
+        StringBuilder result = new StringBuilder("");
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+        if (user.getRoleId() != 4) {
             return "权限不足";
         }
-        Subject []subjects=excelUtil.templetToSubjects(file);
+        Subject[] subjects = excelUtil.templetToSubjects(file);
         Date dt = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        int num=0;
-        for(int i=0;i<subjects.length;i++){
-            String subjecTtype=subjects[i].getSubjecttype();
-            if(subjects[i].getContent().length()>=1000){
+        int num = 0;
+        for (int i = 0; i < subjects.length; i++) {
+            String subjecTtype = subjects[i].getSubjecttype();
+            if (subjects[i].getContent().length() >= 1000) {
                 result.append("题目长度不能超过1000字End;");
                 continue;
-            }
-            else if(subjects[i].getInfo().length()>=100){
+            } else if (subjects[i].getInfo().length() >= 100) {
                 result.append("题目讲解不能超过100字End;");
                 continue;
-            }
-            else if(!(subjecTtype.equals("单选")||subjecTtype.equals("多选")||subjecTtype.equals("判断"))){
+            } else if (!(subjecTtype.equals("单选") || subjecTtype.equals("多选") || subjecTtype.equals("判断"))) {
                 result.append("题目类型仅支持单选题;多选题;判断题End;");
                 continue;
-            }
-            else if(!regex.NumOneToFour(subjects[i].getCarexam())){
+            } else if (!regex.NumOneToFour(subjects[i].getCarexam())) {
                 result.append("驾考科目请填写'1，2，3，4'End;");
                 continue;
-            }else {
+            } else {
                 result.append("成功End;");
             }
-            subjectMapper.addSubject(subjects[i].getContent(),subjects[i].getInfo(),subjects[i].getSubjecttype(),subjects[i].getSubjectselect(),
-                                     subjects[i].getAnswer(),subjects[i].getGrade(),subjects[i].getCarexam(),subjects[i].getCartype(),
-                                     subjects[i].getUrl(),sdf.format(dt),user.getUserId());
+            subjectMapper.addSubject(subjects[i].getContent(), subjects[i].getInfo(), subjects[i].getSubjecttype(), subjects[i].getSubjectselect(),
+                    subjects[i].getAnswer(), subjects[i].getGrade(), subjects[i].getCarexam(), subjects[i].getCartype(),
+                    subjects[i].getUrl(), sdf.format(dt), user.getUserId());
         }
         try {
-            excelUtil.returnResoult(result.toString(),file,httpServletResponse);
+            excelUtil.returnResoult(result.toString(), file, httpServletResponse);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,87 +73,105 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
 
     @Override
     public String addCollectSubject(HttpServletRequest httpServletRequest) {
-        User user=(User)httpServletRequest.getSession().getAttribute("user");
-        String subjectId=httpServletRequest.getParameter("subjectId");
-        int userId=user.getUserId();
-        boolean result=subjectMapper.addCollectSubject(userId,Integer.parseInt(subjectId));
-        if (result){
-            return"新增成功";
-        }else{
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+        String subjectId = httpServletRequest.getParameter("subjectId");
+        int userId = user.getUserId();
+        boolean result = subjectMapper.addCollectSubject(userId, Integer.parseInt(subjectId));
+        if (result) {
+            return "新增成功";
+        } else {
             return "添加失败";
         }
     }
 
     @Override
     public String deleteCollectSubject(HttpServletRequest httpServletRequest) {
-        User user=(User)httpServletRequest.getSession().getAttribute("user");
-        String subjectId=httpServletRequest.getParameter("subjectId");
-        int userId=user.getUserId();
-        boolean result=subjectMapper.deleteCollectSubject(userId,Integer.parseInt(subjectId));
-        if (result){
-            return"删除成功";
-        }else{
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+        String subjectId = httpServletRequest.getParameter("subjectId");
+        int userId = user.getUserId();
+        boolean result = subjectMapper.deleteCollectSubject(userId, Integer.parseInt(subjectId));
+        if (result) {
+            return "删除成功";
+        } else {
             return "删除失败";
         }
     }
 
     @Override
     public String deleteErrorSubject(HttpServletRequest httpServletRequest) {
-        User user=(User)httpServletRequest.getSession().getAttribute("user");
-        String subjectId=httpServletRequest.getParameter("subjectId");
-        int userId=user.getUserId();
-        boolean result=subjectMapper.deleteErrorSubject(userId,Integer.parseInt(subjectId));
-        if (result){
-            return"删除成功";
-        }else{
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+        String subjectId = httpServletRequest.getParameter("subjectId");
+        int userId = user.getUserId();
+        boolean result = subjectMapper.deleteErrorSubject(userId, Integer.parseInt(subjectId));
+        if (result) {
+            return "删除成功";
+        } else {
             return "删除失败";
         }
     }
 
     @Override
     public String addErrorSubject(HttpServletRequest httpServletRequest) {
-        User user=(User)httpServletRequest.getSession().getAttribute("user");
-        String subjectId=httpServletRequest.getParameter("subjectId");
-        boolean result=subjectMapper.addErrorSubject(user.getUserId(),Integer.parseInt(subjectId));
-        if (result){
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+        String subjectId = httpServletRequest.getParameter("subjectId");
+        boolean result = subjectMapper.addErrorSubject(user.getUserId(), Integer.parseInt(subjectId));
+        if (result) {
             return "新增成功";
-        }else {
+        } else {
             return "新增失败";
         }
     }
 
     @Override
     public String selectRandomSubject(HttpServletRequest httpServletRequest) {
-        String carExam=httpServletRequest.getParameter("carexam");
-        String carType=httpServletRequest.getParameter("cartype");
+        String carExam = httpServletRequest.getParameter("carexam");
+        String carType = httpServletRequest.getParameter("cartype");
         Subject subject;
-        switch (carExam){
-            case "科目一":carExam="1"; break;
-            case "科目二":carExam="2"; break;
-            case "科目三":carExam="3"; break;
-            case "科目四":carExam="4"; break;
-            default:carExam="0"; break;
+        switch (carExam) {
+            case "科目一":
+                carExam = "1";
+                break;
+            case "科目二":
+                carExam = "2";
+                break;
+            case "科目三":
+                carExam = "3";
+                break;
+            case "科目四":
+                carExam = "4";
+                break;
+            default:
+                carExam = "0";
+                break;
         }
-        do{
-            subject=subjectMapper.selectRandomSubject(carExam,carType);
-        }while (subject==null);
+        do {
+            subject = subjectMapper.selectRandomSubject(carExam, carType);
+        } while (subject == null);
         return jsonLittleData.ObjectToJson(subject);
     }
 
     @Override
     public String centerPage(HttpServletRequest httpServletRequest, Model model, String examtype, String carexam, String cartype) {
-        User user=(User)httpServletRequest.getSession().getAttribute("user");
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
         model.addAttribute("user", user);
-        switch (carexam){
-            case "1":model.addAttribute("carexam", "科目一");break;
-            case "2":model.addAttribute("carexam", "科目二");break;
-            case "3":model.addAttribute("carexam", "科目三");break;
-            case "4":model.addAttribute("carexam", "科目四");break;
+        switch (carexam) {
+            case "1":
+                model.addAttribute("carexam", "科目一");
+                break;
+            case "2":
+                model.addAttribute("carexam", "科目二");
+                break;
+            case "3":
+                model.addAttribute("carexam", "科目三");
+                break;
+            case "4":
+                model.addAttribute("carexam", "科目四");
+                break;
         }
         model.addAttribute("cartype", cartype);
-        if(examtype.equals("random")){
+        if (examtype.equals("random")) {
             return "centerRandom";
-        }else {
+        } else {
             return "centerExam";
         }
     }

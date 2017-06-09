@@ -12,17 +12,17 @@
     <script type="text/javascript">
         Ext.onReady(function () {
             var vs = Ext.getBody().getViewSize();
-            var gridStore=Ext.create('Ext.data.Store', {
-                storeId:'gridStore',
-                fields:['userid'],
+            var gridStore = Ext.create('Ext.data.Store', {
+                storeId: 'gridStore',
+                fields: ['userid'],
                 proxy: {
                     type: 'ajax',
-                    url:'/getAllUserInfo',
+                    url: '/getAllUserInfo',
                     reader: {
                         // 設置 json樣式
                         type: 'json',
-                        rootProperty:"infos", //json 数据根节点
-                        totalProperty:"total"//总数
+                        rootProperty: "infos", //json 数据根节点
+                        totalProperty: "total"//总数
                     }
                 },
                 autoLoad: true,
@@ -34,24 +34,24 @@
                 }
             });
 
-            var grid=new Ext.grid.Panel({
-                title:'当前用户',
-                width:vs.width,
-                height:vs.height,
-                loadMask:true,//数据加载中，显示等待信息
-                forceFit:true,//列自动填充grid
-                columns:[//表格中的列
-                    {text:'姓名',dataIndex:'name'},
-                    {text:'年龄',width : '5%',dataIndex:'age'},
-                    {text:'性别',width : '5%',dataIndex:'sex'},
-                    {text:'联系电话',dataIndex:'phone'},
-                    {text:'身份证号码',dataIndex:'idcard'},
-                    {text:'邮箱',dataIndex:'mail'},
-                    {text:'驾考类型',dataIndex:'carType'},
-                    {text:'驾考科目',dataIndex:'carExam'},
-                    {text:'当前完成题目',dataIndex:'subjectNum'},
-                    {text:'有效开始日期',dataIndex:'beginTime'},
-                    {text:'有效结束日期',dataIndex:'endTime'}
+            var grid = new Ext.grid.Panel({
+                title: '当前用户',
+                width: vs.width,
+                height: vs.height,
+                loadMask: true,//数据加载中，显示等待信息
+                forceFit: true,//列自动填充grid
+                columns: [//表格中的列
+                    {text: '姓名', dataIndex: 'name'},
+                    {text: '年龄', width: '5%', dataIndex: 'age'},
+                    {text: '性别', width: '5%', dataIndex: 'sex'},
+                    {text: '联系电话', dataIndex: 'phone'},
+                    {text: '身份证号码', dataIndex: 'idcard'},
+                    {text: '邮箱', dataIndex: 'mail'},
+                    {text: '驾考类型', dataIndex: 'carType'},
+                    {text: '驾考科目', dataIndex: 'carExam'},
+                    {text: '当前完成题目', dataIndex: 'subjectNum'},
+                    {text: '有效开始日期', dataIndex: 'beginTime'},
+                    {text: '有效结束日期', dataIndex: 'endTime'}
                 ],
                 store: gridStore
             });
@@ -59,7 +59,7 @@
             var fm = new Ext.FormPanel(
                     {
                         frame: true,
-                        autoWidth:true,
+                        autoWidth: true,
                         autoHeight: true,
                         labelWidth: 70,
                         layout: 'column',
@@ -165,8 +165,8 @@
                                     win1.show();
                                 }
                             }]
-                        },{
-                            items : [ grid ]
+                        }, {
+                            items: [grid]
                         }]
                     });
             var win = new Ext.Window({

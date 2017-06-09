@@ -1,136 +1,147 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>题库管理界面</title>
-	<META http-equiv=Content-Type content="text/html; charset=utf-8"/>
-    <meta http-equiv="expires" content="0" />
-    <link rel="stylesheet" type="text/css" href="css/ext-theme-crisp-all.css" />
+    <title>题库管理界面</title>
+    <META http-equiv=Content-Type content="text/html; charset=utf-8"/>
+    <meta http-equiv="expires" content="0"/>
+    <link rel="stylesheet" type="text/css" href="css/ext-theme-crisp-all.css"/>
     <script type="text/javascript" src="js/ext-all.js"></script>
     <script type="text/javascript" src="js/ext-theme-crisp.js"></script>
     <script type="text/javascript" src="js/ext-lang-zh_CN.js"></script>
     <script type="text/javascript" src="js/jq.js"></script>
     <script type="text/javascript">
-    	Ext.onReady(function() {
-    		var vs = Ext.getBody().getViewSize();
-    		var fm = new Ext.FormPanel(
-						{
-							frame : true,
-							width : vs.width,
-							autoHeight : true,
-							labelWidth : 70,
-							layout : 'column',
-							items : [{
-										columnWidth : .55,
-										layout : 'form',
-										items : [ {
-											layout : 'form',
-											items : [{
-												xtype : 'textfield',
-												fieldLabel : '题目',
-												width : 500,
-												id : 'subject_name',
-												name : 'subject_name',
-												emptyText : '题库姓名'
-											}]
-									}]
-									},{
-										columnWidth : .1,
-										layout : 'form',
-										items : [ {
-											text : '查询  ',
-											name : 'select',
-											id : 'select',
-											xtype : 'button',
-											handler : function() {}
-										}]
-									},{
-										columnWidth : .1,
-										layout : 'form',
-										items : [ {
-											text : '模板导出',
-											name : 'export',
-											id : 'export',
-											xtype : 'button',
-											handler : function() {
-												document.getElementById("form1").submit();
-											}
-										}]
-									},{
-										layout : 'form',
-										items : [ {
-											text : '数据导入',
-											name : 'setdata',
-											id : 'setdata',
-											xtype : 'button',
-											handler : function() {
-												var form = new Ext.form.FormPanel({
-													baseCls:'x-plain',
-													frame:true,
-													fileUpload: true,
-													defaultType: 'textfield',
-													layout:'form',
-													items: [{xtype: 'fileuploadfield',id: 'file',width: 210,allowBlank: false,emptyText: '请选择一个excel文件',fieldLabel: '题库数据导入',name: 'file',blankText: '请选择一个文件',buttonCfg: {text: '浏览'}}]
-												});
+        Ext.onReady(function () {
+            var vs = Ext.getBody().getViewSize();
+            var fm = new Ext.FormPanel(
+                    {
+                        frame: true,
+                        width: vs.width,
+                        autoHeight: true,
+                        labelWidth: 70,
+                        layout: 'column',
+                        items: [{
+                            columnWidth: .55,
+                            layout: 'form',
+                            items: [{
+                                layout: 'form',
+                                items: [{
+                                    xtype: 'textfield',
+                                    fieldLabel: '题目',
+                                    width: 500,
+                                    id: 'subject_name',
+                                    name: 'subject_name',
+                                    emptyText: '题库姓名'
+                                }]
+                            }]
+                        }, {
+                            columnWidth: .1,
+                            layout: 'form',
+                            items: [{
+                                text: '查询  ',
+                                name: 'select',
+                                id: 'select',
+                                xtype: 'button',
+                                handler: function () {
+                                }
+                            }]
+                        }, {
+                            columnWidth: .1,
+                            layout: 'form',
+                            items: [{
+                                text: '模板导出',
+                                name: 'export',
+                                id: 'export',
+                                xtype: 'button',
+                                handler: function () {
+                                    document.getElementById("form1").submit();
+                                }
+                            }]
+                        }, {
+                            layout: 'form',
+                            items: [{
+                                text: '数据导入',
+                                name: 'setdata',
+                                id: 'setdata',
+                                xtype: 'button',
+                                handler: function () {
+                                    var form = new Ext.form.FormPanel({
+                                        baseCls: 'x-plain',
+                                        frame: true,
+                                        fileUpload: true,
+                                        defaultType: 'textfield',
+                                        layout: 'form',
+                                        items: [{
+                                            xtype: 'fileuploadfield',
+                                            id: 'file',
+                                            width: 210,
+                                            allowBlank: false,
+                                            emptyText: '请选择一个excel文件',
+                                            fieldLabel: '题库数据导入',
+                                            name: 'file',
+                                            blankText: '请选择一个文件',
+                                            buttonCfg: {text: '浏览'}
+                                        }]
+                                    });
 
-												var win1 = new Ext.Window({
-													title : "题库数据导入",
-													border : false,
-													width : 400,
-													height : 100,
-													minWidth : 400,
-													minHeight : 100,
-													layout : 'fit',
-													plain : true,
-													iconCls : 'option',
-													buttonAlign : 'center',
-													modal : true,
-													items : form,
-													buttons : [{
-														text : '确定',
-														id : 'bt_update',
-														handler : (function() {
-															if (form.getForm().isValid()) {
-																form.getForm().submit({
-																	url : '/importtemplet',
-																	params : {
-																		type : 'subject'
-																	},
-																	success : function(form,action) {
-																		/*grid.getStore().reload();*/
-																		win1.close();
-																	},
-																	failure : function(form,action) {
-																		alert("数据出错");
-																		win1.close();
-																	}
-																});
-															} else {
-																Ext.MessageBox.alert('错误：', '表单填写有错误！');
-															}
-														})
-													}]
-												});
-												win1.show();
-											}
-										}]
-									}]
-						});
-    		var win = new Ext.Window({
-			closable: false,
-            closeAction: 'hide',
-			modal:true,
-			title:"题库管理",
-			items:fm
-		});
-    	win.setSize(vs.width, vs.height);
-		win.show();
-    	});
-    	
+                                    var win1 = new Ext.Window({
+                                        title: "题库数据导入",
+                                        border: false,
+                                        width: 400,
+                                        height: 100,
+                                        minWidth: 400,
+                                        minHeight: 100,
+                                        layout: 'fit',
+                                        plain: true,
+                                        iconCls: 'option',
+                                        buttonAlign: 'center',
+                                        modal: true,
+                                        items: form,
+                                        buttons: [{
+                                            text: '确定',
+                                            id: 'bt_update',
+                                            handler: (function () {
+                                                if (form.getForm().isValid()) {
+                                                    form.getForm().submit({
+                                                        url: '/importtemplet',
+                                                        params: {
+                                                            type: 'subject'
+                                                        },
+                                                        success: function (form, action) {
+                                                            /*grid.getStore().reload();*/
+                                                            win1.close();
+                                                        },
+                                                        failure: function (form, action) {
+                                                            alert("数据出错");
+                                                            win1.close();
+                                                        }
+                                                    });
+                                                } else {
+                                                    Ext.MessageBox.alert('错误：', '表单填写有错误！');
+                                                }
+                                            })
+                                        }]
+                                    });
+                                    win1.show();
+                                }
+                            }]
+                        }]
+                    });
+            var win = new Ext.Window({
+                closable: false,
+                closeAction: 'hide',
+                modal: true,
+                title: "题库管理",
+                items: fm
+            });
+            win.setSize(vs.width, vs.height);
+            win.show();
+        });
+
     </script>
 </head>
 <body>
 <form action="/exporttemplet" method="get" id="form1" namespace="/exporttemplet" style='display: none'>
-	<input type=hidden name='type' id='type' value='subject'>
+    <input type=hidden name='type' id='type' value='subject'>
 </form>
 </body>
 </html>

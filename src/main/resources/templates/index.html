@@ -1,11 +1,11 @@
-<html lang="zh-CN"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>用户中心</title>
     <META http-equiv=Content-Type content="text/html; charset=utf-8"/>
-    <meta http-equiv="expires" content="0" />
-    <link rel="stylesheet" type="text/css" href="css/ext-theme-crisp-all.css" />
+    <meta http-equiv="expires" content="0"/>
+    <link rel="stylesheet" type="text/css" href="css/ext-theme-crisp-all.css"/>
     <script type="text/javascript" src="js/ext-all.js"></script>
     <script type="text/javascript" src="js/ext-theme-crisp.js"></script>
     <script type="text/javascript" src="js/ext-lang-zh_CN.js"></script>
@@ -23,122 +23,122 @@
 <p th:text="${user.subjectNum}" id="display-subjectNum" style="display:none;"></p>
 <p th:text="${user.endTime}" id="display-endTime" style="display:none;"></p>
 <script language="javascript">
-/*车型*/
-var typeList3 = [{contactId:"C1",contactName:"C1"},
-     {contactId:"C2",contactName:"C2"},
-     {contactId:"C3",contactName:"C3"},
-     {contactId:"C4",contactName:"C4"}
-];
-var typeStore3 = new Ext.data.JsonStore({
-    data : typeList3,
-    fields : [ "contactId", "contactName" ]
-});
-var comboBoxType3 =new Ext.form.ComboBox({
-    fieldLabel : '车辆类型',
-    id : 'carType',
-    name : 'carType',
-    hiddenName : 'carType', 
-    store : typeStore3,
-    valueField : 'contactId',
-    displayField : 'contactName',
-    mode : 'local',
-    triggerAction : 'all',
-    emptyText : '请选择车辆类型',
-    allowBlank : false,
-    selectOnFocus : true,
-    forceSelection : false,
-    width : 150,
-    typeAhead : true
-});
-//科目几
-var typeList4 = [{contactId:"1",contactName:"科目一"},
-     {contactId:"2",contactName:"科目二"},
-     {contactId:"3",contactName:"科目三"},
-     {contactId:"4",contactName:"科目四"}
-];
-var typeStore4 = new Ext.data.JsonStore({
-    data : typeList4,
-    fields : [ "contactId", "contactName" ]
-});
-var comboBoxType4 =new Ext.form.ComboBox({
-    fieldLabel : '科目类型',
-    id : 'state',
-    name : 'state',
-    hiddenName : 'state', 
-    store : typeStore4,
-    valueField : 'contactId',
-    displayField : 'contactName',
-    mode : 'local',
-    triggerAction : 'all',
-    emptyText : '请选择科目类型',
-    allowBlank : false,
-    selectOnFocus : true,
-    forceSelection : false,
-    width : 150,
-    typeAhead : true
-});
-//试卷选择
-var typeStore5 = new Ext.data.Store({
-    proxy : new Ext.data.HttpProxy({
-        url : '',
-    }),
-    reader : new Ext.data.JsonReader({
-        root : 'rows',
-        totalProperty : 'results',
-        id : 'ID'
-    }, [ {
-        name : 'ID'
-    }, {
-        name : 'LIST_NAME'
-    } ])
-});
-/*typeStore5.load();*/
-var comboBoxType5 = new Ext.form.ComboBox({
-    fieldLabel : '试卷选择',
-    id : 'result',
-    name : 'result',
-    store : typeStore5,
-    value : '',
-    valueField : 'ID',
-    displayField : 'LIST_NAME',
-    mode : 'local',
-    triggerAction : 'all',
-    emptyText : '',
-    allowBlank : false,
-    selectOnFocus : true,
-    forceSelection : false,
-    width : 150,
-    typeAhead : true,
-    listeners : {}
-});
-//考试模式选择
-var typecomboBoxType6 = new Ext.form.RadioGroup({
-    fieldLabel: '考试模式',
-    id : 'testType',
-    name: 'testType',
-    columns: 1,
-    items: [
-        { boxLabel: "模拟考试", name: "testType", inputValue: "exam" },
-        { boxLabel: "随机考试", name: "testType", inputValue: "random" ,checked:true  }
-    ]
-})
-var form = new Ext.form.FormPanel({
-    baseCls:'x-plain',
-    frame:true,
-    fileUpload: true,
-    defaultType: 'textfield',
+    /*车型*/
+    var typeList3 = [{contactId: "C1", contactName: "C1"},
+        {contactId: "C2", contactName: "C2"},
+        {contactId: "C3", contactName: "C3"},
+        {contactId: "C4", contactName: "C4"}
+    ];
+    var typeStore3 = new Ext.data.JsonStore({
+        data: typeList3,
+        fields: ["contactId", "contactName"]
+    });
+    var comboBoxType3 = new Ext.form.ComboBox({
+        fieldLabel: '车辆类型',
+        id: 'carType',
+        name: 'carType',
+        hiddenName: 'carType',
+        store: typeStore3,
+        valueField: 'contactId',
+        displayField: 'contactName',
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '请选择车辆类型',
+        allowBlank: false,
+        selectOnFocus: true,
+        forceSelection: false,
+        width: 150,
+        typeAhead: true
+    });
+    //科目几
+    var typeList4 = [{contactId: "1", contactName: "科目一"},
+        {contactId: "2", contactName: "科目二"},
+        {contactId: "3", contactName: "科目三"},
+        {contactId: "4", contactName: "科目四"}
+    ];
+    var typeStore4 = new Ext.data.JsonStore({
+        data: typeList4,
+        fields: ["contactId", "contactName"]
+    });
+    var comboBoxType4 = new Ext.form.ComboBox({
+        fieldLabel: '科目类型',
+        id: 'state',
+        name: 'state',
+        hiddenName: 'state',
+        store: typeStore4,
+        valueField: 'contactId',
+        displayField: 'contactName',
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '请选择科目类型',
+        allowBlank: false,
+        selectOnFocus: true,
+        forceSelection: false,
+        width: 150,
+        typeAhead: true
+    });
+    //试卷选择
+    var typeStore5 = new Ext.data.Store({
+        proxy: new Ext.data.HttpProxy({
+            url: '',
+        }),
+        reader: new Ext.data.JsonReader({
+            root: 'rows',
+            totalProperty: 'results',
+            id: 'ID'
+        }, [{
+            name: 'ID'
+        }, {
+            name: 'LIST_NAME'
+        }])
+    });
+    /*typeStore5.load();*/
+    var comboBoxType5 = new Ext.form.ComboBox({
+        fieldLabel: '试卷选择',
+        id: 'result',
+        name: 'result',
+        store: typeStore5,
+        value: '',
+        valueField: 'ID',
+        displayField: 'LIST_NAME',
+        mode: 'local',
+        triggerAction: 'all',
+        emptyText: '',
+        allowBlank: false,
+        selectOnFocus: true,
+        forceSelection: false,
+        width: 150,
+        typeAhead: true,
+        listeners: {}
+    });
+    //考试模式选择
+    var typecomboBoxType6 = new Ext.form.RadioGroup({
+        fieldLabel: '考试模式',
+        id: 'testType',
+        name: 'testType',
+        columns: 1,
+        items: [
+            {boxLabel: "模拟考试", name: "testType", inputValue: "exam"},
+            {boxLabel: "随机考试", name: "testType", inputValue: "random", checked: true}
+        ]
+    })
+    var form = new Ext.form.FormPanel({
+        baseCls: 'x-plain',
+        frame: true,
+        fileUpload: true,
+        defaultType: 'textfield',
 
-    layout:'form',
-    items:[ comboBoxType3,
+        layout: 'form',
+        items: [comboBoxType3,
             comboBoxType4,
-            comboBoxType5, 
+            comboBoxType5,
             typecomboBoxType6
-    ]
-});
+        ]
+    });
     var name = document.getElementById("display-name").innerHTML;
     var subjectNum = document.getElementById("display-subjectNum").innerHTML;
     var endTime = document.getElementById("display-endTime").innerHTML;
-    Ext.onReady(function() {
+    Ext.onReady(function () {
         //使用表单提示
         Ext.QuickTips.init();
         Ext.form.Field.prototype.msgTarget = 'side';
@@ -146,124 +146,125 @@ var form = new Ext.form.FormPanel({
         var win = new Ext.Window({
             width: 600,
             title: "请选择考试类型",
-            bodyStyle:"padding:10px",
+            bodyStyle: "padding:10px",
             labelAlign: "center",
-            renderTo:Ext.getBody(),
-            id : 'win',
-            layout : 'fit', //自适应布局
-            align : 'center',
-            resizable : false,
-            draggable : false,
-            border : false,
-            maximizable : false,//禁止最大化
-            closeAction : 'close',
-            closable : false,//禁止关闭,
-            items : [{
+            renderTo: Ext.getBody(),
+            id: 'win',
+            layout: 'fit', //自适应布局
+            align: 'center',
+            resizable: false,
+            draggable: false,
+            border: false,
+            maximizable: false,//禁止最大化
+            closeAction: 'close',
+            closable: false,//禁止关闭,
+            items: [{
 
                 autoHeight: true,
                 layout: "column",
                 items: [{
-                    columnWidth:.49,
+                    columnWidth: .49,
                     xtype: "fieldset",
                     title: "个人信息",
                     layout: "form",
-                    height:230,
-                    width:100,
+                    height: 230,
+                    width: 100,
                     autoHeight: true,
                     style: "margin-left: 5px;padding-left:5px",
-                    fieldDefaults:{
-                        labelWidth:70,
-                        labelAlign:"left"
+                    fieldDefaults: {
+                        labelWidth: 70,
+                        labelAlign: "left"
                     },
                     items: [{
-                            xtype: 'box', //或者xtype: 'component',      
-                            width: 100, //图片宽度      
-                            height: 100, //图片高度   
-                            autoEl: {      
-                                tag: 'img',    //指定为img标签      
-                                src: 'myphoto.gif'    //指定url路径      
-                            }
+                        xtype: 'box', //或者xtype: 'component',
+                        width: 100, //图片宽度
+                        height: 100, //图片高度
+                        autoEl: {
+                            tag: 'img',    //指定为img标签
+                            src: 'myphoto.gif'    //指定url路径
+                        }
+                    },
+                        {
+                            xtype: 'label',
+                            forId: "uname",
+                            style: "display:online;",
+                            html: "<br>姓名：" + name
                         },
                         {
-                        	xtype:'label',
-                        	forId: "uname",
-                        	style: "display:online;",
-                        	html:"<br>姓名："+ name
-                        },
-                        {
-                        	xtype:'label',
-                        	forId: "num",
-                        	html:"<br>做题量："+ subjectNum
-                        },
-                        {
-                            xtype:'label',
+                            xtype: 'label',
                             forId: "num",
-                            html:"<br>有效期至："+ endTime
+                            html: "<br>做题量：" + subjectNum
+                        },
+                        {
+                            xtype: 'label',
+                            forId: "num",
+                            html: "<br>有效期至：" + endTime
                         }
                     ],
-                    
+
                 }, {
                     columnWidth: .49,
                     xtype: "fieldset",
-                    title:"答题选择",
+                    title: "答题选择",
                     layout: "form",
-                    height:230,
+                    height: 230,
                     style: "margin-left: 5px;padding-left:5px;",
                     fieldDefaults: {
                         labelWidth: 70,
                         labelAlign: "left"
                     },
                     items: [form,
-	                   	{
-	                   		text: "我的错题", 
-		                   	id: "myero", 
-		                   	allowBlank: false, 
-		                   	style: "marginL:0 10px;",
-		                   	xtype:"button",
-                            handler : myerr
-	                   	},
-                 		{
-                 			text: "确认", 
-                 			id: "enter",
-                 			style: "margin:0 10px;", 
-                 			allowBlank: false,
-                 			xtype:"button",
-                            handler : enter
-                 		},	{
+                        {
+                            text: "我的错题",
+                            id: "myero",
+                            allowBlank: false,
+                            style: "marginL:0 10px;",
+                            xtype: "button",
+                            handler: myerr
+                        },
+                        {
+                            text: "确认",
+                            id: "enter",
+                            style: "margin:0 10px;",
+                            allowBlank: false,
+                            xtype: "button",
+                            handler: enter
+                        }, {
                             text: "我的收藏",
                             id: "mycollect",
                             allowBlank: false,
                             style: "marginL:0 10px;",
-                            xtype:"button",
-                            handler : mycollect
+                            xtype: "button",
+                            handler: mycollect
                         }
                     ]
                 }]
             }
-           ]
+            ]
             //将表单作为窗体元素嵌套布局
         });
         win.show();//显示窗体
     });
-function enter() {
-    var cartype= Ext.getCmp('carType').getValue();
-    var carexam= Ext.getCmp('state').getValue();
-    if(cartype==null || cartype=='' || carexam==null || carexam==''){
-        alert("请填写做题科目与驾考车型");
-        return;
+    function enter() {
+        var cartype = Ext.getCmp('carType').getValue();
+        var carexam = Ext.getCmp('state').getValue();
+        if (cartype == null || cartype == '' || carexam == null || carexam == '') {
+            alert("请填写做题科目与驾考车型");
+            return;
+        }
+        var testtype = Ext.getCmp('testType').getChecked()[0].inputValue;
+        $("#carexam").val(carexam);
+        $("#cartype").val(cartype);
+        $("#examtype").val(testtype);
+        document.getElementById("form1").submit();
     }
-    var testtype=Ext.getCmp('testType').getChecked()[0].inputValue;
-    $("#carexam").val(carexam);
-    $("#cartype").val(cartype);
-    $("#examtype").val(testtype);
-    document.getElementById("form1").submit();
-};
-function myerr() {
-    document.getElementById("form2").submit();
-}
-function mycollect() {
-    document.getElementById("form3").submit();
-}
+    ;
+    function myerr() {
+        document.getElementById("form2").submit();
+    }
+    function mycollect() {
+        document.getElementById("form3").submit();
+    }
 </script>
 </body>
 </html>

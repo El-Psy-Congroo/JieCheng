@@ -12,8 +12,8 @@ public class MainsiteErrorController implements ErrorController {
 
     private static final String ERROR_PATH = "/error";
 
-    @RequestMapping(value=ERROR_PATH)
-    public String handleError(){
+    @RequestMapping(value = ERROR_PATH)
+    public String handleError() {
         return "login";
     }
 
