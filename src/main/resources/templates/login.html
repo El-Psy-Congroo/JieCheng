@@ -4,12 +4,15 @@
     <META http-equiv=Content-Type content="text/html; charset=utf-8"/>
     <meta http-equiv="expires" content="0"/>
     <link rel="stylesheet" type="text/css" href="css/ext-theme-crisp-all.css"/>
+    <link rel="stylesheet" type="text/css" href="css/global.css"/>
     <script type="text/javascript" src="js/ext-all.js"></script>
     <script type="text/javascript" src="js/ext-theme-crisp.js"></script>
     <script type="text/javascript" src="js/ext-lang-zh_CN.js"></script>
     <script type="text/javascript" src="js/jq.js"></script>
 </head>
 <body>
+<div class="mainNav"><p><span>杰程交规</span><span>您的驾考指南</span></p></div>
+<div class="center"></div>
 <form action="/index" method="post" id="form2" namespace="/index" style='display: none'>
     <input type=hidden name='loginName' id='loginName' value=''>
     <input type=hidden name='passWord' id='passWord' value=''>
@@ -25,16 +28,14 @@
         $("#loginName1").val(userName);
         $("#passWord1").val(userPass);
         document.getElementById("form3").submit();
-    }
-    ;
+    };
     function userSubmit() {
         var userName = uname.getValue();
         var userPass = pwd.getValue();
         $("#loginName").val(userName);
         $("#passWord").val(userPass);
         document.getElementById("form2").submit();
-    }
-    ;
+    };
     function changeOnline() {
         Ext.MessageBox.show({
             title: "解锁",
@@ -93,14 +94,14 @@
     var uname = new Ext.form.TextField({
         id: 'uname',
         fieldLabel: '用户名',
-        wight: 200,
+        width: 300,
         name: 'name',//元素名称
         allowBlank: false,//不允许为空
         blankText: '用户名不能为空'//错误提示内容
     });
     var pwd = new Ext.form.TextField({
         id: 'pwd',
-        wight: 200,
+        width: 300,
         inputType: 'password',
         fieldLabel: '密　码',
         name: 'password',
@@ -110,43 +111,44 @@
     var simple = new Ext.FormPanel({
         labelWidth: 75,
         defaults: {
-            width: 300
+            margin: 5,
+            width: 280
         },
         defaultType: 'textfield',//默认字段类型
-        bodyStyle: 'background: #ffffff;padding:30 0 0 20;',
+        bodyStyle: 'background: #ffffff;padding:30 0 0 20;margin-bottom:10;',
         border: false,
         buttonAlign: 'center',
-        border: false,
         id: "form",
         //定义表单元素
         items: [uname, pwd, {
             id: 'myFieldId',
             xtype: 'label',
             forId: 'myFieldId',
-            html: '<a href=" javascript:void(0)" onclick="changeOnline();return false;">无法登入？</a><br>'
+            html: "<a href=' javascript:void(0)' onclick='changeOnline();return false;'>无法登入？</a>"
         }, {
             id: 'fpassword',
             xtype: 'label',
             forId: 'fpassword',
-            html: '<a href=" javascript:void(0)" onclick="findPassWord();return false;">忘记密码？</a>'
-        }],
-        buttons: [{
-            text: '重置',
-            handler: function () {
-                simple.form.reset();
-            }
+            html: "<div class='link-center'><a href=' javascript:void(0)' onclick='findPassWord();return false;'>忘记密码？</a></div>"
         }, {
             text: '用户登录',
-            type: 'submit',
+            xtype: 'button',
             id: 'sb',
-            //定义表单提交事件
+            width: 280,
             handler: userSubmit
         }, {
             text: '管理登录',
-            type: 'submit',
+            xtype: 'button',
             id: 'sb1',
-            //定义表单提交事件
+            width: 280,
             handler: adminSubmit
+        }, {
+            text: '重置',
+            xtype: 'button',
+            width: 280,
+            handler: function () {
+                simple.form.reset();
+            }
         }]
     });
     //定义窗体
@@ -155,7 +157,7 @@
         layout: 'fit', //自适应布局
         align: 'center',
         width: 330,
-        height: 182,
+        height: 280,
         resizable: false,
         draggable: false,
         border: false,

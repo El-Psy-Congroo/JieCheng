@@ -6,12 +6,15 @@
     <META http-equiv=Content-Type content="text/html; charset=utf-8"/>
     <meta http-equiv="expires" content="0"/>
     <link rel="stylesheet" type="text/css" href="css/ext-theme-crisp-all.css"/>
+    <link rel="stylesheet" type="text/css" href="css/global.css"/>
     <script type="text/javascript" src="js/ext-all.js"></script>
     <script type="text/javascript" src="js/ext-theme-crisp.js"></script>
     <script type="text/javascript" src="js/ext-lang-zh_CN.js"></script>
     <script type="text/javascript" src="js/jq.js"></script>
 </head>
 <body>
+<div class="mainNav"><p><span>杰程交规</span><span>您的驾考指南</span></p></div>
+<div class="center"></div>
 <form action="/center" method="post" id="form1" namespace="/center" style='display: none'>
     <input type=hidden name='carexam' id='carexam' value=''>
     <input type=hidden name='cartype' id='cartype' value=''>
@@ -104,6 +107,7 @@
         mode: 'local',
         triggerAction: 'all',
         emptyText: '',
+        disabled: true,
         allowBlank: false,
         selectOnFocus: true,
         forceSelection: false,
@@ -118,7 +122,7 @@
         name: 'testType',
         columns: 1,
         items: [
-            {boxLabel: "模拟考试", name: "testType", inputValue: "exam"},
+            {boxLabel: "模拟考试", name: "testType", inputValue: "exam", disabled: true},
             {boxLabel: "随机考试", name: "testType", inputValue: "random", checked: true}
         ]
     })
@@ -181,7 +185,7 @@
                         height: 100, //图片高度
                         autoEl: {
                             tag: 'img',    //指定为img标签
-                            src: 'myphoto.gif'    //指定url路径
+                            src: 'img/gallery/imgbox4.jpg'    //指定url路径
                         }
                     },
                         {
