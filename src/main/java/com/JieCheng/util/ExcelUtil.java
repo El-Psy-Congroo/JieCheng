@@ -3,6 +3,7 @@ package com.JieCheng.util;
 import com.JieCheng.dao.model.Subject;
 import com.JieCheng.dao.model.User;
 import jxl.Cell;
+import jxl.DateCell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -75,6 +77,7 @@ public class ExcelUtil {
     模板数据转用户对象
      */
     public User[] templetToUser(MultipartFile file) throws IOException, BiffException {
+        SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd");
         Workbook workBook = Workbook.getWorkbook(file.getInputStream());
         Sheet sheets = workBook.getSheets()[0];
         User[] users = new User[sheets.getRows() - 1];
@@ -109,8 +112,14 @@ public class ExcelUtil {
             }
             users[i - 1].setCarType(cells[9].getContents());
             users[i - 1].setCarExam(cells[10].getContents());
-            users[i - 1].setBeginTime(cells[11].getContents().replace("/", "-"));
-            users[i - 1].setEndTime(cells[12].getContents().replace("/", "-"));
+            try {
+                DateCell dateCellBegin=(DateCell)cells[11];
+                DateCell dateCellEnd=(DateCell)cells[11];
+                users[i - 1].setBeginTime(dateFormater.format(dateCellBegin.getDate()));
+                users[i - 1].setEndTime(dateFormater.format(dateCellEnd.getDate()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return users;
     }

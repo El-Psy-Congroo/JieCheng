@@ -188,12 +188,11 @@
                                                         params: {
                                                             type: 'user'
                                                         },
-                                                        waitMsg: '保存数据...',
-                                                        success: function (form, action) {
+                                                        success: function (response) {
                                                             /*grid.getStore().reload();*/
                                                             win1.close();
                                                         },
-                                                        failure: function (form, action) {
+                                                        failure: function (response) {
                                                             win1.close();
                                                         }
                                                     });

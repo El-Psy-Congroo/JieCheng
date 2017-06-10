@@ -1,10 +1,9 @@
 package com.JieCheng.controller;
 
 import jxl.read.biff.BiffException;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +19,8 @@ public class AdminController extends BaseController {
     /*
     导出模板
      */
-    @RequestMapping("/exporttemplet")
-    public String exportTemplet(HttpServletRequest httpServletRequest, Model model, HttpServletResponse httpServletResponse) throws Exception {
-        String type = httpServletRequest.getParameter("type");
+    @GetMapping("/exporttemplet")
+    public String exportTemplet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, @RequestParam("type")String type) throws Exception {
         if (type.equals("subject")) {
             return subjectService.exportSubjectTemplet(httpServletRequest, httpServletResponse);
         } else if (type.equals("user")) {
@@ -34,10 +32,9 @@ public class AdminController extends BaseController {
     /*
     导入模板
      */
-    @RequestMapping("/importtemplet")
+    @PostMapping("/importtemplet")
     public String importTemplet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-                                @RequestParam("file") MultipartFile file) throws IOException, BiffException {
-        String type = httpServletRequest.getParameter("type");
+                                @RequestParam("file") MultipartFile file, @RequestParam("type")String type) throws IOException, BiffException {
         if (type.equals("subject")) {
             return subjectService.importTemplet(file, httpServletRequest, httpServletResponse);
         } else {

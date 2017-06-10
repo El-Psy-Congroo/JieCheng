@@ -95,7 +95,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
         if (user.getRoleId() != 4) {
             return "权限不足";
         }
-        String[] label = {"姓名", "年龄", "性别", "手机号", "身份证号码", "邮箱", "登陆名", "密码", "角色(学员/区域代理/加盟伙伴/管理员)", "驾考类型", "驾考科目", "有效期开始(yyyy/MM/dd)", "有效期结束(yyyy/MM/dd)"};
+        String[] label = {"姓名", "年龄", "性别", "手机号", "身份证号码", "邮箱", "登陆名", "密码", "角色(学员/区域代理/加盟伙伴/管理员)", "驾考类型", "驾考科目", "有效期开始(yyyy-MM-dd)", "有效期结束(yyyy-MM-dd)"};
         excelUtil.excelTempletExport("人员模板", label, response);
         return "导出成功";
     }
@@ -146,7 +146,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return "Success";
     }
 
     @Override
