@@ -181,7 +181,6 @@
                     },
                     items: [{
                         xtype: 'box', //或者xtype: 'component',
-                        width: 100, //图片宽度
                         height: 100, //图片高度
                         autoEl: {
                             tag: 'img',    //指定为img标签
@@ -191,7 +190,7 @@
                         {
                             xtype: 'label',
                             forId: "uname",
-                            style: "display:online;",
+/*                            style: "display:online;",*/
                             html: "<br>姓名：" + name
                         },
                         {
@@ -202,7 +201,22 @@
                         {
                             xtype: 'label',
                             forId: "num",
-                            html: "<br>有效期至：" + endTime
+                            html: "<br>有效期至：" + endTime +'<br>'
+                        },
+                        {
+                            xtype:'button',
+                            text:'我的收藏',
+                            id: "mycollect",
+                            allowBlank: false,
+                            style: "margin:10px 10px 0 0;",
+                            handler: mycollect
+                        },{
+                            xtype:'button',
+                            text: "我的错题",
+                            id: "myero",
+                            allowBlank: false,
+                            style: "margin:10px 10px 0 0;",
+                            handler: myerr
                         }
                     ],
 
@@ -219,27 +233,13 @@
                     },
                     items: [form,
                         {
-                            text: "我的错题",
-                            id: "myero",
-                            allowBlank: false,
-                            style: "marginL:0 10px;",
-                            xtype: "button",
-                            handler: myerr
-                        },
-                        {
                             text: "确认",
                             id: "enter",
-                            style: "margin:0 10px;",
+                            width: 100,
+                            style: "float:right;margin-top:10px",
                             allowBlank: false,
                             xtype: "button",
                             handler: enter
-                        }, {
-                            text: "我的收藏",
-                            id: "mycollect",
-                            allowBlank: false,
-                            style: "marginL:0 10px;",
-                            xtype: "button",
-                            handler: mycollect
                         }
                     ]
                 }]

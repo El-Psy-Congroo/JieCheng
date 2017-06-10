@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>登陆</title>
+    <title>杰程交规,您的驾考指南</title>
     <META http-equiv=Content-Type content="text/html; charset=utf-8"/>
     <meta http-equiv="expires" content="0"/>
     <link rel="stylesheet" type="text/css" href="css/ext-theme-crisp-all.css"/>
@@ -95,6 +95,7 @@
         id: 'uname',
         fieldLabel: '用户名',
         width: 300,
+        style:'background:#fff;',
         name: 'name',//元素名称
         allowBlank: false,//不允许为空
         blankText: '用户名不能为空'//错误提示内容
@@ -102,6 +103,7 @@
     var pwd = new Ext.form.TextField({
         id: 'pwd',
         width: 300,
+        style:'background:#fff;',
         inputType: 'password',
         fieldLabel: '密　码',
         name: 'password',
@@ -124,7 +126,7 @@
             id: 'myFieldId',
             xtype: 'label',
             forId: 'myFieldId',
-            html: "<a href=' javascript:void(0)' onclick='changeOnline();return false;'>无法登入？</a>"
+            html: "<div class='link-center'><a href=' javascript:void(0)' onclick='changeOnline();return false;'>无法登入？</a></div>"
         }, {
             id: 'fpassword',
             xtype: 'label',

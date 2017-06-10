@@ -1,7 +1,9 @@
 .mainNav{
+    position: absolute;
     width: 100%;
     height: 60px;
     line-height: 50px;
+    background: #fff;
 }
 .mainNav p{
     margin: 0;
@@ -19,10 +21,14 @@
 }
 .center{
     width: 100%;
-    height:480px;
+    height:100%;
     background-color: #53b3d1;
 }
 .center img{
     width: 100%;
     height:560px;
+}
+.link-center{
+    padding: 10px 10px 20px 5px;
+    float: left;
 }
