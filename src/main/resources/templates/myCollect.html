@@ -21,7 +21,7 @@
                 pageSize: itemsPerPage, // items per page
                 proxy: {
                     type: 'ajax',
-                    url: '/getAllMyError?search=' + search,
+                    url: '/getAllMyCollect?search=' + search,
                     reader: {
                         type: 'json',
                         rootProperty: 'infos',
@@ -89,7 +89,7 @@
                                 xtype: 'button',
                                 handler: function () {
                                     search = Ext.getCmp('subject_name').getValue();
-                                    gridStore.getProxy().url = '/getAllMyError?search=' + search;
+                                    gridStore.getProxy().url = '/getAllMyCollect?search=' + search;
                                     gridStore.load();
                                     grid.store.reload();
                                 }
@@ -110,7 +110,7 @@
                                         ids += element.data.subjectid + ',';
                                     });
                                     Ext.Ajax.request({
-                                        url: '/deleteMyError',
+                                        url: '/deleteMyCollect',
                                         params: {
                                             ids: ids
                                         },
@@ -133,7 +133,7 @@
                 closable: false,
                 closeAction: 'hide',
                 modal: true,
-                title: "错题管理",
+                title: "收藏管理",
                 items: fm
             });
             win.setSize(vs.width, vs.height);

@@ -41,12 +41,23 @@ public interface SubjectService {
     /*
     删除收藏题目
      */
-
+    String deleteMyCollect(HttpServletRequest httpServletRequest,String ids);
+    /*
+    获取我的收藏
+     */
+    Map<String, Object> getAllMyCollect(HttpServletRequest httpServletRequest,String search, Integer page, Integer limit);
+    /*
+    删除我的错题
+     */
+    String deleteMyError(HttpServletRequest httpServletRequest,String ids);
     /*
    添加错题
     */
     String addErrorSubject(HttpServletRequest httpServletRequest);
-
+    /*
+    获取我的错题
+     */
+    Map<String, Object> getAllMyError(HttpServletRequest httpServletRequest,String search, Integer page, Integer limit);
     /*
     获取随机错题
      */

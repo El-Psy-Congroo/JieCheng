@@ -119,6 +119,47 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
     }
 
     @Override
+    public String deleteMyCollect(HttpServletRequest httpServletRequest, String ids) {
+        String[] id = ids.split(",");
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+        int userId=user.getUserId();
+        if (subjectMapper.deleteMyCollect(userId,id)) {
+            return "删除成功";
+        } else {
+            return "删除失败";
+        }
+    }
+
+    @Override
+    public Map<String, Object> getAllMyCollect(HttpServletRequest httpServletRequest, String search, Integer page, Integer limit) {
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+        int userId=user.getUserId();
+        if (search.equals("all")) {
+            search = "";
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        PageHelper.startPage(page, limit);
+        List<Subject> list = subjectMapper.getAllMyCollect(userId,search);
+        Page<Subject> useInfos = (Page<Subject>) list;
+        long total = useInfos.getTotal();
+        map.put("total", total);
+        map.put("infos", useInfos);
+        return map;
+    }
+
+    @Override
+    public String deleteMyError(HttpServletRequest httpServletRequest,String ids) {
+        String[] id = ids.split(",");
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+        int userId=user.getUserId();
+        if (subjectMapper.deleteMyError(userId,id)) {
+            return "删除成功";
+        } else {
+            return "删除失败";
+        }
+    }
+
+    @Override
     public String addErrorSubject(HttpServletRequest httpServletRequest) {
         User user = (User) httpServletRequest.getSession().getAttribute("user");
         String subjectId = httpServletRequest.getParameter("subjectId");
@@ -128,6 +169,25 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
         } else {
             return "新增失败";
         }
+    }
+
+    @Override
+    public Map<String, Object> getAllMyError(HttpServletRequest httpServletRequest,
+                                             String search, Integer page, Integer limit) {
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+        int userId=user.getUserId();
+        if (search.equals("all")) {
+            search = "";
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        PageHelper.startPage(page, limit);
+        List<Subject> list = subjectMapper.getAllMyError(userId,search);
+        Page<Subject> useInfos = (Page<Subject>) list;
+        long total = useInfos.getTotal();
+        map.put("total", total);
+        map.put("infos", useInfos);
+        return map;
+
     }
 
     @Override
@@ -152,9 +212,7 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
                 carExam = "0";
                 break;
         }
-        do {
-            subject = subjectMapper.selectRandomSubject(carExam, carType);
-        } while (subject == null);
+        subject = subjectMapper.selectRandomSubject(carExam, carType);
         return jsonLittleData.ObjectToJson(subject);
     }
 

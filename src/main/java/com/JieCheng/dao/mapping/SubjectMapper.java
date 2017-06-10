@@ -25,5 +25,13 @@ public interface SubjectMapper {
 
     List<Subject> getAllSubjectInfo(@Param("search") String search);
 
+    List<Subject> getAllMyError(@Param("userId") int userId,@Param("search") String search);
+
+    List<Subject> getAllMyCollect(@Param("userId") int userId,@Param("search") String search);
+
     boolean deleteSubjects(@Param("Id") String []Id);
+
+    boolean deleteMyError(@Param("userId") int userId,@Param("Id") String []Id);
+
+    boolean deleteMyCollect(@Param("userId") int userId,@Param("Id") String []Id);
 }

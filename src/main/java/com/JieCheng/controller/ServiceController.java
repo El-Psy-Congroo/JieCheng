@@ -90,11 +90,25 @@ public class ServiceController extends BaseController {
     /*
     删除收藏
      */
-
+    @RequestMapping("/deleteMyCollect")
+    public String deleteMyCollect(HttpServletRequest httpServletRequest,@RequestParam("ids") String ids){
+        return subjectService.deleteMyCollect(httpServletRequest,ids);
+    }
+    /*
+    获取我的收藏
+     */
+    @RequestMapping("/getAllMyCollect")
+    public Map<String, Object> getAllMyCollect(HttpServletRequest httpServletRequest,@RequestParam("search") String search,
+                                             @RequestParam("page") Integer page, @RequestParam("limit") Integer limit) {
+        return subjectService.getAllMyCollect(httpServletRequest, search, page, limit);
+    }
     /*
     删除错题
      */
-
+    @RequestMapping("/deleteMyError")
+    public String deleteMyError(HttpServletRequest httpServletRequest,@RequestParam("ids") String ids){
+        return subjectService.deleteMyError(httpServletRequest,ids);
+    }
     /*
     添加错题
      */
@@ -102,7 +116,14 @@ public class ServiceController extends BaseController {
     public String addErrorSubject(HttpServletRequest httpServletRequest) {
         return subjectService.addErrorSubject(httpServletRequest);
     }
-
+    /*
+    获取我的错题
+     */
+    @RequestMapping("/getAllMyError")
+    public Map<String, Object> getAllMyError(HttpServletRequest httpServletRequest,@RequestParam("search") String search,
+                                @RequestParam("page") Integer page, @RequestParam("limit") Integer limit){
+        return subjectService.getAllMyError(httpServletRequest,search, page, limit);
+    }
     /*
     随机做题
      */

@@ -35,10 +35,60 @@
             </if>
         </where>
     </select>
+    <select id="getAllMyError" resultType="com.JieCheng.dao.model.Subject">
+        SELECT
+        a.subjectid,a.content,a.info,a.subjecttype,a.subjectselect,a.answer,a.grade,
+        (CASE a.carexam WHEN '1' THEN '科目一'WHEN '2' THEN '科目二' WHEN '3' THEN '科目三'WHEN '4' THEN '科目四' END)carexam ,
+        cartype
+        FROM
+        subject a,user_error b
+        WHERE
+        b.userid=#{userId} AND b.subjectid=a.subjectid
+        <if test="search!=null and search!=''">
+            AND a.content like CONCAT('%',#{search},'%')
+        </if>
+    </select>
+    <select id="getAllMyCollect"  resultType="com.JieCheng.dao.model.Subject">
+        SELECT
+        a.subjectid,a.content,a.info,a.subjecttype,a.subjectselect,a.answer,a.grade,
+        (CASE a.carexam WHEN '1' THEN '科目一'WHEN '2' THEN '科目二' WHEN '3' THEN '科目三'WHEN '4' THEN '科目四' END)carexam ,
+        cartype
+        FROM
+        subject a,user_collect b
+        WHERE
+        b.userid=#{userId} AND b.subjectid=a.subjectid
+        <if test="search!=null and search!=''">
+            AND a.content like CONCAT('%',#{search},'%')
+        </if>
+    </select>
     <delete id="deleteSubjects">
         DELETE FROM
         subject
         WHERE
+        subjectid
+        IN
+        <foreach collection="Id" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteMyError">
+        DELETE FROM
+        user_error
+        WHERE
+        userid=#{userId}
+        AND
+        subjectid
+        IN
+        <foreach collection="Id" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteMyCollect">
+        DELETE FROM
+        user_collect
+        WHERE
+        userid=#{userId}
+        AND
         subjectid
         IN
         <foreach collection="Id" index="index" item="item" open="(" separator="," close=")">

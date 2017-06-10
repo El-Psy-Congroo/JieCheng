@@ -41,6 +41,15 @@ public class PageController extends BaseController {
         return "topicAdmin";
     }
 
+    @RequestMapping("/myError")
+    public String myError() {
+        return "myError";
+    }
+
+    @RequestMapping("/myCollect")
+    public String myCollect() {
+        return "myCollect";
+    }
 
     @RequestMapping("/admin")
     public String admin(HttpServletRequest httpServletRequest, Model model,
