@@ -119,26 +119,37 @@ th {
     float: right;
     margin: 30px 20px;
 }
+.btn-group{
 
+}
 .btn {
-    display: inline-block;
-    zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
-    *display: inline;
-    vertical-align: baseline;
-    margin: 0 2px;
-    outline: none;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    font: 14px/100% Arial, Helvetica, sans-serif;
-    padding: .5em 2em .55em;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
-    -webkit-border-radius: .5em;
-    -moz-border-radius: .5em;
-    border-radius: .5em;
-    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
-    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+    margin:0;
+    width: 100px;
+    height:40px;
+    padding:5px;
+    list-style-type:none;
+    border: none;
+    font-size: large;
+}
+.btn-option{
+    background-color: #5199d1;
+    color:#fff;
+}
+.btn-option:hover{
+    background-color: #3da9d1;
+}
+.btn-option:active{
+    background-color: #457ba7;
+}
+.btn-next{
+    color: #fff;
+    background-color: #406da6;
+}
+.btn-next:hover{
+    background-color: #7bc5ee;
+}
+.btn-next{
+    background-color: #447ab7;
 }
 .mainNav{
     position: absolute;
@@ -214,7 +225,7 @@ th {
     display: block;
     line-height: 20px;
     font-size: 10px;
-    padding: 5px;
+    padding: 5px 0;
     text-align: center;
     border-bottom: 1px solid #f86a6a;
     border-radius: 4px;
