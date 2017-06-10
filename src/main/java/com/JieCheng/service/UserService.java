@@ -50,5 +50,10 @@ public interface UserService {
     /*
     获取所有用户
      */
-    Map<String, Object> getAllUserInfo(Integer page, Integer limit);
+    Map<String, Object> getAllUserInfo(String search, Integer page, Integer limit);
+
+    /*
+    删除选中用户
+     */
+    String deleteUsers(String ids);
 }

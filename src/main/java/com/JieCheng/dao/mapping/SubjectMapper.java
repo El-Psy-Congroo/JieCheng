@@ -19,13 +19,11 @@ public interface SubjectMapper {
 
     boolean addCollectSubject(@Param("userId") int userId, @Param("subjectId") int subjectId);
 
-    boolean deleteCollectSubject(@Param("userId") int userId, @Param("subjectId") int subjectId);
-
-    boolean deleteErrorSubject(@Param("userId") int userId, @Param("subjectId") int subjectId);
-
     boolean addErrorSubject(@Param("userId") int userId, @Param("subjectId") int subjectId);
 
     Subject selectRandomSubject(@Param("carexam") String carexam, @Param("cartype") String cartype);
 
-    List<Subject> getAllSubjectInfo();
+    List<Subject> getAllSubjectInfo(@Param("search") String search);
+
+    boolean deleteSubjects(@Param("Id") String []Id);
 }

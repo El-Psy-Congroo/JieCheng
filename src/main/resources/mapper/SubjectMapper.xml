@@ -13,14 +13,6 @@
     insert into user_collect values(#{userId},#{subjectId})
   </insert>
 
-    <delete id="deleteCollectSubject" parameterType="int">
-    delete from user_collect where userid=#{userId} and subjectid=#{subjectId}
-  </delete>
-
-    <delete id="deleteErrorSubject" parameterType="int">
-    delete from user_error where userid=#{userId} and subjectid=#{subjectId}
-  </delete>
-
     <insert id="addErrorSubject" parameterType="int">
     insert into user_error values(#{userId},#{subjectId})
   </insert>
@@ -31,11 +23,26 @@
     WHERE t1.subjectid >= t2.id AND carexam=#{carexam} AND cartype=#{cartype} LIMIT 1
   </select>
     <select id="getAllSubjectInfo" resultType="com.JieCheng.dao.model.Subject">
-    SELECT
-    subjectid,content,info,subjecttype,subjectselect,answer,grade,
-    (CASE carexam WHEN '1' THEN '科目一'WHEN '2' THEN '科目二' WHEN '3' THEN '科目三'WHEN '4' THEN '科目四' END)carexam ,
-    cartype
-    FROM
-    subject
-  </select>
+        SELECT
+        subjectid,content,info,subjecttype,subjectselect,answer,grade,
+        (CASE carexam WHEN '1' THEN '科目一'WHEN '2' THEN '科目二' WHEN '3' THEN '科目三'WHEN '4' THEN '科目四' END)carexam ,
+        cartype
+        FROM
+        subject
+        <where>
+            <if test="search!=null and search!=''">
+                content like CONCAT('%',#{search},'%')
+            </if>
+        </where>
+    </select>
+    <delete id="deleteSubjects">
+        DELETE FROM
+        subject
+        WHERE
+        subjectid
+        IN
+        <foreach collection="Id" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
 </mapper>

@@ -163,18 +163,32 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, Object> getAllUserInfo(Integer page, Integer limit) {
+    public Map<String, Object> getAllUserInfo(String search, Integer page, Integer limit) {
         if (page == null || limit == null) {
             page = 1;
             limit = 20;
         }
+        if (search.equals("all")) {
+            search = "";
+        }
         Map<String, Object> map = new HashMap<String, Object>();
         PageHelper.startPage(page, limit);
-        List<User> list = userMapper.getAllUserInfo();
+        List<User> list = userMapper.getAllUserInfo(search);
         Page<User> useInfos = (Page<User>) list;
         long total = useInfos.getTotal();
         map.put("total", total);
         map.put("infos", useInfos);
         return map;
+    }
+
+    @Override
+    public String deleteUsers(String ids) {
+        String[] id = ids.split(",");
+        if (userMapper.deleteUsers(id)) {
+            return "删除成功";
+        } else {
+            return "删除失败";
+        }
+
     }
 }

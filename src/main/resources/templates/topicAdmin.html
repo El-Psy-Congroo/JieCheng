@@ -12,35 +12,27 @@
     <script type="text/javascript">
         Ext.onReady(function () {
             var vs = Ext.getBody().getViewSize();
-
+            var itemsPerPage = 15;
+            var search = 'all';
             var gridStore = Ext.create('Ext.data.Store', {
-                storeId: 'gridStore',
+                id: 'gridStore',
+                autoLoad: false,
                 fields: ['content', 'info', 'subjecttype', 'subjectselect', 'answer', 'grade', 'carexam', 'cartype'],
+                pageSize: itemsPerPage, // items per page
                 proxy: {
                     type: 'ajax',
-                    url: '/getAllSubjectInfo',
+                    url: '/getAllSubjectInfo?search=' + search,
                     reader: {
-                        // 設置 json樣式
                         type: 'json',
-                        rootProperty: "infos", //json 数据根节点
-                        totalProperty: "total"//总数
+                        rootProperty: 'infos',
+                        totalProperty: 'total'
                     }
-                },
-                autoLoad: true,
-            });
-            gridStore.load({
-                params: {
-                    page: 1,
-                    limit: 10
                 }
             });
-
+            gridStore.load();
             var grid = new Ext.grid.Panel({
-                title: '当前用户',
-                width: vs.width,
-                height: vs.height,
-                loadMask: true,//数据加载中，显示等待信息
-                forceFit: true,//列自动填充grid
+                title: '当前题目',
+                store: 'gridStore',
                 columns: [//表格中的列
                     {text: '内容', dataIndex: 'content'},
                     {text: '提示', dataIndex: 'info'},
@@ -51,9 +43,23 @@
                     {text: '驾考科目', dataIndex: 'carexam'},
                     {text: '驾考类型', dataIndex: 'cartype'}
                 ],
-                store: gridStore
+                selModel: Ext.create("Ext.selection.CheckboxModel", {
+                    mode: "multi",//multi,simple,single；默认为多选multi
+                    checkOnly: true,//如果值为true，则只用点击checkbox列才能选中此条记录
+                    allowDeselect: true,//如果值true，并且mode值为单选（single）时，可以通过点击checkbox取消对其的选择
+                    enableKeyNav: true
+                }),
+                width: vs.width,
+                height: vs.height - 150,
+                dockedItems: [{
+                    xtype: 'pagingtoolbar',
+                    store: 'gridStore', // same store GridPanel is using
+                    dock: 'bottom',
+                    style: 'padding-right:20px;',
+                    displayInfo: true
+                }],
+                renderTo: Ext.getBody()
             });
-
             var fm = new Ext.FormPanel(
                     {
                         frame: true,
@@ -71,7 +77,7 @@
                                     width: 500,
                                     id: 'subject_name',
                                     name: 'subject_name',
-                                    emptyText: '题库姓名'
+                                    emptyText: '题目内容'
                                 }]
                             }]
                         }, {
@@ -82,6 +88,41 @@
                                 id: 'select',
                                 xtype: 'button',
                                 handler: function () {
+                                    search = Ext.getCmp('subject_name').getValue();
+                                    gridStore.getProxy().url = '/getAllSubjectInfo?search=' + search;
+                                    gridStore.load();
+                                    grid.store.reload();
+                                }
+                            }]
+                        }, {
+                            layout: 'form',
+                            items: [{
+                                text: '删除  ',
+                                name: 'delete',
+                                id: 'delete',
+                                xtype: 'button',
+                                handler: function () {
+                                    var ids = '';
+                                    var grid = win.down("grid");
+                                    var records = grid.getSelectionModel().getSelection();
+                                    console.log(records);
+                                    records.forEach(function (element) {
+                                        ids += element.data.subjectid + ',';
+                                    });
+                                    Ext.Ajax.request({
+                                        url: '/deleteSubjects',
+                                        params: {
+                                            ids: ids
+                                        },
+                                        method: 'POST',
+                                        success: function (response) {
+                                            grid.store.reload();
+                                            Ext.MessageBox.alert('结果', response.responseText);
+                                        },
+                                        failure: function (response) {
+                                            Ext.MessageBox.alert('失败', '请求超时或网络故障,错误编号：' + response.status);
+                                        }
+                                    });
                                 }
                             }]
                         }, {

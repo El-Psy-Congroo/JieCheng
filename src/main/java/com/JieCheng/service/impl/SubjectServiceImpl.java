@@ -37,6 +37,16 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
     }
 
     @Override
+    public String deleteSubjects(String ids) {
+        String[] id = ids.split(",");
+        if (subjectMapper.deleteSubjects(id)) {
+            return "删除成功";
+        } else {
+            return "删除失败";
+        }
+    }
+
+    @Override
     public String importTemplet(MultipartFile file, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, BiffException {
         StringBuilder result = new StringBuilder("");
         User user = (User) httpServletRequest.getSession().getAttribute("user");
@@ -77,14 +87,17 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
     }
 
     @Override
-    public Map<String, Object> getAllSubjectInfo(Integer page, Integer limit) {
+    public Map<String, Object> getAllSubjectInfo(String search, Integer page, Integer limit) {
         if (page == null || limit == null) {
             page = 1;
             limit = 20;
         }
+        if (search.equals("all")) {
+            search = "";
+        }
         Map<String, Object> map = new HashMap<String, Object>();
         PageHelper.startPage(page, limit);
-        List<Subject> list = subjectMapper.getAllSubjectInfo();
+        List<Subject> list = subjectMapper.getAllSubjectInfo(search);
         Page<Subject> useInfos = (Page<Subject>) list;
         long total = useInfos.getTotal();
         map.put("total", total);
@@ -102,32 +115,6 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
             return "新增成功";
         } else {
             return "添加失败";
-        }
-    }
-
-    @Override
-    public String deleteCollectSubject(HttpServletRequest httpServletRequest) {
-        User user = (User) httpServletRequest.getSession().getAttribute("user");
-        String subjectId = httpServletRequest.getParameter("subjectId");
-        int userId = user.getUserId();
-        boolean result = subjectMapper.deleteCollectSubject(userId, Integer.parseInt(subjectId));
-        if (result) {
-            return "删除成功";
-        } else {
-            return "删除失败";
-        }
-    }
-
-    @Override
-    public String deleteErrorSubject(HttpServletRequest httpServletRequest) {
-        User user = (User) httpServletRequest.getSession().getAttribute("user");
-        String subjectId = httpServletRequest.getParameter("subjectId");
-        int userId = user.getUserId();
-        boolean result = subjectMapper.deleteErrorSubject(userId, Integer.parseInt(subjectId));
-        if (result) {
-            return "删除成功";
-        } else {
-            return "删除失败";
         }
     }
 

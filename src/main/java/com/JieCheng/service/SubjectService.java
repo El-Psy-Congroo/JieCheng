@@ -21,6 +21,7 @@ public interface SubjectService {
     /*
     题目删除
      */
+    String deleteSubjects(String ids);
 
     /*
     导入数据
@@ -30,7 +31,7 @@ public interface SubjectService {
     /*
     获取当前题目信息列表
      */
-    Map<String, Object> getAllSubjectInfo(Integer page, Integer limit);
+    Map<String, Object> getAllSubjectInfo(String search, Integer page, Integer limit);
 
     /*
     新增收藏题目
@@ -40,12 +41,6 @@ public interface SubjectService {
     /*
     删除收藏题目
      */
-    String deleteCollectSubject(HttpServletRequest httpServletRequest);
-
-    /*
-    删除错题
-     */
-    String deleteErrorSubject(HttpServletRequest httpServletRequest);
 
     /*
    添加错题

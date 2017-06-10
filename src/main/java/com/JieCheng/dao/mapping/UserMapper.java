@@ -27,5 +27,7 @@ public interface UserMapper {
 
     boolean changeOnlineByuserId(@Param("userId") Integer userID, @Param("online") String online);
 
-    List<User> getAllUserInfo();
+    List<User> getAllUserInfo(@Param("search") String search);
+
+    boolean deleteUsers(@Param("Id") String[] Id);
 }

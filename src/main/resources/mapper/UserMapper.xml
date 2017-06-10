@@ -24,9 +24,24 @@
     UPDATE user_info SET online=#{online} WHERE userid=#{userId}
   </update>
     <select id="getAllUserInfo" resultType="com.JieCheng.dao.model.User">
-    SELECT
-    userid,name,age,sex,phone,idcard,mail,cartype,carexam,subjectnum,begintime,endtime
-    FROM
-    user_info
-  </select>
+        SELECT
+        userid,name,age,sex,phone,idcard,mail,cartype,carexam,subjectnum,begintime,endtime
+        FROM
+        user_info
+        <where>
+            <if test="search!=null and search!=''">
+                name like CONCAT('%',#{search},'%')
+            </if>
+        </where>
+    </select>
+    <delete id="deleteUsers">
+        DELETE FROM
+        user_info
+        WHERE
+        userid
+        IN
+        <foreach collection="Id" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
 </mapper>

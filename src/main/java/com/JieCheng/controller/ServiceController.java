@@ -49,16 +49,34 @@ public class ServiceController extends BaseController {
     获取当前人员信息列表
      */
     @RequestMapping("/getAllUserInfo")
-    public Map<String, Object> getAllUserInfo(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) {
-        return userService.getAllUserInfo(page, limit);
+    public Map<String, Object> getAllUserInfo(@RequestParam("search") String search,
+                                              @RequestParam("page") Integer page, @RequestParam("limit") Integer limit) {
+        return userService.getAllUserInfo(search, page, limit);
+    }
+
+    /*
+    删除选中人员
+     */
+    @RequestMapping("/deleteUsers")
+    public String deleteUsers(@RequestParam("ids") String ids) {
+        return userService.deleteUsers(ids);
     }
 
     /*
     获取当前题目信息列表
      */
     @RequestMapping("/getAllSubjectInfo")
-    public Map<String, Object> getAllSubjectInfo(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) {
-        return subjectService.getAllSubjectInfo(page, limit);
+    public Map<String, Object> getAllSubjectInfo(@RequestParam("search") String search,
+                                                 @RequestParam("page") Integer page, @RequestParam("limit") Integer limit) {
+        return subjectService.getAllSubjectInfo(search, page, limit);
+    }
+
+    /*
+    删除选中题目
+     */
+    @RequestMapping("/deleteSubjects")
+    public String deleteSubjects(@RequestParam("ids") String ids) {
+        return subjectService.deleteSubjects(ids);
     }
 
     /*
@@ -72,18 +90,10 @@ public class ServiceController extends BaseController {
     /*
     删除收藏
      */
-    @RequestMapping("/deletecollectsubject")
-    public String deleteCollectSubject(HttpServletRequest httpServletRequest, Model model) {
-        return subjectService.deleteCollectSubject(httpServletRequest);
-    }
 
     /*
     删除错题
      */
-    @RequestMapping("/deleteerrorsubject")
-    public String deleteErrorSubject(HttpServletRequest httpServletRequest) {
-        return subjectService.deleteErrorSubject(httpServletRequest);
-    }
 
     /*
     添加错题
@@ -93,13 +103,6 @@ public class ServiceController extends BaseController {
         return subjectService.addErrorSubject(httpServletRequest);
     }
 
-    /*    *//*
-    获取当前所有人员
-     *//*
-    @RequestMapping("/getAllUser")
-    public String getAllUser(HttpServletRequest httpServletRequest){
-        return userService.getAllUser();
-    }*/
     /*
     随机做题
      */
