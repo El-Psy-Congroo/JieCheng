@@ -11,10 +11,13 @@
     <script type="text/javascript" src="js/jq.js"></script>
 </head>
 <body onload="begin()">
-<div class="nav-header">
-    <img class="nav-logo" src="img/logoExam.jpg"/>
-    <p class="nav-title">杰程交规考试模拟<span></span></p>
+<div class="mainNav">
+    <p><span>杰程交规</span><span>您的驾考指南</span></p>
+    <div class="user-right"></div>
+    <div class="exit-right" onclick="window.history.go(-1);"></div>
 </div>
+    <!--<img class="nav-logo" src="img/logoExam.jpg"/>
+    <p class="nav-title">杰程交规考试模拟<span></span></p>-->
 <div class="nav-box">
     <div class="nav-left">
         <div class="nav-admin"><img src="img/gallery/imgbox4.jpg"></div>
@@ -28,31 +31,36 @@
             <div class="nav-tip"><input name="answer-tip" id="answer-tip" type="checkbox" value=""
                                         onchange="answerTip();"/>提示答案
             </div>
-            <div class="nav-tip"><input name="answer-show" id="answer-show" type="checkbox" value=""/>显示答案</div>
-            <div class="nav-tip"><input name="way-tip" id="way-tip" type="checkbox" value="">显示讲解</div>
+            <div class="nav-tip"><input name="answer-show" id="answer-show" type="checkbox" checked="checked" onchange="showAnswer()"/>显示答案</div>
+            <div class="nav-tip"><input name="way-tip" id="way-tip" type="checkbox" value="" disabled="true">显示讲解</div>
         </div>
     </div>
     <div class="nav-center">
-        <div class="nav-qesttop">考试-科目</div>
-        <div class="nav-qestitem" id="title"></div>
-        <div class="nav-qestitem" id="optionA"></div>
-        <div class="nav-qestitem" id="optionB"></div>
-        <div class="nav-qestitem" id="optionC"></div>
-        <div class="nav-qestitem" id="optionD"></div>
-        <div>
+        <div class="question-box">
+            <div class="collect-right">
+                <label class="collect-title" for="collect">添加收藏</label>
+                <input class="collect-btn" id="collect" name="collect" type="checkbox" onchange="addSubject(this)"/>
+                <label class="collect-img" for="collect"></label>
+            </div>
+            <div class="item item-header">考试-科目</div>
+            <div class="item item-title" id="title"></div>
+            <div class="item item-option" id="optionA"></div>
+            <div class="item item-option" id="optionB"></div>
+            <div class="item item-option" id="optionC"></div>
+            <div class="item item-option" id="optionD"></div>
+        </div>
+        <div class="answer-box">
             <div class="nav-true" id="correctanswer">正确答案：<span></span></div>
             <div class="nav-true" id="myanswer">您的答案：<span></span></div>
-            <div class="nav-answerbutton">
-                <p>请选择</p>
-                <button id="A" class="btn" onclick="answer(this)">A</button>
-                <button id="B" class="btn" onclick="answer(this)">B</button>
-                <button id="C" class="btn" onclick="answer(this)">C</button>
-                <button id="D" class="btn" onclick="answer(this)">D</button>
-                <div>
-                    <button class="btn" onclick="next()">下一题</button>
-                    <button class="btn">交&nbsp&nbsp卷</button>
-                </div>
-            </div>
+        </div>
+        <div class="btn-box">
+            <p>请选择</p>
+            <button id="A" onclick="answer(this)">A</button>
+            <button id="B" onclick="answer(this)">B</button>
+            <button id="C" onclick="answer(this)">C</button>
+            <button id="D" onclick="answer(this)">D</button>
+            <button onclick="next()">下一题</button>
+            <button>交&nbsp&nbsp卷</button>
         </div>
     </div>
     <div class="nav-right">
@@ -181,12 +189,8 @@
         </table>
         <div class="morebutton">
             <button id="error" name="error" onclick="addSubject(this)">添加错题</button>
-            <button id="collect" name="collect" onclick="addSubject(this)">添加收藏</button>
         </div>
         <div class="nav-results">
-            <div class="nav-exit">
-                <button class="btn">退出</button>
-            </div>
             <p>答对题量：
             <p id="rightSubject"></p></p>
             <p>答错题量：
@@ -238,17 +242,22 @@
                 var i3 = data.subjectselect.split(";")[2];
                 var i4 = data.subjectselect.split(";")[3];
                 document.getElementById("title").innerHTML = title;
-                if (tipAns == true) {
+                if (tipAns === true) {
                     //提示答案
-                    if (data.answer == 'A') {
+                    if (data.answer === 'A') {
                         document.getElementById("optionA").style = 'background-color=yellow;';
                     }
                 }
                 document.getElementById("optionA").innerHTML = i1;
                 document.getElementById("optionB").innerHTML = i2;
-                document.getElementById("optionC").innerHTML = i3;
-                document.getElementById("optionD").innerHTML = i4;
-                document.getElementById("correctanswer").innerHTML = "正确答案：";
+                if(subject.subjecttype === '判断') {
+                    document.getElementById("optionC").innerHTML = '';
+                    document.getElementById("optionD").innerHTML = '';
+                }else{
+                    document.getElementById("optionC").innerHTML = i3;
+                    document.getElementById("optionD").innerHTML = i4;
+                }
+                document.getElementById("correctanswer").innerHTML = "正确答案："+ subject.answer;
                 document.getElementById("myanswer").innerHTML = "您的答案："
             },
             error: function (e) {
@@ -256,40 +265,60 @@
         });
     }
     function answer(e) {
-        document.getElementById("correctanswer").innerHTML = "正确答案：" + subject.answer
-        document.getElementById("myanswer").innerHTML = "您的答案：" + e.id
+        document.getElementById("myanswer").innerHTML = "您的答案：" + e.id;
         if (subject.answer.equals(e.id)) {
             rightSubject++;
         } else {
             errorSubject++;
         }
-        document.getElementById("proportion").innerHTML = rightSubject / (rightSubject + errorSubject) * 100 + '%'
-        document.getElementById("rightSubject").innerHTML = rightSubject
-        document.getElementById("errorSubject").innerHTML = errorSubject
+        document.getElementById("proportion").innerHTML = rightSubject / (rightSubject + errorSubject) * 100 + '%';
+        document.getElementById("rightSubject").innerHTML = rightSubject;
+        document.getElementById("errorSubject").innerHTML = errorSubject;
     }
     function addSubject(e) {
         var type = e.name;
         var url;
-        if (type == 'collect') {
-            url = 'addcollectsubject';
-        } else if (type == 'error') {
-            url = 'addErrorSubject';
-        }
-        var subjectId = subject.subjectid;
-        Ext.Ajax.request({
-            url: url,
-            params: {subjectId: subjectId},
-            method: 'POST',
-            success: function (response) {
-                Ext.MessageBox.alert('结果', response.responseText);
-            },
-            failure: function (response) {
-                Ext.MessageBox.alert('失败', '请求超时或网络故障,错误编号：' + response.status);
+        if (type === 'collect') {
+            if(document.getElementsByName('collect').checked === false) {
+                return false;
+            }else{
+                url = 'addcollectsubject';
+                var subjectId = subject.subjectid;
+                Ext.Ajax.request({
+                    url: url,
+                    params: {subjectId: subjectId},
+                    method: 'POST',
+                    success: function (response) {
+                        Ext.MessageBox.alert('结果', response.responseText);
+                    },
+                    failure: function (response) {
+                        Ext.MessageBox.alert('失败', '请求超时或网络故障,错误编号：' + response.status);
+                    }
+                });
             }
-        });
+        } else if (type === 'error') {
+            url = 'addErrorSubject';
+            var subjectId = subject.subjectid;
+            Ext.Ajax.request({
+                url: url,
+                params: {subjectId: subjectId},
+                method: 'POST',
+                success: function (response) {
+                    Ext.MessageBox.alert('结果', response.responseText);
+                },
+                failure: function (response) {
+                    Ext.MessageBox.alert('失败', '请求超时或网络故障,错误编号：' + response.status);
+                }
+            });
+        }
     }
+    //提示答案
     function answerTip() {
         tipAns = document.getElementById('answer-tip').value;
+    }
+    //显示答案
+    function showAnswer() {
+        document.getElementById('correctanswer').style=document.getElementById('answer-show').checked?'display:block':'display: none;';
     }
 </script>
 </body>
