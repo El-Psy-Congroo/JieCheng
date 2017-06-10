@@ -16,7 +16,7 @@ import java.util.Map;
  * Created by Zhang on 2017/5/10.
  */
 @RestController
-public class ServiceController extends BaseController {
+public class AdminController extends BaseController {
     /*
     导出模板
      */
@@ -79,56 +79,4 @@ public class ServiceController extends BaseController {
         return subjectService.deleteSubjects(ids);
     }
 
-    /*
-    添加收藏
-     */
-    @RequestMapping("/addcollectsubject")
-    public String addCollectSubject(HttpServletRequest httpServletRequest) {
-        return subjectService.addCollectSubject(httpServletRequest);
-    }
-
-    /*
-    删除收藏
-     */
-    @RequestMapping("/deleteMyCollect")
-    public String deleteMyCollect(HttpServletRequest httpServletRequest,@RequestParam("ids") String ids){
-        return subjectService.deleteMyCollect(httpServletRequest,ids);
-    }
-    /*
-    获取我的收藏
-     */
-    @RequestMapping("/getAllMyCollect")
-    public Map<String, Object> getAllMyCollect(HttpServletRequest httpServletRequest,@RequestParam("search") String search,
-                                             @RequestParam("page") Integer page, @RequestParam("limit") Integer limit) {
-        return subjectService.getAllMyCollect(httpServletRequest, search, page, limit);
-    }
-    /*
-    删除错题
-     */
-    @RequestMapping("/deleteMyError")
-    public String deleteMyError(HttpServletRequest httpServletRequest,@RequestParam("ids") String ids){
-        return subjectService.deleteMyError(httpServletRequest,ids);
-    }
-    /*
-    添加错题
-     */
-    @RequestMapping("/addErrorSubject")
-    public String addErrorSubject(HttpServletRequest httpServletRequest) {
-        return subjectService.addErrorSubject(httpServletRequest);
-    }
-    /*
-    获取我的错题
-     */
-    @RequestMapping("/getAllMyError")
-    public Map<String, Object> getAllMyError(HttpServletRequest httpServletRequest,@RequestParam("search") String search,
-                                @RequestParam("page") Integer page, @RequestParam("limit") Integer limit){
-        return subjectService.getAllMyError(httpServletRequest,search, page, limit);
-    }
-    /*
-    随机做题
-     */
-    @RequestMapping("/randomexam")
-    public String randomExam(HttpServletRequest httpServletRequest, Model model, @RequestParam("carexam") String carexam, @RequestParam("cartype") String cartype) {
-        return subjectService.selectRandomSubject(httpServletRequest);
-    }
 }
