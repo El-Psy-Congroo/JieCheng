@@ -11,7 +11,7 @@ import java.util.Map;
  * Created by Zhang on 2017/6/10.
  */
 @RestController
-public class MyCollectController extends BaseController{
+public class MyCollectController extends BaseController {
     /*
    添加收藏
     */
@@ -24,9 +24,10 @@ public class MyCollectController extends BaseController{
     删除收藏
      */
     @RequestMapping("/deleteMyCollect")
-    public String deleteMyCollect(HttpServletRequest httpServletRequest,@RequestParam("ids") String ids){
-        return subjectService.deleteMyCollect(httpServletRequest,ids);
+    public String deleteMyCollect(HttpServletRequest httpServletRequest, @RequestParam("ids") String ids) {
+        return subjectService.deleteMyCollect(httpServletRequest, ids);
     }
+
     /*
     获取我的收藏
      */

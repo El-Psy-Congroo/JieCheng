@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -113,8 +112,8 @@ public class ExcelUtil {
             users[i - 1].setCarType(cells[9].getContents());
             users[i - 1].setCarExam(cells[10].getContents());
             try {
-                DateCell dateCellBegin=(DateCell)cells[11];
-                DateCell dateCellEnd=(DateCell)cells[11];
+                DateCell dateCellBegin = (DateCell) cells[11];
+                DateCell dateCellEnd = (DateCell) cells[11];
                 users[i - 1].setBeginTime(dateFormater.format(dateCellBegin.getDate()));
                 users[i - 1].setEndTime(dateFormater.format(dateCellEnd.getDate()));
             } catch (Exception e) {

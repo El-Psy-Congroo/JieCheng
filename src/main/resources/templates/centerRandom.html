@@ -16,8 +16,8 @@
     <div class="user-right"></div>
     <div class="exit-right" onclick="window.history.go(-1);"></div>
 </div>
-    <!--<img class="nav-logo" src="img/logoExam.jpg"/>
-    <p class="nav-title">杰程交规考试模拟<span></span></p>-->
+<!--<img class="nav-logo" src="img/logoExam.jpg"/>
+<p class="nav-title">杰程交规考试模拟<span></span></p>-->
 <div class="nav-box">
     <div class="nav-left">
         <div class="nav-admin"><img src="img/gallery/imgbox4.jpg"></div>
@@ -31,7 +31,9 @@
             <div class="nav-tip"><input name="answer-tip" id="answer-tip" type="checkbox" value=""
                                         onchange="answerTip();"/>提示答案
             </div>
-            <div class="nav-tip"><input name="answer-show" id="answer-show" type="checkbox" checked="checked" onchange="showAnswer()"/>显示答案</div>
+            <div class="nav-tip"><input name="answer-show" id="answer-show" type="checkbox" checked="checked"
+                                        onchange="showAnswer()"/>显示答案
+            </div>
             <div class="nav-tip"><input name="way-tip" id="way-tip" type="checkbox" value="" disabled="true">显示讲解</div>
         </div>
     </div>
@@ -55,11 +57,11 @@
         </div>
         <div class="btn-box">
             <div class="btn-group">
-            <button id="A" class="btn btn-option" onclick="answer(this)">A</button>
-            <button id="B" class="btn btn-option" onclick="answer(this)">B</button>
-            <button id="C" class="btn btn-option" onclick="answer(this)">C</button>
-            <button id="D" class="btn btn-option" onclick="answer(this)">D</button>
-            <button class="btn btn-next" onclick="next()">下一题</button>
+                <button id="A" class="btn btn-option" onclick="answer(this)">A</button>
+                <button id="B" class="btn btn-option" onclick="answer(this)">B</button>
+                <button id="C" class="btn btn-option" onclick="answer(this)">C</button>
+                <button id="D" class="btn btn-option" onclick="answer(this)">D</button>
+                <button class="btn btn-next" onclick="next()">下一题</button>
             </div>
         </div>
     </div>
@@ -251,14 +253,14 @@
                 }
                 document.getElementById("optionA").innerHTML = i1;
                 document.getElementById("optionB").innerHTML = i2;
-                if(subject.subjecttype === '判断') {
+                if (subject.subjecttype === '判断') {
                     document.getElementById("optionC").innerHTML = '';
                     document.getElementById("optionD").innerHTML = '';
-                }else{
+                } else {
                     document.getElementById("optionC").innerHTML = i3;
                     document.getElementById("optionD").innerHTML = i4;
                 }
-                document.getElementById("correctanswer").innerHTML = "正确答案："+ subject.answer;
+                document.getElementById("correctanswer").innerHTML = "正确答案：" + subject.answer;
                 document.getElementById("myanswer").innerHTML = "您的答案："
             },
             error: function (e) {
@@ -280,9 +282,9 @@
         var type = e.name;
         var url;
         if (type === 'collect') {
-            if(document.getElementsByName('collect').checked === false) {
+            if (document.getElementsByName('collect').checked === false) {
                 return false;
-            }else{
+            } else {
                 url = 'addcollectsubject';
                 var subjectId = subject.subjectid;
                 Ext.Ajax.request({
@@ -319,7 +321,7 @@
     }
     //显示答案
     function showAnswer() {
-        document.getElementById('correctanswer').style=document.getElementById('answer-show').checked?'display:block':'display: none;';
+        document.getElementById('correctanswer').style = document.getElementById('answer-show').checked ? 'display:block' : 'display: none;';
     }
 </script>
 </body>

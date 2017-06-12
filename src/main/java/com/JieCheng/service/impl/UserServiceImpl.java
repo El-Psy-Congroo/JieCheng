@@ -1,6 +1,7 @@
 package com.JieCheng.service.impl;
 
 import com.JieCheng.dao.model.User;
+import com.JieCheng.dao.model.UserImage;
 import com.JieCheng.service.UserService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -12,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,6 +31,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     public String checkUser(String loginName, String passWord, String page, Model model, HttpServletRequest httpServletRequest) {
         User user;
         user = userService.getUserByLoginName(loginName);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         if (user == null) {
             model.addAttribute("message", "该用户不存在");
             return "login";
@@ -39,6 +43,14 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
         if (user.getOnline().equals("Y")) {
             model.addAttribute("message", "用户状态为在线");
             return "login";
+        }
+        try {
+            if (df.parse(user.getEndTime()).getTime() < (new Date().getTime())) {
+                model.addAttribute("message", "账号已过期");
+                return "login";
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         //向Session添加用户信息
         httpServletRequest.getSession().setAttribute("user", user);
@@ -190,5 +202,27 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
             return "删除失败";
         }
 
+    }
+
+    @Override
+    public String addUserImage(MultipartFile file, String fileType, String fileSize, Integer userId) {
+        if (!fileType.equals("jpeg") && !fileType.equals("png")) {
+            return "图片格式不合法";
+        }
+        String code = imageUtil.imageToString(file, fileType);
+        UserImage userImage = new UserImage();
+        userImage.setImageContent(code);
+        userImage.setImageType(fileType);
+        userImage.setImageSize(String.valueOf(file.getSize()));
+        userImage.setUserId(userId);
+        userImageMapper.insert(userImage);
+        return null;
+    }
+
+    @Override
+    public String getUserImage(HttpServletRequest httpServletRequest) {
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+        UserImage userImage = userImageMapper.selectByPrimaryKey(user.getUserId());
+        return userImage.getImageContent();
     }
 }

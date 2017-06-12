@@ -20,8 +20,8 @@
     <input type=hidden name='cartype' id='cartype' value=''>
     <input type=hidden name='examtype' id='examtype' value=''>
 </form>
-<form action="/myerror" method="get" id="form2" namespace="/myerror" style='display: none'></form>
-<form action="/mycollect" method="get" id="form3" namespace="/mycollect" style='display: none'></form>
+<form action="/myError" method="post" id="form2" namespace="/myError" style='display: none'></form>
+<form action="/myCollect" method="post" id="form3" namespace="/myCollect" style='display: none'></form>
 <p th:text="${user.name}" id="display-name" style="display:none;"></p>
 <p th:text="${user.subjectNum}" id="display-subjectNum" style="display:none;"></p>
 <p th:text="${user.endTime}" id="display-endTime" style="display:none;"></p>
@@ -47,7 +47,7 @@
         mode: 'local',
         triggerAction: 'all',
         emptyText: '请选择车辆类型',
-        value:'C1',
+        value: 'C1',
         allowBlank: false,
         selectOnFocus: true,
         forceSelection: false,
@@ -75,7 +75,7 @@
         mode: 'local',
         triggerAction: 'all',
         emptyText: '请选择科目类型',
-        value:'1',
+        value: '1',
         allowBlank: false,
         selectOnFocus: true,
         forceSelection: false,
@@ -192,7 +192,7 @@
                         {
                             xtype: 'label',
                             forId: "uname",
-/*                            style: "display:online;",*/
+                            /*                            style: "display:online;",*/
                             html: "<br>姓名：" + name
                         },
                         {
@@ -203,17 +203,17 @@
                         {
                             xtype: 'label',
                             forId: "num",
-                            html: "<br>有效期至：" + endTime +'<br>'
+                            html: "<br>有效期至：" + endTime + '<br>'
                         },
                         {
-                            xtype:'button',
-                            text:'我的收藏',
+                            xtype: 'button',
+                            text: '我的收藏',
                             id: "mycollect",
                             allowBlank: false,
                             style: "margin:10px 10px 0 0;",
                             handler: mycollect
-                        },{
-                            xtype:'button',
+                        }, {
+                            xtype: 'button',
                             text: "我的错题",
                             id: "myero",
                             allowBlank: false,

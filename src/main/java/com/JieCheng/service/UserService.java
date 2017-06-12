@@ -56,4 +56,14 @@ public interface UserService {
     删除选中用户
      */
     String deleteUsers(String ids);
+
+    /*
+    添加用户照片
+     */
+    String addUserImage(MultipartFile file, String fileType, String fileSize, Integer userId);
+
+    /*
+    获取用户照片
+     */
+    String getUserImage(HttpServletRequest userId);
 }

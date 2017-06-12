@@ -28,14 +28,16 @@
         $("#loginName1").val(userName);
         $("#passWord1").val(userPass);
         document.getElementById("form3").submit();
-    };
+    }
+    ;
     function userSubmit() {
         var userName = uname.getValue();
         var userPass = pwd.getValue();
         $("#loginName").val(userName);
         $("#passWord").val(userPass);
         document.getElementById("form2").submit();
-    };
+    }
+    ;
     function changeOnline() {
         Ext.MessageBox.show({
             title: "解锁",
@@ -95,7 +97,7 @@
         id: 'uname',
         fieldLabel: '用户名',
         width: 300,
-        style:'background:#fff;',
+        style: 'background:#fff;',
         name: 'name',//元素名称
         allowBlank: false,//不允许为空
         blankText: '用户名不能为空'//错误提示内容
@@ -103,7 +105,7 @@
     var pwd = new Ext.form.TextField({
         id: 'pwd',
         width: 300,
-        style:'background:#fff;',
+        style: 'background:#fff;',
         inputType: 'password',
         fieldLabel: '密　码',
         name: 'password',

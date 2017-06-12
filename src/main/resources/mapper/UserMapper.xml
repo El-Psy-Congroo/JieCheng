@@ -3,26 +3,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.JieCheng.dao.mapping.UserMapper">
     <insert id="addUser" parameterType="com.JieCheng.dao.model.User">
-    insert into user_info set name=#{name},age=#{age},sex=#{sex},phone=#{phone},idcard=#{idcard},mail=#{mail},loginname=#{loginname},
-    password=#{password},online=#{online},roleid=#{roleid},cartype=#{cartype},carexam=#{carexam},subjectnum=#{subjectnum},begintime=str_to_date(#{begintime}, '%Y-%m-%d %H'),
-    endtime=str_to_date(#{endtime}, '%Y-%m-%d %H'),createtime=str_to_date(#{createtime}, '%Y-%m-%d %H'),createuserid=#{createuserid},createroleid=#{createroleid}
-  </insert>
+        insert into user_info set
+        name=#{name},age=#{age},sex=#{sex},phone=#{phone},idcard=#{idcard},mail=#{mail},loginname=#{loginname},
+        password=#{password},online=#{online},roleid=#{roleid},cartype=#{cartype},carexam=#{carexam},subjectnum=#{subjectnum},begintime=str_to_date(#{begintime},
+        '%Y-%m-%d %H'),
+        endtime=str_to_date(#{endtime}, '%Y-%m-%d %H'),createtime=str_to_date(#{createtime}, '%Y-%m-%d
+        %H'),createuserid=#{createuserid},createroleid=#{createroleid}
+    </insert>
     <!--根据id查询用户详情-->
     <select id="findByLoginName" parameterType="string" resultType="com.JieCheng.dao.model.User">
-    SELECT * FROM user_info WHERE loginname=#{loginName}
-  </select>
+        SELECT * FROM user_info WHERE loginname=#{loginName}
+    </select>
     <update id="modifyPasswordByloginName" parameterType="string">
-    UPDATE user_info SET password=#{newPassWord} WHERE loginname=#{loginName}
-  </update>
+        UPDATE user_info SET password=#{newPassWord} WHERE loginname=#{loginName}
+    </update>
     <update id="modifyPasswordByIDCard" parameterType="string">
-    UPDATE user_info SET password=#{newPassWord} WHERE idcard=#{IDCard}
-  </update>
+        UPDATE user_info SET password=#{newPassWord} WHERE idcard=#{IDCard}
+    </update>
     <update id="changeOnlineByIDCard">
-    UPDATE user_info SET online=#{online} WHERE idcard=#{IDCard}
-  </update>
+        UPDATE user_info SET online=#{online} WHERE idcard=#{IDCard}
+    </update>
     <update id="changeOnlineByuserId">
-    UPDATE user_info SET online=#{online} WHERE userid=#{userId}
-  </update>
+        UPDATE user_info SET online=#{online} WHERE userid=#{userId}
+    </update>
     <select id="getAllUserInfo" resultType="com.JieCheng.dao.model.User">
         SELECT
         userid,name,age,sex,phone,idcard,mail,cartype,carexam,subjectnum,begintime,endtime

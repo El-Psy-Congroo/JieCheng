@@ -122,8 +122,8 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
     public String deleteMyCollect(HttpServletRequest httpServletRequest, String ids) {
         String[] id = ids.split(",");
         User user = (User) httpServletRequest.getSession().getAttribute("user");
-        int userId=user.getUserId();
-        if (subjectMapper.deleteMyCollect(userId,id)) {
+        int userId = user.getUserId();
+        if (subjectMapper.deleteMyCollect(userId, id)) {
             return "删除成功";
         } else {
             return "删除失败";
@@ -133,13 +133,13 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
     @Override
     public Map<String, Object> getAllMyCollect(HttpServletRequest httpServletRequest, String search, Integer page, Integer limit) {
         User user = (User) httpServletRequest.getSession().getAttribute("user");
-        int userId=user.getUserId();
+        int userId = user.getUserId();
         if (search.equals("all")) {
             search = "";
         }
         Map<String, Object> map = new HashMap<String, Object>();
         PageHelper.startPage(page, limit);
-        List<Subject> list = subjectMapper.getAllMyCollect(userId,search);
+        List<Subject> list = subjectMapper.getAllMyCollect(userId, search);
         Page<Subject> useInfos = (Page<Subject>) list;
         long total = useInfos.getTotal();
         map.put("total", total);
@@ -148,11 +148,11 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
     }
 
     @Override
-    public String deleteMyError(HttpServletRequest httpServletRequest,String ids) {
+    public String deleteMyError(HttpServletRequest httpServletRequest, String ids) {
         String[] id = ids.split(",");
         User user = (User) httpServletRequest.getSession().getAttribute("user");
-        int userId=user.getUserId();
-        if (subjectMapper.deleteMyError(userId,id)) {
+        int userId = user.getUserId();
+        if (subjectMapper.deleteMyError(userId, id)) {
             return "删除成功";
         } else {
             return "删除失败";
@@ -175,13 +175,13 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
     public Map<String, Object> getAllMyError(HttpServletRequest httpServletRequest,
                                              String search, Integer page, Integer limit) {
         User user = (User) httpServletRequest.getSession().getAttribute("user");
-        int userId=user.getUserId();
+        int userId = user.getUserId();
         if (search.equals("all")) {
             search = "";
         }
         Map<String, Object> map = new HashMap<String, Object>();
         PageHelper.startPage(page, limit);
-        List<Subject> list = subjectMapper.getAllMyError(userId,search);
+        List<Subject> list = subjectMapper.getAllMyError(userId, search);
         Page<Subject> useInfos = (Page<Subject>) list;
         long total = useInfos.getTotal();
         map.put("total", total);

@@ -1,12 +1,10 @@
 package com.JieCheng.service.impl;
 
 import com.JieCheng.dao.mapping.SubjectMapper;
+import com.JieCheng.dao.mapping.UserImageMapper;
 import com.JieCheng.dao.mapping.UserMapper;
 import com.JieCheng.service.UserService;
-import com.JieCheng.util.ExcelUtil;
-import com.JieCheng.util.JsonLittleData;
-import com.JieCheng.util.Regex;
-import com.JieCheng.util.ReturnMessage;
+import com.JieCheng.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -21,6 +19,8 @@ public class BaseServiceImpl {
     UserMapper userMapper;
     @Autowired
     SubjectMapper subjectMapper;
+    @Autowired
+    UserImageMapper userImageMapper;
     /*
     工具类
      */
@@ -32,6 +32,8 @@ public class BaseServiceImpl {
     ReturnMessage returnMessage;
     @Autowired
     Regex regex;
+    @Autowired
+    ImageUtil imageUtil;
     /*
     服务层
      */

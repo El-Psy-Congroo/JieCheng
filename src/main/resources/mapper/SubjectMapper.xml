@@ -4,24 +4,24 @@
 <mapper namespace="com.JieCheng.dao.mapping.SubjectMapper">
     <!--根据id查询用户详情-->
     <insert id="addSubject" parameterType="com.JieCheng.dao.model.Subject">
-    insert into subject set content=#{content},info=#{info},subjecttype=#{type},
-    subjectselect=#{select},answer=#{answer},grade=#{grade},carexam=#{carexam},cartype=#{cartype},
-    url=#{url},createtime=str_to_date(#{time}, '%Y-%m-%d %H'),createuserid=#{userId}
-  </insert>
+        insert into subject set content=#{content},info=#{info},subjecttype=#{type},
+        subjectselect=#{select},answer=#{answer},grade=#{grade},carexam=#{carexam},cartype=#{cartype},
+        url=#{url},createtime=str_to_date(#{time}, '%Y-%m-%d %H'),createuserid=#{userId}
+    </insert>
 
     <insert id="addCollectSubject" parameterType="int">
-    insert into user_collect values(#{userId},#{subjectId})
-  </insert>
+        insert into user_collect values(#{userId},#{subjectId})
+    </insert>
 
     <insert id="addErrorSubject" parameterType="int">
-    insert into user_error values(#{userId},#{subjectId})
-  </insert>
+        insert into user_error values(#{userId},#{subjectId})
+    </insert>
 
     <select id="selectRandomSubject" parameterType="string" resultType="com.JieCheng.dao.model.Subject">
-    SELECT *
-    FROM subject AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(subjectid) FROM subject)) AS id) AS t2
-    WHERE t1.subjectid >= t2.id AND carexam=#{carexam} AND cartype=#{cartype} LIMIT 1
-  </select>
+        SELECT *
+        FROM subject AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(subjectid) FROM subject)) AS id) AS t2
+        WHERE t1.subjectid >= t2.id AND carexam=#{carexam} AND cartype=#{cartype} LIMIT 1
+    </select>
     <select id="getAllSubjectInfo" resultType="com.JieCheng.dao.model.Subject">
         SELECT
         subjectid,content,info,subjecttype,subjectselect,answer,grade,
@@ -48,7 +48,7 @@
             AND a.content like CONCAT('%',#{search},'%')
         </if>
     </select>
-    <select id="getAllMyCollect"  resultType="com.JieCheng.dao.model.Subject">
+    <select id="getAllMyCollect" resultType="com.JieCheng.dao.model.Subject">
         SELECT
         a.subjectid,a.content,a.info,a.subjecttype,a.subjectselect,a.answer,a.grade,
         (CASE a.carexam WHEN '1' THEN '科目一'WHEN '2' THEN '科目二' WHEN '3' THEN '科目三'WHEN '4' THEN '科目四' END)carexam ,
