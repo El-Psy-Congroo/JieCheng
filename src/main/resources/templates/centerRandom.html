@@ -39,166 +39,54 @@
     </div>
     <div class="nav-center">
         <div class="question-box">
-            <div class="collect-right">
+            <!--<div class="collect-right">
                 <label class="collect-title" for="collect">添加收藏</label>
                 <input class="collect-btn" id="collect" name="collect" type="checkbox" onchange="addSubject(this)"/>
                 <label class="collect-img" for="collect"></label>
-            </div>
-            <div class="item item-header">考试-科目</div>
+            </div>-->
+            <div class="item item-header">考试-科目-<span id="item-type"></span></div>
             <div class="item item-title" id="title"></div>
             <div class="item item-option" id="optionA"></div>
             <div class="item item-option" id="optionB"></div>
             <div class="item item-option" id="optionC"></div>
             <div class="item item-option" id="optionD"></div>
         </div>
-        <div class="answer-box">
-            <div class="nav-true" id="correctanswer">正确答案：<span></span></div>
-            <div class="nav-true" id="myanswer">您的答案：<span></span></div>
-        </div>
         <div class="btn-box">
             <div class="btn-group">
+                <span id="twoOption">
+                <button id="Y" class="btn btn-option" onclick="answer(this)">对</button>
+                <button id="N" class="btn btn-option" onclick="answer(this)">错</button>
+                </span>
+                <span id="fourOption">
                 <button id="A" class="btn btn-option" onclick="answer(this)">A</button>
                 <button id="B" class="btn btn-option" onclick="answer(this)">B</button>
                 <button id="C" class="btn btn-option" onclick="answer(this)">C</button>
                 <button id="D" class="btn btn-option" onclick="answer(this)">D</button>
+                </span>
                 <button class="btn btn-next" onclick="next()">下一题</button>
             </div>
         </div>
+        <div class="answer-box">
+            <div class="nav-true" id="correctBox">正确答案：<span id="correctanswer"></span></div>
+            <div class="nav-true">您的答案：<span id="myanswer"></span></div>
+        </div>
     </div>
     <div class="nav-right">
-        <table>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
+        <table id="box">
         </table>
         <div class="morebutton">
             <button id="error" name="error" onclick="addSubject(this)">添加错题</button>
         </div>
+        <div class="morebutton">
+            <button id="collect" name="collect" onclick="addSubject(this)">添加收藏</button>
+        </div>
         <div class="nav-results">
             <p>答对题量：
-            <p id="rightSubject"></p></p>
+            <span id="rightSubject"></span></p>
             <p>答错题量：
-            <p id="errorSubject"></p></p>
+            <span id="errorSubject"></span></p>
             <p>正确率
-            <p id="proportion"></p></p>
+            <span id="proportion"></span></p>
         </div>
         <button class="btn btn-submit">交卷</button>
     </div>
@@ -208,9 +96,24 @@
     var errorSubject = 0;
     var leftTime = 0;
     var subject;
+    var myAnswer = '';
     var tipAns = false;
+    var NUM =0;
+    $(function () {
+        var str = '';
+        var a = 0;
+        for( var i =0; i<9; i++){
+           str += '<tr>';
+            for ( var j = 0 ; j< 9; j++){
+               a++;
+               str +="<th id='i"+a+"'></th>";
+            }
+           str+= '</tr>';
+        }
+        $("#box").append(str);
+    })
     function begin() {
-        next();
+        getItem();
         countTime();
     }
     function countTime() {
@@ -229,7 +132,20 @@
         }, 1000);
     }
     function next() {
-
+        NUM++;
+        if (subject.answer == myAnswer) {
+            $("#i"+NUM).addClass("right");
+            rightSubject++;
+        } else {
+            $("#i"+NUM).addClass("error");
+            errorSubject++;
+        }
+        document.getElementById("rightSubject").innerHTML = ""+rightSubject;
+        document.getElementById("errorSubject").innerHTML = ""+errorSubject;
+        document.getElementById("proportion").innerHTML = Math.floor(rightSubject / (rightSubject + errorSubject) * 100) + '%';
+        getItem();
+    }
+    function getItem() {
         $.ajax({
             type: "POST",
             contentType: "application/json",
@@ -251,32 +167,49 @@
                         document.getElementById("optionA").style = 'background-color=yellow;';
                     }
                 }
+                subject.answer = subject.answer.split(";").join("");
+                document.getElementById("item-type").innerHTML = subject.subjecttype;
                 document.getElementById("optionA").innerHTML = i1;
                 document.getElementById("optionB").innerHTML = i2;
                 if (subject.subjecttype === '判断') {
                     document.getElementById("optionC").innerHTML = '';
                     document.getElementById("optionD").innerHTML = '';
+                    document.getElementById("twoOption").style = "display: block";
+                    document.getElementById("fourOption").style = "display: none";
                 } else {
                     document.getElementById("optionC").innerHTML = i3;
                     document.getElementById("optionD").innerHTML = i4;
+                    document.getElementById("twoOption").style = "display: none;";
+                    document.getElementById("fourOption").style = "display: block;";
                 }
-                document.getElementById("correctanswer").innerHTML = "正确答案：" + subject.answer;
-                document.getElementById("myanswer").innerHTML = "您的答案："
+                document.getElementById("correctanswer").innerHTML = subject.answer;
+                document.getElementById("myanswer").innerHTML = "";
+                myAnswer="";
             },
             error: function (e) {
             }
         });
     }
     function answer(e) {
-        document.getElementById("myanswer").innerHTML = "您的答案：" + e.id;
-        if (subject.answer.equals(e.id)) {
-            rightSubject++;
-        } else {
-            errorSubject++;
+        var x = e.id;
+        if(subject.subjecttype == '单选') {
+            myAnswer = x;
+            document.getElementById("myanswer").innerHTML = x;
+        }else if(subject.subjecttype == '多选'){
+            console.log(x);
+            console.log(myAnswer.indexOf(x));
+            if(myAnswer.indexOf(x) == -1 ){
+                myAnswer += x;
+                var sortMyAnswer = myAnswer.split("");
+                myAnswer= sortMyAnswer.sort().join("");
+            }else if(myAnswer.indexOf(x) >= 0) {
+                myAnswer = myAnswer.replace(x, "");
+            }
+            document.getElementById("myanswer").innerHTML = myAnswer;
+        }else {
+            myAnswer = e.id;
+            document.getElementById("myanswer").innerHTML = e.id;
         }
-        document.getElementById("proportion").innerHTML = rightSubject / (rightSubject + errorSubject) * 100 + '%';
-        document.getElementById("rightSubject").innerHTML = rightSubject;
-        document.getElementById("errorSubject").innerHTML = errorSubject;
     }
     function addSubject(e) {
         var type = e.name;
@@ -321,7 +254,7 @@
     }
     //显示答案
     function showAnswer() {
-        document.getElementById('correctanswer').style = document.getElementById('answer-show').checked ? 'display:block' : 'display: none;';
+        document.getElementById('correctBox').style = document.getElementById('answer-show').checked ? 'display:block' : 'display: none;';
     }
 </script>
 </body>

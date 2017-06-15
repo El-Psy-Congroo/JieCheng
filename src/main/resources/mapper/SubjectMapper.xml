@@ -95,4 +95,18 @@
             #{item}
         </foreach>
     </delete>
+    <select id="collectIsExist" resultType="java.util.Map">
+        SELECT * FROM user_collect
+        WHERE
+        userid=#{userId}
+        AND
+        subjectid=#{subjectId}
+    </select>
+    <select id="errorIsExist" resultType="java.util.Map">
+        SELECT * FROM user_error
+        WHERE
+        userid=#{userId}
+        AND
+        subjectid=#{subjectId}
+    </select>
 </mapper>

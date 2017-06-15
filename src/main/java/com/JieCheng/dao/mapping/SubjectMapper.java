@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Zhang on 2017/5/12.
@@ -34,4 +35,9 @@ public interface SubjectMapper {
     boolean deleteMyError(@Param("userId") int userId, @Param("Id") String[] Id);
 
     boolean deleteMyCollect(@Param("userId") int userId, @Param("Id") String[] Id);
+
+    List<Map<String,String>> collectIsExist(@Param("userId") int userId, @Param("subjectId") int subjectId);
+
+    List<Map<String,String>> errorIsExist(@Param("userId") int userId, @Param("subjectId") int subjectId);
+
 }

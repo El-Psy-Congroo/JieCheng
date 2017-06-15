@@ -110,6 +110,10 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
         User user = (User) httpServletRequest.getSession().getAttribute("user");
         String subjectId = httpServletRequest.getParameter("subjectId");
         int userId = user.getUserId();
+        List<?> isExist = subjectMapper.collectIsExist(userId, Integer.parseInt(subjectId));
+        if (isExist.size()!=0){
+            return "该题已经被收藏了";
+        }
         boolean result = subjectMapper.addCollectSubject(userId, Integer.parseInt(subjectId));
         if (result) {
             return "新增成功";
@@ -163,6 +167,10 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
     public String addErrorSubject(HttpServletRequest httpServletRequest) {
         User user = (User) httpServletRequest.getSession().getAttribute("user");
         String subjectId = httpServletRequest.getParameter("subjectId");
+        List<?> isExist = subjectMapper.errorIsExist(user.getUserId(), Integer.parseInt(subjectId));
+        if (isExist.size()!=0){
+            return "该题已纳入错题集了";
+        }
         boolean result = subjectMapper.addErrorSubject(user.getUserId(), Integer.parseInt(subjectId));
         if (result) {
             return "新增成功";
@@ -219,6 +227,7 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
     @Override
     public String centerPage(HttpServletRequest httpServletRequest, Model model, String examtype, String carexam, String cartype) {
         User user = (User) httpServletRequest.getSession().getAttribute("user");
+        System.out.println(httpServletRequest.getSession().getId());
         model.addAttribute("user", user);
         switch (carexam) {
             case "1":

@@ -54,6 +54,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
         }
         //向Session添加用户信息
         httpServletRequest.getSession().setAttribute("user", user);
+        System.out.println(httpServletRequest.getSession().getId());
         model.addAttribute("user", user);
         if (user.getRoleId() == 1) {
             userMapper.changeOnlineByuserId(user.getUserId(), "Y");
@@ -223,6 +224,9 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     public String getUserImage(HttpServletRequest httpServletRequest) {
         User user = (User) httpServletRequest.getSession().getAttribute("user");
         UserImage userImage = userImageMapper.selectByPrimaryKey(user.getUserId());
+        if(userImage==null || userImage.getImageContent()==null){
+            userImage = userImageMapper.selectByPrimaryKey(0);
+        }
         return userImage.getImageContent();
     }
 }
