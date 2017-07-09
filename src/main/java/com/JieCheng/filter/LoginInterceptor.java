@@ -23,7 +23,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         String requestUrl = httpServletRequest.getRequestURI();
         User user = (User) httpServletRequest.getSession().getAttribute("user");
         //若用户输入不合法路径则跳转到错误界面
-        if (requestUrl.equals("/login") || requestUrl.equals("/error")) {
+        if (requestUrl.equals("/login") || requestUrl.equals("/error") || requestUrl.equals("/index")) {
             return true;
         }
         //若用户已登入，则判断权限
@@ -44,7 +44,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         } else {
             //以下为四个没有用户信息时执行的方法，其余方法皆需要用户信息存在
             if (requestUrl.indexOf("/user/changeOnline") == 0 || requestUrl.indexOf("/user/findPassWord") == 0 ||
-                    requestUrl.equals("/admin") || requestUrl.equals("/index")) {
+                    requestUrl.equals("/admin")) {
                 return true;
             }
             httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login");

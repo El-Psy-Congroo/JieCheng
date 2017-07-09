@@ -182,12 +182,16 @@
                         labelAlign: "left"
                     },
                     items: [{
-                        xtype: 'box', //或者xtype: 'component',
+                        /*xtype: 'box', //或者xtype: 'component',
                         height: 100, //图片高度
                         autoEl: {
                             tag: 'img',    //指定为img标签
-                            src: 'img/gallery/imgbox4.jpg'    //指定url路径
-                        }
+                            src: '/user/getUserImage',    //指定url路径
+                            onclick: 'addUserImage()'
+                        }*/
+                        xtype: 'panel',
+                        height: 100, //图片高度
+                        html: '<img class="user-img" id="userImg" src="/user/getUserImage" onclick="addUserImage()"/>'
                     },
                         {
                             xtype: 'label',
@@ -210,14 +214,14 @@
                             text: '我的收藏',
                             id: "mycollect",
                             allowBlank: false,
-                            style: "margin:10px 10px 0 0;",
+                            style: "margin:0px 10px 0 0;",
                             handler: mycollect
                         }, {
                             xtype: 'button',
                             text: "我的错题",
                             id: "myero",
                             allowBlank: false,
-                            style: "margin:10px 10px 0 0;",
+                            style: "margin:0px 10px 0 0;",
                             handler: myerr
                         }
                     ],
@@ -270,6 +274,76 @@
     }
     function mycollect() {
         document.getElementById("form3").submit();
+    }
+    var addUserImage = function () {
+        var form = new Ext.form.FormPanel({
+            baseCls: 'x-plain',
+            frame: true,
+            fileUpload: true,
+            defaultType: 'textfield',
+            layout: 'form',
+            items: [{
+                xtype: 'fileuploadfield',
+                id: 'file',
+                width: 210,
+                allowBlank: false,
+                emptyText: '请选择你的头像',
+                name: 'file',
+                blankText: '请选择你的头像',
+                buttonCfg: {text: '浏览'}
+            }]
+        });
+
+        var win1 = new Ext.Window({
+            title: "新增/修改头像",
+            border: false,
+            width: 400,
+            height: 100,
+            minWidth: 400,
+            minHeight: 100,
+            layout: 'fit',
+            plain: true,
+            iconCls: 'option',
+            buttonAlign: 'center',
+            modal: true,
+            items: form,
+            buttons: [{
+                text: '确定',
+                id: 'bt_update',
+                handler: (function () {
+                    if (form.getForm().isValid()) {
+                        form.getForm().submit({
+                            url: '/user/addUserImage',
+                            success : function (data) {
+                                /*grid.getStore().reload();*/
+                                console.log(data);
+                                getUserImg();
+                            },
+                            failure: function (response) {
+                                win1.close();
+                            }
+                        });
+                    } else {
+                        Ext.MessageBox.alert('错误：', '上传错误！');
+                    }
+                })
+            }]
+        });
+        win1.show();
+    }
+    $(function () {
+        getUserImg();
+    });
+    function getUserImg() {
+        console.log('123');
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/user/getUserImage",
+            success: function (data) {
+                document.getElementById('userImg').src = data;
+            }
+        });
     }
 </script>
 </body>

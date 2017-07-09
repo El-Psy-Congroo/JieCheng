@@ -205,18 +205,35 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
     }
 
     @Override
-    public String addUserImage(MultipartFile file, String fileType, String fileSize, Integer userId) {
-        if (!fileType.equals("jpeg") && !fileType.equals("png")) {
+    public String addUserImage(MultipartFile file, HttpServletRequest httpServletRequest) {
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+        String fileName= file.getOriginalFilename();
+        String fileType=getFileType(fileName);
+        if (!fileType.equals("jpeg") && !fileType.equals("png") && !fileType.equals("jpg")) {
             return "图片格式不合法";
+        }
+        if (file.getSize()>2097152){
+            return "图片需小于2M";
         }
         String code = imageUtil.imageToString(file, fileType);
         UserImage userImage = new UserImage();
         userImage.setImageContent(code);
         userImage.setImageType(fileType);
         userImage.setImageSize(String.valueOf(file.getSize()));
-        userImage.setUserId(userId);
-        userImageMapper.insert(userImage);
+        userImage.setUserId(user.getUserId());
+
+        UserImage isExist = userImageMapper.selectByPrimaryKey(user.getUserId());
+        if (isExist == null || isExist.getImageContent() == null) {
+            userImageMapper.insert(userImage);
+        }else {
+            userImageMapper.updateByPrimaryKey(userImage);
+        }
         return null;
+    }
+
+    private String getFileType(String fileName){
+        String []fileInfo=fileName.split("\\.");
+        return fileInfo[1];
     }
 
     @Override
@@ -226,6 +243,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
         if (userImage == null || userImage.getImageContent() == null) {
             userImage = userImageMapper.selectByPrimaryKey(0);
         }
-        return userImage.getImageContent();
+        String src=userImage.getImageContent();
+        return src;
     }
 }

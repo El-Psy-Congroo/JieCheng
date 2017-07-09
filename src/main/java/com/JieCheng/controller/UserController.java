@@ -52,9 +52,8 @@ public class UserController extends BaseController {
     新增用户照片
      */
     @PostMapping("/addUserImage")
-    public String addUserImage(@RequestParam("file") MultipartFile file, @RequestParam("fileType") String fileType,
-                               @RequestParam("fileSize") String fileSize, @RequestParam("userId") Integer userId) {
-        return userService.addUserImage(file, fileType, fileSize, userId);
+    public String addUserImage(@RequestParam("file") MultipartFile file,HttpServletRequest httpServletRequest) {
+        return userService.addUserImage(file , httpServletRequest);
     }
 
     /*

@@ -60,7 +60,7 @@ public interface UserService {
     /*
     添加用户照片
      */
-    String addUserImage(MultipartFile file, String fileType, String fileSize, Integer userId);
+    String addUserImage(MultipartFile file, HttpServletRequest httpServletRequest);
 
     /*
     获取用户照片
