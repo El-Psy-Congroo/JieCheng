@@ -66,7 +66,7 @@ public interface SubjectService {
     /*
     获取随机错题
      */
-    String selectRandomSubject(HttpServletRequest httpServletRequest);
+    Map<String, Object> selectRandomSubject(HttpServletRequest httpServletRequest, String carExam, String carType);
 
     /*
     进入答题界面

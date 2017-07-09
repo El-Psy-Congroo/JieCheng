@@ -19,8 +19,8 @@
 
     <select id="selectRandomSubject" parameterType="string" resultType="com.JieCheng.dao.model.Subject">
         SELECT *
-        FROM subject AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(subjectid) FROM subject)) AS id) AS t2
-        WHERE t1.subjectid >= t2.id AND carexam=#{carexam} AND cartype=#{cartype} LIMIT 1
+        FROM subject
+        WHERE carexam=#{carexam} AND cartype=#{cartype}
     </select>
     <select id="getAllSubjectInfo" resultType="com.JieCheng.dao.model.Subject">
         SELECT
@@ -37,9 +37,7 @@
     </select>
     <select id="getAllMyError" resultType="com.JieCheng.dao.model.Subject">
         SELECT
-        a.subjectid,a.content,a.info,a.subjecttype,a.subjectselect,a.answer,a.grade,
-        (CASE a.carexam WHEN '1' THEN '科目一'WHEN '2' THEN '科目二' WHEN '3' THEN '科目三'WHEN '4' THEN '科目四' END)carexam ,
-        cartype
+        a.subjectid,a.content,a.info,a.subjecttype,a.subjectselect,a.answer,a.grade,carexam ,cartype
         FROM
         subject a,user_error b
         WHERE
@@ -50,9 +48,7 @@
     </select>
     <select id="getAllMyCollect" resultType="com.JieCheng.dao.model.Subject">
         SELECT
-        a.subjectid,a.content,a.info,a.subjecttype,a.subjectselect,a.answer,a.grade,
-        (CASE a.carexam WHEN '1' THEN '科目一'WHEN '2' THEN '科目二' WHEN '3' THEN '科目三'WHEN '4' THEN '科目四' END)carexam ,
-        cartype
+        a.subjectid,a.content,a.info,a.subjecttype,a.subjectselect,a.answer,a.grade,carexam ,cartype
         FROM
         subject a,user_collect b
         WHERE

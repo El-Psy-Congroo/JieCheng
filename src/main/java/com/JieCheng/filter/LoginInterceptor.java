@@ -22,7 +22,35 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                              Object handler) throws Exception {
         String requestUrl = httpServletRequest.getRequestURI();
         User user = (User) httpServletRequest.getSession().getAttribute("user");
+        //若用户输入不合法路径则跳转到错误界面
         if (requestUrl.equals("/login") || requestUrl.equals("/error")) {
+            return true;
+        }
+        //若用户已登入，则判断权限
+        if (user != null) {
+            int roleId = user.getRoleId();
+            //若登入者为学员，则无法请求管理界面
+            if (roleId <= 1) {
+                if (requestUrl.indexOf("/admin") == -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+                //若为管理员，则可以通过任一请求
+            } else {
+                return true;
+            }
+            //若没有用户信息，则跳转登入界面
+        } else {
+            //以下为四个没有用户信息时执行的方法，其余方法皆需要用户信息存在
+            if (requestUrl.indexOf("/user/changeOnline") == 0 || requestUrl.indexOf("/user/findPassWord") == 0 ||
+                    requestUrl.equals("/admin") || requestUrl.equals("/index")) {
+                return true;
+            }
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login");
+            return false;
+        }
+        /*if (requestUrl.equals("/login") || requestUrl.equals("/error")) {
             return true;
         } else if (requestUrl.indexOf("/changeOnline") == 0 || requestUrl.indexOf("/findPassWord") == 0) {
             return true;
@@ -49,7 +77,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             } else {
                 return true;
             }
-        }
+        }*/
     }
 
     /**

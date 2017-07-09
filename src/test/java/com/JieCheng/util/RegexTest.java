@@ -37,12 +37,6 @@ public class RegexTest {
      */
     @Test
     public void testNumOneToFour() throws Exception {
-        System.out.println(regex.NumOneToFour("1"));
-        System.out.println(regex.NumOneToFour("11"));
-        System.out.println(regex.NumOneToFour("4"));
-        System.out.println(regex.NumOneToFour("4"));
-        System.out.println(regex.NumOneToFour("4."));
-        System.out.println(regex.NumOneToFour("dfghj"));
     }
 
     /**
@@ -50,10 +44,6 @@ public class RegexTest {
      */
     @Test
     public void testNumPositiveInt() throws Exception {
-        System.out.println(regex.NumPositiveInt("1"));
-        System.out.println(regex.NumPositiveInt("100"));
-        System.out.println(regex.NumPositiveInt("1.1"));
-        System.out.println(regex.NumPositiveInt("sdfghjk"));
     }
 
 

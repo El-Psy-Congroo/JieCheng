@@ -50,7 +50,7 @@
             fn: function (btn, text) {
                 if (btn == 'ok') {
                     Ext.Ajax.request({
-                        url: '/changeOnline',
+                        url: '/user/changeOnline',
                         params: {IDCard: text, status: 'N'},
                         method: 'POST',
                         success: function (response, options) {
@@ -77,7 +77,7 @@
             fn: function (btn, text) {
                 if (btn == 'ok') {
                     Ext.Ajax.request({
-                        url: '/findPassWord',
+                        url: '/user/findPassWord',
                         params: {IDCard: text, newPassWord: newPassWord},
                         method: 'POST',
                         success: function (response) {

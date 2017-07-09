@@ -30,7 +30,7 @@ public interface UserService {
     /*
     重置密码
      */
-    String findPassWord(HttpServletResponse httpServletResponse, String IDcard, String newPassWord);
+    String findPassWord(String IDcard, String newPassWord);
 
     /*
     导出人员模板

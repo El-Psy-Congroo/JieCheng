@@ -21,7 +21,7 @@
                 pageSize: itemsPerPage, // items per page
                 proxy: {
                     type: 'ajax',
-                    url: '/getAllMyError?search=' + search,
+                    url: '/user/getAllMyError?search=' + search,
                     reader: {
                         type: 'json',
                         rootProperty: 'infos',
@@ -89,7 +89,7 @@
                                 xtype: 'button',
                                 handler: function () {
                                     search = Ext.getCmp('subject_name').getValue();
-                                    gridStore.getProxy().url = '/getAllMyError?search=' + search;
+                                    gridStore.getProxy().url = '/user/getAllMyError?search=' + search;
                                     gridStore.load();
                                     grid.store.reload();
                                 }
@@ -110,7 +110,7 @@
                                         ids += element.data.subjectid + ',';
                                     });
                                     Ext.Ajax.request({
-                                        url: '/deleteMyError',
+                                        url: '/user/deleteMyError',
                                         params: {
                                             ids: ids
                                         },

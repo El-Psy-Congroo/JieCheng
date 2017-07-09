@@ -8,7 +8,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>JieCheng</name>
     <description>Demo project for Spring Boot</description>
-    <!--<packaging>war</packaging>-->
+    <packaging>war</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -91,12 +91,13 @@
     </dependencies>
 
     <build>
+        <finalName>JieCheng</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-           <!-- &lt;!&ndash;下面是将应用打包发布需要增加的插件&ndash;&gt;
+            <!--下面是将应用打包发布需要增加的插件-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -107,7 +108,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>-->
+            </plugin>
         </plugins>
     </build>
 </project>

@@ -12,6 +12,7 @@ import java.util.Map;
 /**
  * Created by Zhang on 2017/5/10.
  */
+@RequestMapping("/admin")
 @RestController
 public class AdminController extends BaseController {
     /*

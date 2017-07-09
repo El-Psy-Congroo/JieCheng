@@ -10,6 +10,7 @@ import java.util.Map;
 /**
  * Created by Zhang on 2017/6/10.
  */
+@RequestMapping("/user")
 @RestController
 public class MyErrorController extends BaseController {
     /*

@@ -16,8 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 public class PageController extends BaseController {
 
     @RequestMapping("/login")
-    public String login(Model model) {
-        model.addAttribute("message", "123456789");
+    public String login() {
         return "login";
     }
 

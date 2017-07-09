@@ -5,10 +5,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * Created by Zhang on 2017/6/2.
  */
+@RequestMapping("/user")
 @RestController
 public class UserController extends BaseController {
     /*
@@ -22,10 +24,10 @@ public class UserController extends BaseController {
     /*
     重置密码
      */
-    @RequestMapping("findPassWord")
-    public String findPassWord(HttpServletResponse httpServletResponse, @RequestParam("IDCard") String IDCard,
+    @RequestMapping("/findPassWord")
+    public String findPassWord(@RequestParam("IDCard") String IDCard,
                                @RequestParam("newPassWord") String newPassWord) {
-        return userService.findPassWord(httpServletResponse, IDCard, newPassWord);
+        return userService.findPassWord(IDCard, newPassWord);
     }
 
     /*
@@ -41,9 +43,9 @@ public class UserController extends BaseController {
     随机做题
      */
     @RequestMapping("/randomexam")
-    public String randomExam(HttpServletRequest httpServletRequest, @RequestParam("carexam") String carexam,
-                             @RequestParam("cartype") String cartype) {
-        return subjectService.selectRandomSubject(httpServletRequest);
+    public Map<String, Object> randomExam(HttpServletRequest httpServletRequest,
+                                          @RequestParam("carExam") String carExam, @RequestParam("carType") String carType) {
+        return subjectService.selectRandomSubject(httpServletRequest, carExam, carType);
     }
 
     /*

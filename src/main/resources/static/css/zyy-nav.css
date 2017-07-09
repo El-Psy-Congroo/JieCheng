@@ -271,9 +271,11 @@ th {
     top: 270px;
     float: right;
 }
-.error{
+
+.error {
     background: #cf4c35;
 }
-.right{
+
+.right {
     background: #6fcf35;
 }

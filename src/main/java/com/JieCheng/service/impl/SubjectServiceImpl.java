@@ -14,10 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Zhang on 2017/5/11.
@@ -111,7 +108,7 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
         String subjectId = httpServletRequest.getParameter("subjectId");
         int userId = user.getUserId();
         List<?> isExist = subjectMapper.collectIsExist(userId, Integer.parseInt(subjectId));
-        if (isExist.size()!=0){
+        if (isExist.size() != 0) {
             return "该题已经被收藏了";
         }
         boolean result = subjectMapper.addCollectSubject(userId, Integer.parseInt(subjectId));
@@ -168,7 +165,7 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
         User user = (User) httpServletRequest.getSession().getAttribute("user");
         String subjectId = httpServletRequest.getParameter("subjectId");
         List<?> isExist = subjectMapper.errorIsExist(user.getUserId(), Integer.parseInt(subjectId));
-        if (isExist.size()!=0){
+        if (isExist.size() != 0) {
             return "该题已纳入错题集了";
         }
         boolean result = subjectMapper.addErrorSubject(user.getUserId(), Integer.parseInt(subjectId));
@@ -199,35 +196,26 @@ public class SubjectServiceImpl extends BaseServiceImpl implements SubjectServic
     }
 
     @Override
-    public String selectRandomSubject(HttpServletRequest httpServletRequest) {
-        String carExam = httpServletRequest.getParameter("carexam");
-        String carType = httpServletRequest.getParameter("cartype");
-        Subject subject;
-        switch (carExam) {
-            case "科目一":
-                carExam = "1";
-                break;
-            case "科目二":
-                carExam = "2";
-                break;
-            case "科目三":
-                carExam = "3";
-                break;
-            case "科目四":
-                carExam = "4";
-                break;
-            default:
-                carExam = "0";
-                break;
+    public Map<String, Object> selectRandomSubject(HttpServletRequest httpServletRequest, String carExam, String carType) {
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
+        Map<String, Object> map = new HashMap<String, Object>();
+        Random rand = new Random();
+
+        List<Subject> list = subjectMapper.selectRandomSubject(carExam, carType);
+        //如果该条件下没有题目，则跳出方法
+        if (list == null || list.size() == 0) {
+            return null;
         }
-        subject = subjectMapper.selectRandomSubject(carExam, carType);
-        return jsonLittleData.ObjectToJson(subject);
+        Subject subject = list.get(rand.nextInt(list.size()));
+        List<Map<String, String>> isExist = subjectMapper.collectIsExist(user.getUserId(), subject.getSubjectid());
+        map.put("subject", subject);
+        map.put("collectIsExist", isExist.size());
+        return map;
     }
 
     @Override
     public String centerPage(HttpServletRequest httpServletRequest, Model model, String examtype, String carexam, String cartype) {
         User user = (User) httpServletRequest.getSession().getAttribute("user");
-        System.out.println(httpServletRequest.getSession().getId());
         model.addAttribute("user", user);
         switch (carexam) {
             case "1":

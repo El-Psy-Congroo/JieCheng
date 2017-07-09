@@ -22,7 +22,7 @@ public interface SubjectMapper {
 
     boolean addErrorSubject(@Param("userId") int userId, @Param("subjectId") int subjectId);
 
-    Subject selectRandomSubject(@Param("carexam") String carexam, @Param("cartype") String cartype);
+    List<Subject> selectRandomSubject(@Param("carexam") String carexam, @Param("cartype") String cartype);
 
     List<Subject> getAllSubjectInfo(@Param("search") String search);
 
@@ -36,8 +36,8 @@ public interface SubjectMapper {
 
     boolean deleteMyCollect(@Param("userId") int userId, @Param("Id") String[] Id);
 
-    List<Map<String,String>> collectIsExist(@Param("userId") int userId, @Param("subjectId") int subjectId);
+    List<Map<String, String>> collectIsExist(@Param("userId") int userId, @Param("subjectId") int subjectId);
 
-    List<Map<String,String>> errorIsExist(@Param("userId") int userId, @Param("subjectId") int subjectId);
+    List<Map<String, String>> errorIsExist(@Param("userId") int userId, @Param("subjectId") int subjectId);
 
 }

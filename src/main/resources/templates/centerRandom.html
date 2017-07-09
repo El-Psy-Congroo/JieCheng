@@ -82,11 +82,11 @@
         </div>
         <div class="nav-results">
             <p>答对题量：
-            <span id="rightSubject"></span></p>
+                <span id="rightSubject"></span></p>
             <p>答错题量：
-            <span id="errorSubject"></span></p>
+                <span id="errorSubject"></span></p>
             <p>正确率
-            <span id="proportion"></span></p>
+                <span id="proportion"></span></p>
         </div>
         <button class="btn btn-submit">交卷</button>
     </div>
@@ -98,17 +98,17 @@
     var subject;
     var myAnswer = '';
     var tipAns = false;
-    var NUM =0;
+    var NUM = 0;
     $(function () {
         var str = '';
         var a = 0;
-        for( var i =0; i<9; i++){
-           str += '<tr>';
-            for ( var j = 0 ; j< 9; j++){
-               a++;
-               str +="<th id='i"+a+"'></th>";
+        for (var i = 0; i < 9; i++) {
+            str += '<tr>';
+            for (var j = 0; j < 9; j++) {
+                a++;
+                str += "<th id='i" + a + "'></th>";
             }
-           str+= '</tr>';
+            str += '</tr>';
         }
         $("#box").append(str);
     })
@@ -134,14 +134,14 @@
     function next() {
         NUM++;
         if (subject.answer == myAnswer) {
-            $("#i"+NUM).addClass("right");
+            $("#i" + NUM).addClass("right");
             rightSubject++;
         } else {
-            $("#i"+NUM).addClass("error");
+            $("#i" + NUM).addClass("error");
             errorSubject++;
         }
-        document.getElementById("rightSubject").innerHTML = ""+rightSubject;
-        document.getElementById("errorSubject").innerHTML = ""+errorSubject;
+        document.getElementById("rightSubject").innerHTML = "" + rightSubject;
+        document.getElementById("errorSubject").innerHTML = "" + errorSubject;
         document.getElementById("proportion").innerHTML = Math.floor(rightSubject / (rightSubject + errorSubject) * 100) + '%';
         getItem();
     }
@@ -149,7 +149,7 @@
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "/randomexam?carexam=" + document.getElementById("carexam1").innerHTML + "&cartype=" + document.getElementById("cartype1").innerHTML,
+            url: "/user/randomexam?carExam=" + document.getElementById("carexam1").innerHTML + "&carType=" + document.getElementById("cartype1").innerHTML,
             dataType: 'json',
             cache: false,
             timeout: 600000,
@@ -184,7 +184,7 @@
                 }
                 document.getElementById("correctanswer").innerHTML = subject.answer;
                 document.getElementById("myanswer").innerHTML = "";
-                myAnswer="";
+                myAnswer = "";
             },
             error: function (e) {
             }
@@ -192,21 +192,21 @@
     }
     function answer(e) {
         var x = e.id;
-        if(subject.subjecttype == '单选') {
+        if (subject.subjecttype == '单选') {
             myAnswer = x;
             document.getElementById("myanswer").innerHTML = x;
-        }else if(subject.subjecttype == '多选'){
+        } else if (subject.subjecttype == '多选') {
             console.log(x);
             console.log(myAnswer.indexOf(x));
-            if(myAnswer.indexOf(x) == -1 ){
+            if (myAnswer.indexOf(x) == -1) {
                 myAnswer += x;
                 var sortMyAnswer = myAnswer.split("");
-                myAnswer= sortMyAnswer.sort().join("");
-            }else if(myAnswer.indexOf(x) >= 0) {
+                myAnswer = sortMyAnswer.sort().join("");
+            } else if (myAnswer.indexOf(x) >= 0) {
                 myAnswer = myAnswer.replace(x, "");
             }
             document.getElementById("myanswer").innerHTML = myAnswer;
-        }else {
+        } else {
             myAnswer = e.id;
             document.getElementById("myanswer").innerHTML = e.id;
         }
@@ -218,7 +218,7 @@
             if (document.getElementsByName('collect').checked === false) {
                 return false;
             } else {
-                url = 'addcollectsubject';
+                url = '/user/addcollectsubject';
                 var subjectId = subject.subjectid;
                 Ext.Ajax.request({
                     url: url,
@@ -233,7 +233,7 @@
                 });
             }
         } else if (type === 'error') {
-            url = 'addErrorSubject';
+            url = '/user/addErrorSubject';
             var subjectId = subject.subjectid;
             Ext.Ajax.request({
                 url: url,

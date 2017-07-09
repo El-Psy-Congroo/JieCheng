@@ -21,7 +21,7 @@
                 pageSize: itemsPerPage, // items per page
                 proxy: {
                     type: 'ajax',
-                    url: '/getAllUserInfo?search=' + search, // url that will load data with respect to start and limit params
+                    url: '/admin/getAllUserInfo?search=' + search, // url that will load data with respect to start and limit params
                     reader: {
                         type: 'json',
                         rootProperty: 'infos',
@@ -92,7 +92,7 @@
                                 xtype: 'button',
                                 handler: function () {
                                     search = Ext.getCmp('user_name').getValue();
-                                    gridStore.getProxy().url = '/getAllUserInfo?search=' + search;
+                                    gridStore.getProxy().url = '/admin/getAllUserInfo?search=' + search;
                                     gridStore.load();
                                     grid.store.reload();
                                 }
@@ -112,7 +112,7 @@
                                         ids += element.data.userId + ',';
                                     });
                                     Ext.Ajax.request({
-                                        url: '/deleteUsers',
+                                        url: '/admin/deleteUsers',
                                         params: {
                                             ids: ids
                                         },
@@ -184,7 +184,7 @@
                                             handler: (function () {
                                                 if (form.getForm().isValid()) {
                                                     form.getForm().submit({
-                                                        url: '/importtemplet',
+                                                        url: '/admin/importtemplet',
                                                         params: {
                                                             type: 'user'
                                                         },
@@ -223,7 +223,7 @@
     </script>
 </head>
 <body>
-<form action="/exporttemplet" method="get" id="form1" namespace="/exporttemplet" style='display: none'>
+<form action="/admin/exporttemplet" method="get" id="form1" namespace="exporttemplet" style='display: none'>
     <input type=hidden name='type' id='type' value='user'>
 </form>
 </body>

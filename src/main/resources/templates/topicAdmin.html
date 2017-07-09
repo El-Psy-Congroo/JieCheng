@@ -21,7 +21,7 @@
                 pageSize: itemsPerPage, // items per page
                 proxy: {
                     type: 'ajax',
-                    url: '/getAllSubjectInfo?search=' + search,
+                    url: '/admin/getAllSubjectInfo?search=' + search,
                     reader: {
                         type: 'json',
                         rootProperty: 'infos',
@@ -89,7 +89,7 @@
                                 xtype: 'button',
                                 handler: function () {
                                     search = Ext.getCmp('subject_name').getValue();
-                                    gridStore.getProxy().url = '/getAllSubjectInfo?search=' + search;
+                                    gridStore.getProxy().url = '/admin/getAllSubjectInfo?search=' + search;
                                     gridStore.load();
                                     grid.store.reload();
                                 }
@@ -110,7 +110,7 @@
                                         ids += element.data.subjectid + ',';
                                     });
                                     Ext.Ajax.request({
-                                        url: '/deleteSubjects',
+                                        url: '/admin/deleteSubjects',
                                         params: {
                                             ids: ids
                                         },
@@ -182,7 +182,7 @@
                                             handler: (function () {
                                                 if (form.getForm().isValid()) {
                                                     form.getForm().submit({
-                                                        url: '/importtemplet',
+                                                        url: '/admin/importtemplet',
                                                         params: {
                                                             type: 'subject'
                                                         },
@@ -222,7 +222,7 @@
     </script>
 </head>
 <body>
-<form action="/exporttemplet" method="get" id="form1" namespace="/exporttemplet" style='display: none'>
+<form action="/admin/exporttemplet" method="get" id="form1" namespace="exporttemplet" style='display: none'>
     <input type=hidden name='type' id='type' value='subject'>
 </form>
 </body>
