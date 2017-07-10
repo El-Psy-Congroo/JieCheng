@@ -191,7 +191,7 @@
                         }*/
                         xtype: 'panel',
                         height: 100, //图片高度
-                        html: '<img class="user-img" id="userImg" src="/user/getUserImage" onclick="addUserImage()"/>'
+                        html: '<img class="user-img" id="userImg" src="" onclick="addUserImage()"/>'
                     },
                         {
                             xtype: 'label',
@@ -335,7 +335,6 @@
         getUserImg();
     });
     function getUserImg() {
-        console.log('123');
         $.ajax({
             type: "GET",
             contentType: "application/json",

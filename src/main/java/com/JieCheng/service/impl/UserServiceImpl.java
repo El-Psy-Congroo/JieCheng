@@ -1,5 +1,6 @@
 package com.JieCheng.service.impl;
 
+import com.JieCheng.dao.model.AdvertImage;
 import com.JieCheng.dao.model.User;
 import com.JieCheng.dao.model.UserImage;
 import com.JieCheng.service.UserService;
@@ -245,5 +246,29 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
         }
         String src=userImage.getImageContent();
         return src;
+    }
+
+    @Override
+    public Map<String, Object> getAdvertImage(String search, Integer page, Integer limit) {
+        if (page == null || limit == null) {
+            page = 1;
+            limit = 20;
+        }
+        if (search.equals("all")) {
+            search = "";
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        PageHelper.startPage(page, limit);
+        List<AdvertImage> list = advertImageMapper.getAllImageId();
+        Page<AdvertImage> advertImages = (Page<AdvertImage>) list;
+        long total = advertImages.getTotal();
+        map.put("total", total);
+        map.put("infos", advertImages);
+        return map;
+    }
+
+    @Override
+    public String getImage(Integer id) {
+        return advertImageMapper.selectByPrimaryKey(id).getImageContent();
     }
 }

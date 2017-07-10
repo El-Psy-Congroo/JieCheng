@@ -66,4 +66,12 @@ public interface UserService {
     获取用户照片
      */
     String getUserImage(HttpServletRequest userId);
+
+    /*
+    获取广告图片列表
+     */
+    Map<String,Object> getAdvertImage(String search, Integer page, Integer limit);
+
+
+    String getImage(Integer id);
 }

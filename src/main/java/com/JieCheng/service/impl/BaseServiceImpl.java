@@ -1,5 +1,6 @@
 package com.JieCheng.service.impl;
 
+import com.JieCheng.dao.mapping.AdvertImageMapper;
 import com.JieCheng.dao.mapping.SubjectMapper;
 import com.JieCheng.dao.mapping.UserImageMapper;
 import com.JieCheng.dao.mapping.UserMapper;
@@ -21,6 +22,8 @@ public class BaseServiceImpl {
     SubjectMapper subjectMapper;
     @Autowired
     UserImageMapper userImageMapper;
+    @Autowired
+    AdvertImageMapper advertImageMapper;
     /*
     工具类
      */

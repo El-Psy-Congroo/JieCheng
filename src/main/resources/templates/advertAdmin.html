@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>用户管理界面</title>
+    <META http-equiv=Content-Type content="text/html; charset=utf-8"/>
+    <meta http-equiv="expires" content="0"/>
+    <link rel="stylesheet" type="text/css" href="css/ext-theme-crisp-all.css"/>
+    <script type="text/javascript" src="js/ext-all.js"></script>
+    <script type="text/javascript" src="js/ext-theme-crisp.js"></script>
+    <script type="text/javascript" src="js/ext-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="js/jq.js"></script>
+    <script type="text/javascript">
+        function getImage(value, cellmeta, record, rowIndex, columnIndex, store){
+            var data=record.data.imageId;
+            return "<input type='button' onclick='getBase64("+data+")' value='查看图片'/>" ;
+        }
+    </script>
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            var itemsPerPage = 15;
+            var search = 'all';
+            var vs = Ext.getBody().getViewSize();
+            var gridStore = Ext.create('Ext.data.Store', {
+                id: 'gridStore',
+                autoLoad: false,
+                fields: ['imageInfo', 'content'],
+                pageSize: itemsPerPage, // items per page
+                proxy: {
+                    type: 'ajax',
+                    url: '/admin/getAdvertImage?search=' + search, // url that will load data with respect to start and limit params
+                    reader: {
+                        type: 'json',
+                        rootProperty: 'infos',
+                        totalProperty: 'total'
+                    }
+                }
+            });
+            gridStore.load();
+            var grid = new Ext.grid.Panel({
+                title: '当前用户',
+                store: 'gridStore',
+                columns: [//表格中的列
+                    {text: '介绍',width:'80%' , dataIndex: 'imageInfo'},
+                    {text: '查看图片', dataIndex: 'content',renderer:getImage}
+                ],
+                selModel: Ext.create("Ext.selection.CheckboxModel", {
+                    mode: "multi",//multi,simple,single；默认为多选multi
+                    checkOnly: true,//如果值为true，则只用点击checkbox列才能选中此条记录
+                    allowDeselect: true,//如果值true，并且mode值为单选（single）时，可以通过点击checkbox取消对其的选择
+                    enableKeyNav: true
+                }),
+                width: vs.width,
+                height: vs.height - 150,
+                dockedItems: [{
+                    xtype: 'pagingtoolbar',
+                    store: 'gridStore', // same store GridPanel is using
+                    dock: 'bottom',
+                    style: 'padding-right:20px;',
+                    displayInfo: true
+                }],
+                renderTo: Ext.getBody()
+            });
+            var fm = new Ext.FormPanel(
+                    {
+                        frame: true,
+                        autoWidth: true,
+                        autoHeight: true,
+                        labelWidth: 70,
+                        layout: 'column',
+                        items: [{
+                            layout: 'form',
+                            items: [{
+                                layout: 'form',
+                                items: [{
+                                    xtype: 'textfield',
+                                    fieldLabel: '用户姓名',
+                                    width: 500,
+                                    id: 'user_name',
+                                    name: 'user_name',
+                                    emptyText: '请输入用户姓名'
+                                }]
+                            }]
+                        }, {
+                            layout: 'form',
+                            items: [{
+                                text: '查询  ',
+                                name: 'select',
+                                id: 'select',
+                                xtype: 'button',
+                                handler: function () {
+                                    search = Ext.getCmp('user_name').getValue();
+                                    gridStore.getProxy().url = '/admin/getAllUserInfo?search=' + search;
+                                    gridStore.load();
+                                    grid.store.reload();
+                                }
+                            }]
+                        }, {
+                            layout: 'form',
+                            items: [{
+                                text: '删除  ',
+                                name: 'delete',
+                                id: 'delete',
+                                xtype: 'button',
+                                handler: function () {
+                                    var ids = '';
+                                    var grid = win.down("grid");
+                                    var records = grid.getSelectionModel().getSelection();
+                                    records.forEach(function (element) {
+                                        ids += element.data.userId + ',';
+                                    });
+                                    Ext.Ajax.request({
+                                        url: '/admin/deleteUsers',
+                                        params: {
+                                            ids: ids
+                                        },
+                                        method: 'POST',
+                                        success: function (response) {
+                                            grid.store.reload();
+                                            Ext.MessageBox.alert('结果', response.responseText);
+                                        },
+                                        failure: function (response) {
+                                            Ext.MessageBox.alert('失败', '请求超时或网络故障,错误编号：' + response.status);
+                                        }
+                                    });
+                                }
+                            }]
+                        }, {
+                            layout: 'form',
+                            items: [{
+                                text: '模板导出',
+                                name: 'export',
+                                id: 'export',
+                                xtype: 'button',
+                                handler: function () {
+                                    document.getElementById("form1").submit();
+                                }
+                            }]
+                        }, {
+                            layout: 'form',
+                            items: [{
+                                text: '数据导入',
+                                name: 'setdata',
+                                id: 'setdata',
+                                xtype: 'button',
+                                handler: function () {
+                                    var form = new Ext.form.FormPanel({
+                                        baseCls: 'x-plain',
+                                        frame: true,
+                                        fileUpload: true,
+                                        defaultType: 'textfield',
+                                        layout: 'form',
+                                        items: [{
+                                            xtype: 'fileuploadfield',
+                                            id: 'file',
+                                            width: 210,
+                                            allowBlank: false,
+                                            emptyText: '请选择一个excel文件',
+                                            fieldLabel: '用户数据导入',
+                                            name: 'file',
+                                            blankText: '请选择一个文件',
+                                            buttonCfg: {text: '浏览'}
+                                        }]
+                                    });
+
+                                    var win1 = new Ext.Window({
+                                        title: "用户数据导入",
+                                        border: false,
+                                        width: 400,
+                                        height: 100,
+                                        minWidth: 400,
+                                        minHeight: 100,
+                                        layout: 'fit',
+                                        plain: true,
+                                        iconCls: 'option',
+                                        buttonAlign: 'center',
+                                        modal: true,
+                                        items: form,
+                                        buttons: [{
+                                            text: '确定',
+                                            id: 'bt_update',
+                                            handler: (function () {
+                                                if (form.getForm().isValid()) {
+                                                    form.getForm().submit({
+                                                        url: '/admin/importtemplet',
+                                                        params: {
+                                                            type: 'user'
+                                                        },
+                                                        success: function (response) {
+                                                            /*grid.getStore().reload();*/
+                                                            win1.close();
+                                                        },
+                                                        failure: function (response) {
+                                                            win1.close();
+                                                        }
+                                                    });
+                                                } else {
+                                                    Ext.MessageBox.alert('错误：', '表单填写有错误！');
+                                                }
+                                            })
+                                        }]
+                                    });
+                                    win1.show();
+                                }
+                            }]
+                        }, {
+                            items: [grid]
+                        }]
+                    });
+            var win = new Ext.Window({
+                closable: false,
+                closeAction: 'hide',
+                modal: true,
+                title: "用户管理",
+                items: fm
+            });
+            win.setSize(vs.width, vs.height);
+            win.show();
+        });
+        var win3 = new Ext.Window({
+            id: 'win3',
+            layout: 'fit', //自适应布局
+            align: 'center',
+            width: 600,
+            height: 600,
+            /*       resizable: false,
+             draggable: false,
+             border: false,*/
+            bodyStyle: 'padding:5px;background:#fff',
+            maximizable: false,//禁止最大化
+            closeAction: 'close',
+            items:{
+                xtype: 'panel',
+                html: '<img class="user-img" id="showImg" src=""/>'
+            }
+        });
+        function getBase64(id){
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: "/admin/getImage?id="+ id,
+                success: function (data) {
+                    win3.show();
+                    document.getElementById('showImg').src = data;
+                }
+            });
+        }
+    </script>
+    <style>
+        .user-img{
+            width: 600px;
+        }
+    </style>
+</head>
+<body>
+<form action="/admin/exporttemplet" method="get" id="form1" namespace="exporttemplet" style='display: none'>
+    <input type=hidden name='type' id='type' value='user'>
+</form>
+</body>
+</html>

@@ -51,6 +51,23 @@ public class AdminController extends BaseController {
     }
 
     /*
+    获取当前广告图片列表
+     */
+    @RequestMapping("/getAdvertImage")
+    public Map<String, Object> getAdvertImage(@RequestParam("search") String search,
+                                              @RequestParam("page") Integer page, @RequestParam("limit") Integer limit) {
+        return userService.getAdvertImage(search, page, limit);
+    }
+
+    /*
+    获取指定广告图片
+     */
+    @RequestMapping("/getImage")
+    public String getImage(@RequestParam("id") Integer id) {
+        return userService.getImage(id);
+    }
+
+    /*
     删除选中人员
      */
     @RequestMapping("/deleteUsers")
