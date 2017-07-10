@@ -35,6 +35,11 @@ public class PageController extends BaseController {
         return "userAdmin";
     }
 
+    @RequestMapping("/advertAdmin")
+    public String advertAdmin() {
+        return "advertAdmin";
+    }
+
     @RequestMapping("/topicAdmin")
     public String topicadmin() {
         return "topicAdmin";
